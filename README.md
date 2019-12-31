@@ -1,8 +1,8 @@
-# zend-soap
+# laminas-soap
 
-`Zend\Soap` is a component to manage the [SOAP](http://en.wikipedia.org/wiki/SOAP)
+`Laminas\Soap` is a component to manage the [SOAP](http://en.wikipedia.org/wiki/SOAP)
 protocol in order to design client or server PHP application.
 
 
-- File issues at https://github.com/zendframework/zend-soap/issues
-- Documentation is at http://framework.zend.com/manual/current/en/index.html#zend-soap
+- File issues at https://github.com/laminas/laminas-soap/issues
+- Documentation is at https://docs.laminas.dev/laminas-soap
