@@ -4,7 +4,7 @@
          bootstrap="./test/bootstrap.php"
          colors="true">
     <testsuites>
-        <testsuite name="zend-soap Test Suite">
+        <testsuite name="laminas-soap Test Suite">
             <directory>./test/</directory>
         </testsuite>
     </testsuites>
@@ -26,21 +26,21 @@
 
         <!-- OB_ENABLED should be enabled for some tests to check if all
              functionality works as expected. Such tests include those for
-             Zend\Soap and Zend\Session, which require that headers not be sent
+             Laminas\Soap and Laminas\Session, which require that headers not be sent
              in order to work. -->
-        <const name="TESTS_ZEND_OB_ENABLED" value="false" />
+        <const name="TESTS_LAMINAS_OB_ENABLED" value="false" />
 
-        <!-- Zend\Soap\AutoDiscover scenario tests for complex objects and wsdl
+        <!-- Laminas\Soap\AutoDiscover scenario tests for complex objects and wsdl
              generation
 
              Copy all the files of test/_files/fulltests into a directory that
              can be reached by webserver and enter the base uri to this
-             directory into the variable. The test "ZendTest\Soap\AutoDiscover\OnlineTest"
+             directory into the variable. The test "LaminasTest\Soap\AutoDiscover\OnlineTest"
              makes use of the servers and AutoDiscover feature.
 
-             NOTE: Make sure the servers are using the correct Zend Framework
+             NOTE: Make sure the servers are using the correct Laminas
              copy, when having more than one version installed and include
              paths are changing. -->
-        <const name="TESTS_ZEND_SOAP_AUTODISCOVER_ONLINE_SERVER_BASEURI" value="false" />
+        <const name="TESTS_LAMINAS_SOAP_AUTODISCOVER_ONLINE_SERVER_BASEURI" value="false" />
     </php>
 </phpunit>

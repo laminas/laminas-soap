@@ -1,18 +1,16 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Soap
+ * @see       https://github.com/laminas/laminas-soap for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Soap\Server;
+namespace Laminas\Soap\Server;
 
+use Laminas\Soap\Exception\BadMethodCallException;
+use Laminas\Soap\Exception\UnexpectedValueException;
 use ReflectionObject;
-use Zend\Soap\Exception\BadMethodCallException;
-use Zend\Soap\Exception\UnexpectedValueException;
 
 /**
  * Wraps WSDL Document/Literal Style service objects to hide SOAP request
@@ -20,7 +18,7 @@ use Zend\Soap\Exception\UnexpectedValueException;
  *
  * When using the document/literal SOAP message pattern you end up with one
  * object passed to your service methods that contains all the parameters of
- * the method. This obviously leads to a problem since Zend\Soap\Wsdl tightly
+ * the method. This obviously leads to a problem since Laminas\Soap\Wsdl tightly
  * couples method parameters to request message parameters.
  *
  * Example:
@@ -63,12 +61,12 @@ use Zend\Soap\Exception\UnexpectedValueException;
  * @example
  *
  *  $service = new MyCalculatorService();
- *  $soap = new \Zend\Soap\Server($wsdlFile);
- *  $soap->setObject(new \Zend\Soap\Server\DocumentLiteralWrapper($service));
+ *  $soap = new \Laminas\Soap\Server($wsdlFile);
+ *  $soap->setObject(new \Laminas\Soap\Server\DocumentLiteralWrapper($service));
  *  $soap->handle();
  *
- * @category   Zend
- * @package    Zend_Soap
+ * @category   Laminas
+ * @package    Laminas_Soap
  * @subpackage Server
  */
 class DocumentLiteralWrapper
