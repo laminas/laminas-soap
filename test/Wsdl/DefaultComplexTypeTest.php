@@ -1,22 +1,21 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-soap for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Soap\Wsdl;
+namespace LaminasTest\Soap\Wsdl;
 
-use Zend\Soap\Wsdl\ComplexTypeStrategy\DefaultComplexType;
-use ZendTest\Soap\TestAsset\PublicPrivateProtected;
-use ZendTest\Soap\WsdlTestHelper;
+use Laminas\Soap\Wsdl\ComplexTypeStrategy\DefaultComplexType;
+use LaminasTest\Soap\TestAsset\PublicPrivateProtected;
+use LaminasTest\Soap\WsdlTestHelper;
 
 require_once __DIR__ . '/../TestAsset/commontypes.php';
 
 /**
- * @covers \Zend\Soap\Wsdl\ComplexTypeStrategy\DefaultComplexType
+ * @covers \Laminas\Soap\Wsdl\ComplexTypeStrategy\DefaultComplexType
  */
 class DefaultComplexTypeTest extends WsdlTestHelper
 {
@@ -33,11 +32,11 @@ class DefaultComplexTypeTest extends WsdlTestHelper
     }
 
     /**
-     * @group ZF-5944
+     * @group Laminas-5944
      */
     public function testOnlyPublicPropertiesAreDiscoveredByStrategy()
     {
-        $this->strategy->addComplexType('ZendTest\Soap\TestAsset\PublicPrivateProtected');
+        $this->strategy->addComplexType('LaminasTest\Soap\TestAsset\PublicPrivateProtected');
 
         $nodes = $this->xpath->query('//xsd:element[@name="'.(PublicPrivateProtected::PROTECTED_VAR_NAME).'"]');
         $this->assertEquals(0, $nodes->length, 'Document should not contain protected fields');
@@ -50,8 +49,8 @@ class DefaultComplexTypeTest extends WsdlTestHelper
 
     public function testDoubleClassesAreDiscoveredByStrategy()
     {
-        $this->strategy->addComplexType('ZendTest\Soap\TestAsset\WsdlTestClass');
-        $this->strategy->addComplexType('\ZendTest\Soap\TestAsset\WsdlTestClass');
+        $this->strategy->addComplexType('LaminasTest\Soap\TestAsset\WsdlTestClass');
+        $this->strategy->addComplexType('\LaminasTest\Soap\TestAsset\WsdlTestClass');
 
         $nodes = $this->xpath->query('//xsd:complexType[@name="WsdlTestClass"]');
         $this->assertEquals(1, $nodes->length);
