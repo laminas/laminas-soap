@@ -1,14 +1,12 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Soap
+ * @see       https://github.com/laminas/laminas-soap for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Soap\TestAsset;
+namespace LaminasTest\Soap\TestAsset;
 
 /* Test Functions */
 
@@ -105,8 +103,8 @@ function TestFunc9($foo, $bar)
 }
 
 /**
- * @category   Zend
- * @package    Zend_Soap
+ * @category   Laminas
+ * @package    Laminas_Soap
  * @subpackage UnitTests
  */
 class TestFixingMultiplePrototypes
@@ -126,8 +124,8 @@ class TestFixingMultiplePrototypes
 }
 
 /**
- * @category   Zend
- * @package    Zend_Soap
+ * @category   Laminas
+ * @package    Laminas_Soap
  * @subpackage UnitTests
  */
 class Test
@@ -190,15 +188,15 @@ class AutoDiscoverTestClass1
 }
 
 /**
- * @category   Zend
- * @package    Zend_Soap
+ * @category   Laminas
+ * @package    Laminas_Soap
  * @subpackage UnitTests
  */
 class AutoDiscoverTestClass2
 {
     /**
      *
-     * @param \ZendTest\Soap\TestAsset\AutoDiscoverTestClass1 $test
+     * @param \LaminasTest\Soap\TestAsset\AutoDiscoverTestClass1 $test
      * @return boolean
      */
     public function add(AutoDiscoverTestClass1 $test)
@@ -207,7 +205,7 @@ class AutoDiscoverTestClass2
     }
 
     /**
-     * @return \ZendTest\Soap\TestAsset\AutoDiscoverTestClass1[]
+     * @return \LaminasTest\Soap\TestAsset\AutoDiscoverTestClass1[]
      */
     public function fetchAll()
     {
@@ -218,7 +216,7 @@ class AutoDiscoverTestClass2
     }
 
     /**
-     * @param \ZendTest\Soap\TestAsset\AutoDiscoverTestClass1[]
+     * @param \LaminasTest\Soap\TestAsset\AutoDiscoverTestClass1[]
      */
     public function addMultiple($test)
     {
@@ -227,8 +225,8 @@ class AutoDiscoverTestClass2
 }
 
 /**
- * @category   Zend
- * @package    Zend_Soap
+ * @category   Laminas
+ * @package    Laminas_Soap
  * @subpackage UnitTests
  */
 class ComplexTypeB
@@ -244,21 +242,21 @@ class ComplexTypeB
 }
 
 /**
- * @category   Zend
- * @package    Zend_Soap
+ * @category   Laminas
+ * @package    Laminas_Soap
  * @subpackage UnitTests
  */
 class ComplexTypeA
 {
     /**
-     * @var \ZendTest\Soap\TestAsset\ComplexTypeB[]
+     * @var \LaminasTest\Soap\TestAsset\ComplexTypeB[]
      */
     public $baz = array();
 }
 
 /**
- * @category   Zend
- * @package    Zend_Soap
+ * @category   Laminas
+ * @package    Laminas_Soap
  * @subpackage UnitTests
  */
 class ComplexTest
@@ -270,8 +268,8 @@ class ComplexTest
 }
 
 /**
- * @category   Zend
- * @package    Zend_Soap
+ * @category   Laminas
+ * @package    Laminas_Soap
  * @subpackage UnitTests
  */
 class ComplexObjectStructure
@@ -298,35 +296,35 @@ class ComplexObjectStructure
 }
 
 /**
- * @category   Zend
- * @package    Zend_Soap
+ * @category   Laminas
+ * @package    Laminas_Soap
  * @subpackage UnitTests
  */
 class ComplexObjectWithObjectStructure
 {
     /**
-     * @var \ZendTest\Soap\TestAsset\ComplexTest
+     * @var \LaminasTest\Soap\TestAsset\ComplexTest
      */
     public $object;
 }
 
 /**
- * @category   Zend
- * @package    Zend_Soap
+ * @category   Laminas
+ * @package    Laminas_Soap
  * @subpackage UnitTests
  */
 class MyService
 {
     /**
      *    @param string $foo
-     *    @return \ZendTest\Soap\TestAsset\MyResponse[]
+     *    @return \LaminasTest\Soap\TestAsset\MyResponse[]
      */
     public function foo($foo)
     {
     }
     /**
      *    @param string $bar
-     *    @return \ZendTest\Soap\TestAsset\MyResponse[]
+     *    @return \LaminasTest\Soap\TestAsset\MyResponse[]
      */
     public function bar($bar)
     {
@@ -334,7 +332,7 @@ class MyService
 
     /**
      *    @param string $baz
-     *    @return \ZendTest\Soap\TestAsset\MyResponse[]
+     *    @return \LaminasTest\Soap\TestAsset\MyResponse[]
      */
     public function baz($baz)
     {
@@ -342,8 +340,8 @@ class MyService
 }
 
 /**
- * @category   Zend
- * @package    Zend_Soap
+ * @category   Laminas
+ * @package    Laminas_Soap
  * @subpackage UnitTests
  */
 class MyServiceSequence
@@ -381,8 +379,8 @@ class MyServiceSequence
 }
 
 /**
- * @category   Zend
- * @package    Zend_Soap
+ * @category   Laminas
+ * @package    Laminas_Soap
  * @subpackage UnitTests
  */
 class MyResponse
@@ -394,19 +392,19 @@ class MyResponse
 }
 
 /**
- * @category   Zend
- * @package    Zend_Soap
+ * @category   Laminas
+ * @package    Laminas_Soap
  * @subpackage UnitTests
  */
 class Recursion
 {
     /**
-     * @var \ZendTest\Soap\TestAsset\Recursion
+     * @var \LaminasTest\Soap\TestAsset\Recursion
      */
     public $recursion;
 
     /**
-     * @return \ZendTest\Soap\TestAsset\Recursion
+     * @return \LaminasTest\Soap\TestAsset\Recursion
      */
     public function create() {}
 }
@@ -420,8 +418,8 @@ function OneWay($message)
 }
 
 /**
- * @category   Zend
- * @package    Zend_Soap
+ * @category   Laminas
+ * @package    Laminas_Soap
  * @subpackage UnitTests
  */
 class NoReturnType
@@ -530,7 +528,7 @@ class MockSoapServer
     public function __call($name, $args) {}
 }
 
-class MockServer extends \Zend\Soap\Server
+class MockServer extends \Laminas\Soap\Server
 {
     public $mockSoapServer = null;
     protected function _getSoap()
@@ -606,18 +604,18 @@ class TestLocalSoapClient extends \SoapClient
     /**
      * Server object
      *
-     * @var Zend_Soap_Server
+     * @var Laminas_Soap_Server
      */
     public $server;
 
     /**
      * Local client constructor
      *
-     * @param Zend_Soap_Server $server
+     * @param Laminas_Soap_Server $server
      * @param string $wsdl
      * @param array $options
      */
-    public function __construct(\Zend\Soap\Server $server, $wsdl, $options)
+    public function __construct(\Laminas\Soap\Server $server, $wsdl, $options)
     {
         $this->server = $server;
         parent::__construct($wsdl, $options);
