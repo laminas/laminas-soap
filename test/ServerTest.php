@@ -1,24 +1,23 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-soap for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Soap;
+namespace LaminasTest\Soap;
 
 require_once __DIR__ . '/TestAsset/commontypes.php';
 
-use Zend\Soap\AutoDiscover;
-use Zend\Soap\Server;
+use Laminas\Soap\AutoDiscover;
+use Laminas\Soap\Server;
 
 /**
- * Zend_Soap_Server
+ * Laminas_Soap_Server
  *
- * @group      Zend_Soap
- * @group      Zend_Soap_Server
+ * @group      Laminas_Soap
+ * @group      Laminas_Soap_Server
  */
 class ServerTest extends \PHPUnit_Framework_TestCase
 {
@@ -36,11 +35,11 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($server->getOptions() == array('soap_version' => SOAP_1_2));
 
         $options = array('soap_version' => SOAP_1_1,
-                         'actor' => 'http://framework.zend.com/Zend_Soap_ServerTest.php',
-                         'classmap' => array('TestData1' => '\ZendTest\Soap\TestAsset\TestData1',
-                                             'TestData2' => '\ZendTest\Soap\TestAsset\TestData2',),
+                         'actor' => 'https://getlaminas.org/Laminas_Soap_ServerTest.php',
+                         'classmap' => array('TestData1' => '\LaminasTest\Soap\TestAsset\TestData1',
+                                             'TestData2' => '\LaminasTest\Soap\TestAsset\TestData2',),
                          'encoding' => 'ISO-8859-1',
-                         'uri' => 'http://framework.zend.com/Zend_Soap_ServerTest.php'
+                         'uri' => 'https://getlaminas.org/Laminas_Soap_ServerTest.php'
                         );
         $server->setOptions($options);
 
@@ -51,13 +50,13 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     {
         $options = array(
             'soap_version' => SOAP_1_1,
-            'actor' => 'http://framework.zend.com/Zend_Soap_ServerTest.php',
+            'actor' => 'https://getlaminas.org/Laminas_Soap_ServerTest.php',
             'classmap' => array(
-                'TestData1' => '\ZendTest\Soap\TestAsset\TestData1',
-                'TestData2' => '\ZendTest\Soap\TestAsset\TestData2',
+                'TestData1' => '\LaminasTest\Soap\TestAsset\TestData1',
+                'TestData2' => '\LaminasTest\Soap\TestAsset\TestData2',
             ),
             'encoding' => 'ISO-8859-1',
-            'uri' => 'http://framework.zend.com/Zend_Soap_ServerTest.php',
+            'uri' => 'https://getlaminas.org/Laminas_Soap_ServerTest.php',
         );
         $server = new Server(null, $options);
 
@@ -65,7 +64,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-9816
+     * @group Laminas-9816
      */
     public function testSetOptionsWithFeaturesOption()
     {
@@ -94,7 +93,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($server->getOptions() == array('soap_version' => SOAP_1_2));
 
         $options = array('soap_version' => SOAP_1_1,
-                         'uri' => 'http://framework.zend.com/Zend_Soap_ServerTest.php'
+                         'uri' => 'https://getlaminas.org/Laminas_Soap_ServerTest.php'
                         );
         $server->setOptions($options);
 
@@ -109,7 +108,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $server->setEncoding('ISO-8859-1');
         $this->assertEquals('ISO-8859-1', $server->getEncoding());
 
-        $this->setExpectedException('Zend\Soap\Exception\InvalidArgumentException', 'Invalid encoding specified');
+        $this->setExpectedException('Laminas\Soap\Exception\InvalidArgumentException', 'Invalid encoding specified');
         $server->setEncoding(array('UTF-8'));
     }
 
@@ -121,17 +120,17 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $server->setSoapVersion(SOAP_1_1);
         $this->assertEquals(SOAP_1_1, $server->getSoapVersion());
 
-        $this->setExpectedException('Zend\Soap\Exception\InvalidArgumentException', 'Invalid soap version specified');
+        $this->setExpectedException('Laminas\Soap\Exception\InvalidArgumentException', 'Invalid soap version specified');
         $server->setSoapVersion('bogus');
     }
 
     public function testValidateUrn()
     {
         $server = new Server();
-        $this->assertTrue($server->validateUrn('http://framework.zend.com/'));
+        $this->assertTrue($server->validateUrn('https://getlaminas.org/'));
         $this->assertTrue($server->validateUrn('urn:soapHandler/GetOpt'));
 
-        $this->setExpectedException('Zend\Soap\Exception\InvalidArgumentException', 'Invalid URN');
+        $this->setExpectedException('Laminas\Soap\Exception\InvalidArgumentException', 'Invalid URN');
         $server->validateUrn('bogosity');
     }
 
@@ -140,10 +139,10 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $server = new Server();
 
         $this->assertNull($server->getActor());
-        $server->setActor('http://framework.zend.com/');
-        $this->assertEquals('http://framework.zend.com/', $server->getActor());
+        $server->setActor('https://getlaminas.org/');
+        $this->assertEquals('https://getlaminas.org/', $server->getActor());
 
-        $this->setExpectedException('Zend\Soap\Exception\InvalidArgumentException', 'Invalid URN');
+        $this->setExpectedException('Laminas\Soap\Exception\InvalidArgumentException', 'Invalid URN');
         $server->setActor('bogus');
     }
 
@@ -152,8 +151,8 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $server = new Server();
 
         $this->assertNull($server->getActor());
-        $server->setActor('http://framework.zend.com/');
-        $this->assertEquals('http://framework.zend.com/', $server->getActor());
+        $server->setActor('https://getlaminas.org/');
+        $this->assertEquals('https://getlaminas.org/', $server->getActor());
     }
 
     public function testSetUri()
@@ -161,10 +160,10 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $server = new Server();
 
         $this->assertNull($server->getUri());
-        $server->setUri('http://framework.zend.com/');
-        $this->assertEquals('http://framework.zend.com/', $server->getUri());
+        $server->setUri('https://getlaminas.org/');
+        $this->assertEquals('https://getlaminas.org/', $server->getUri());
 
-        $this->setExpectedException('Zend\Soap\Exception\InvalidArgumentException', 'Invalid URN');
+        $this->setExpectedException('Laminas\Soap\Exception\InvalidArgumentException', 'Invalid URN');
         $server->setUri('bogus');
     }
 
@@ -173,16 +172,16 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $server = new Server();
 
         $this->assertNull($server->getUri());
-        $server->setUri('http://framework.zend.com/');
-        $this->assertEquals('http://framework.zend.com/', $server->getUri());
+        $server->setUri('https://getlaminas.org/');
+        $this->assertEquals('https://getlaminas.org/', $server->getUri());
     }
 
     public function testSetClassmap()
     {
         $server = new Server();
 
-        $classmap = array('TestData1' => '\ZendTest\Soap\TestAsset\TestData1',
-                          'TestData2' => '\ZendTest\Soap\TestAsset\TestData2');
+        $classmap = array('TestData1' => '\LaminasTest\Soap\TestAsset\TestData1',
+                          'TestData2' => '\LaminasTest\Soap\TestAsset\TestData2');
 
         $this->assertNull($server->getClassmap());
         $server->setClassmap($classmap);
@@ -193,7 +192,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     {
         $server = new Server();
 
-        $this->setExpectedException('Zend\Soap\Exception\InvalidArgumentException', 'Classmap must be an array');
+        $this->setExpectedException('Laminas\Soap\Exception\InvalidArgumentException', 'Classmap must be an array');
         $server->setClassmap('bogus');
     }
 
@@ -201,7 +200,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     {
         $server = new Server();
 
-        $this->setExpectedException('Zend\Soap\Exception\InvalidArgumentException', 'Invalid class in class map');
+        $this->setExpectedException('Laminas\Soap\Exception\InvalidArgumentException', 'Invalid class in class map');
         $server->setClassmap(array('soapTypeName', 'bogusClassName'));
     }
 
@@ -209,8 +208,8 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     {
         $server = new Server();
 
-        $classmap = array('TestData1' => '\ZendTest\Soap\TestAsset\TestData1',
-                          'TestData2' => '\ZendTest\Soap\TestAsset\TestData2');
+        $classmap = array('TestData1' => '\LaminasTest\Soap\TestAsset\TestData1',
+                          'TestData2' => '\LaminasTest\Soap\TestAsset\TestData2');
 
         $this->assertNull($server->getClassmap());
         $server->setClassmap($classmap);
@@ -225,7 +224,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $server->setWSDL(__DIR__.'/_files/wsdl_example.wsdl');
         $this->assertEquals(__DIR__.'/_files/wsdl_example.wsdl', $server->getWSDL());
 
-        //$this->setExpectedException('Zend\Soap\Exception\InvalidArgumentException', 'foo');
+        //$this->setExpectedException('Laminas\Soap\Exception\InvalidArgumentException', 'foo');
         $server->setWSDL(__DIR__.'/_files/bogus.wsdl');
     }
 
@@ -243,16 +242,16 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $server = new Server();
 
         // Correct function should pass
-        $server->addFunction('\ZendTest\Soap\TestAsset\TestFunc');
+        $server->addFunction('\LaminasTest\Soap\TestAsset\TestFunc');
 
         // Array of correct functions should pass
-        $functions = array('\ZendTest\Soap\TestAsset\TestFunc2',
-                           '\ZendTest\Soap\TestAsset\TestFunc3',
-                           '\ZendTest\Soap\TestAsset\TestFunc4');
+        $functions = array('\LaminasTest\Soap\TestAsset\TestFunc2',
+                           '\LaminasTest\Soap\TestAsset\TestFunc3',
+                           '\LaminasTest\Soap\TestAsset\TestFunc4');
         $server->addFunction($functions);
 
         $this->assertEquals(
-            array_merge(array('\ZendTest\Soap\TestAsset\TestFunc'), $functions),
+            array_merge(array('\LaminasTest\Soap\TestAsset\TestFunc'), $functions),
             $server->getFunctions()
         );
     }
@@ -261,7 +260,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     {
         $server = new Server();
 
-        $this->setExpectedException('Zend\Soap\Exception\InvalidArgumentException', 'Invalid function specified');
+        $this->setExpectedException('Laminas\Soap\Exception\InvalidArgumentException', 'Invalid function specified');
         $server->addFunction(126);
     }
 
@@ -269,7 +268,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     {
         $server = new Server();
 
-        $this->setExpectedException('Zend\Soap\Exception\InvalidArgumentException', 'Invalid function specified');
+        $this->setExpectedException('Laminas\Soap\Exception\InvalidArgumentException', 'Invalid function specified');
         $server->addFunction('bogus_function');
     }
 
@@ -277,10 +276,10 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     {
         $server = new Server();
 
-        $functions = array('\ZendTest\Soap\TestAsset\TestFunc5',
+        $functions = array('\LaminasTest\Soap\TestAsset\TestFunc5',
                             'bogus_function',
-                            '\ZendTest\Soap\TestAsset\TestFunc6');
-        $this->setExpectedException('Zend\Soap\Exception\InvalidArgumentException', 'One or more invalid functions specified in array');
+                            '\LaminasTest\Soap\TestAsset\TestFunc6');
+        $this->setExpectedException('Laminas\Soap\Exception\InvalidArgumentException', 'One or more invalid functions specified in array');
         $server->addFunction($functions);
     }
 
@@ -299,7 +298,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $server = new Server();
 
         // Correct class name should pass
-        $r = $server->setClass('\ZendTest\Soap\TestAsset\ServerTestClass');
+        $r = $server->setClass('\LaminasTest\Soap\TestAsset\ServerTestClass');
         $this->assertSame($server, $r);
     }
 
@@ -311,7 +310,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $server = new Server();
 
         // Correct class name should pass
-        $object = new \ZendTest\Soap\TestAsset\ServerTestClass();
+        $object = new \LaminasTest\Soap\TestAsset\ServerTestClass();
         $r = $server->setClass($object);
         $this->assertSame($server, $r);
     }
@@ -319,13 +318,13 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testSetClassTwiceThrowsException()
     {
         $server = new Server();
-        $server->setClass('\ZendTest\Soap\TestAsset\ServerTestClass');
+        $server->setClass('\LaminasTest\Soap\TestAsset\ServerTestClass');
 
         $this->setExpectedException(
-            'Zend\Soap\Exception\InvalidArgumentException',
+            'Laminas\Soap\Exception\InvalidArgumentException',
             'A class has already been registered with this soap server instance'
             );
-        $server->setClass('\ZendTest\Soap\TestAsset\ServerTestClass');
+        $server->setClass('\LaminasTest\Soap\TestAsset\ServerTestClass');
     }
 
     public function testSetClassWithArguments()
@@ -333,7 +332,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $server = new Server();
 
         // Correct class name should pass
-        $r = $server->setClass('\ZendTest\Soap\TestAsset\ServerTestClass', null, 1, 2, 3, 4);
+        $r = $server->setClass('\LaminasTest\Soap\TestAsset\ServerTestClass', null, 1, 2, 3, 4);
         $this->assertSame($server, $r);
     }
 
@@ -341,7 +340,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     {
         $server = new Server();
 
-        $this->setExpectedException('Zend\Soap\Exception\InvalidArgumentException', 'Invalid class argument (integer)');
+        $this->setExpectedException('Laminas\Soap\Exception\InvalidArgumentException', 'Invalid class argument (integer)');
         $server->setClass(465);
     }
 
@@ -349,12 +348,12 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     {
         $server = new Server();
 
-        $this->setExpectedException('Zend\Soap\Exception\InvalidArgumentException', 'Class "Zend_Soap_Server_Test_BogusClass" does not exist');
-        $server->setClass('Zend_Soap_Server_Test_BogusClass');
+        $this->setExpectedException('Laminas\Soap\Exception\InvalidArgumentException', 'Class "Laminas_Soap_Server_Test_BogusClass" does not exist');
+        $server->setClass('Laminas_Soap_Server_Test_BogusClass');
     }
 
     /**
-     * @group ZF-4366
+     * @group Laminas-4366
      */
     public function testSetObject()
     {
@@ -366,36 +365,36 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-4366
+     * @group Laminas-4366
      */
     public function testSetObjectThrowsExceptionWithBadInput1()
     {
         $server = new Server();
 
-        $this->setExpectedException('Zend\Soap\Exception\InvalidArgumentException', 'Invalid object argument (integer)');
+        $this->setExpectedException('Laminas\Soap\Exception\InvalidArgumentException', 'Invalid object argument (integer)');
         $server->setObject(465);
     }
 
     /**
-     * @group ZF-4366
+     * @group Laminas-4366
      */
     public function testSetObjectThrowsExceptionWithBadInput2()
     {
         $server = new Server();
 
-        $this->setExpectedException('Zend\Soap\Exception\InvalidArgumentException', 'Invalid object argument (integer)');
+        $this->setExpectedException('Laminas\Soap\Exception\InvalidArgumentException', 'Invalid object argument (integer)');
         $int = 1;
         $server->setObject($int);
     }
 
     /**
-     * @group ZF-4366
+     * @group Laminas-4366
      */
     public function testSetObjectThrowsExceptionWithBadInput3()
     {
         $server = new Server();
 
-        //$this->setExpectedException('Zend\Soap\Exception\InvalidArgumentException', 'foo');
+        //$this->setExpectedException('Laminas\Soap\Exception\InvalidArgumentException', 'foo');
         $server->setObject(new TestAsset\ServerTestClass());
     }
 
@@ -403,25 +402,25 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     {
         $server = new Server();
 
-        $server->addFunction('\ZendTest\Soap\TestAsset\TestFunc');
+        $server->addFunction('\LaminasTest\Soap\TestAsset\TestFunc');
 
-        $functions  =  array('\ZendTest\Soap\TestAsset\TestFunc2',
-                             '\ZendTest\Soap\TestAsset\TestFunc3',
-                             '\ZendTest\Soap\TestAsset\TestFunc4');
+        $functions  =  array('\LaminasTest\Soap\TestAsset\TestFunc2',
+                             '\LaminasTest\Soap\TestAsset\TestFunc3',
+                             '\LaminasTest\Soap\TestAsset\TestFunc4');
         $server->addFunction($functions);
 
-        $functions  =  array('\ZendTest\Soap\TestAsset\TestFunc3',
-                             '\ZendTest\Soap\TestAsset\TestFunc5',
-                             '\ZendTest\Soap\TestAsset\TestFunc6');
+        $functions  =  array('\LaminasTest\Soap\TestAsset\TestFunc3',
+                             '\LaminasTest\Soap\TestAsset\TestFunc5',
+                             '\LaminasTest\Soap\TestAsset\TestFunc6');
         $server->addFunction($functions);
 
         $allAddedFunctions = array(
-            '\ZendTest\Soap\TestAsset\TestFunc',
-            '\ZendTest\Soap\TestAsset\TestFunc2',
-            '\ZendTest\Soap\TestAsset\TestFunc3',
-            '\ZendTest\Soap\TestAsset\TestFunc4',
-            '\ZendTest\Soap\TestAsset\TestFunc5',
-            '\ZendTest\Soap\TestAsset\TestFunc6'
+            '\LaminasTest\Soap\TestAsset\TestFunc',
+            '\LaminasTest\Soap\TestAsset\TestFunc2',
+            '\LaminasTest\Soap\TestAsset\TestFunc3',
+            '\LaminasTest\Soap\TestAsset\TestFunc4',
+            '\LaminasTest\Soap\TestAsset\TestFunc5',
+            '\LaminasTest\Soap\TestAsset\TestFunc6'
         );
         $this->assertTrue($server->getFunctions() == $allAddedFunctions);
     }
@@ -429,7 +428,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testGetFunctionsWithClassAttached()
     {
         $server = new Server();
-        $server->setClass('\ZendTest\Soap\TestAsset\ServerTestClass');
+        $server->setClass('\LaminasTest\Soap\TestAsset\ServerTestClass');
 
         $this->assertEquals(
             array('testFunc1', 'testFunc2', 'testFunc3', 'testFunc4', 'testFunc5'),
@@ -464,7 +463,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     {
         $server = new Server();
 
-        $this->setExpectedException('Zend\Soap\Exception\InvalidArgumentException', 'Invalid persistence mode specified');
+        $this->setExpectedException('Laminas\Soap\Exception\InvalidArgumentException', 'Invalid persistence mode specified');
         $server->setPersistence('bogus');
     }
 
@@ -485,14 +484,14 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         }
 
         $server = new Server();
-        $server->setOptions(array('location'=>'test://', 'uri'=>'http://framework.zend.com'));
+        $server->setOptions(array('location'=>'test://', 'uri'=>'https://getlaminas.org'));
         $server->setReturnResponse(true);
 
-        $server->setClass('\ZendTest\Soap\TestAsset\ServerTestClass');
+        $server->setClass('\LaminasTest\Soap\TestAsset\ServerTestClass');
 
         $request =
           '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" '
-                             . 'xmlns:ns1="http://framework.zend.com" '
+                             . 'xmlns:ns1="https://getlaminas.org" '
                              . 'xmlns:xsd="http://www.w3.org/2001/XMLSchema" '
                              . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
                              . 'xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" '
@@ -540,15 +539,15 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         }
 
         $server = new Server();
-        $server->setOptions(array('location'=>'test://', 'uri'=>'http://framework.zend.com'));
+        $server->setOptions(array('location'=>'test://', 'uri'=>'https://getlaminas.org'));
         $server->setReturnResponse(true);
 
-        $server->setClass('\ZendTest\Soap\TestAsset\ServerTestClass');
+        $server->setClass('\LaminasTest\Soap\TestAsset\ServerTestClass');
 
         $request =
             '<?xml version="1.0" encoding="UTF-8"?>' . "\n"
           . '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" '
-                             . 'xmlns:ns1="http://framework.zend.com" '
+                             . 'xmlns:ns1="https://getlaminas.org" '
                              . 'xmlns:xsd="http://www.w3.org/2001/XMLSchema" '
                              . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
                              . 'xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" '
@@ -563,7 +562,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $expectedResponse =
             '<?xml version="1.0" encoding="UTF-8"?>' . "\n"
           . '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" '
-                             . 'xmlns:ns1="http://framework.zend.com" '
+                             . 'xmlns:ns1="https://getlaminas.org" '
                              . 'xmlns:xsd="http://www.w3.org/2001/XMLSchema" '
                              . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
                              . 'xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" '
@@ -592,14 +591,14 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         }
 
         $server = new Server();
-        $server->setOptions(array('location'=>'test://', 'uri'=>'http://framework.zend.com'));
+        $server->setOptions(array('location'=>'test://', 'uri'=>'https://getlaminas.org'));
 
-        $server->setClass('\ZendTest\Soap\TestAsset\ServerTestClass');
+        $server->setClass('\LaminasTest\Soap\TestAsset\ServerTestClass');
 
         $localClient = new TestAsset\TestLocalSoapClient($server,
                                                          null,
                                                          array('location'=>'test://',
-                                                               'uri'=>'http://framework.zend.com'));
+                                                               'uri'=>'https://getlaminas.org'));
 
         // Local SOAP client call automatically invokes handle method of the provided SOAP server
         $this->assertEquals('Hello World!', $localClient->testFunc2('World'));
@@ -608,7 +607,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $request =
             '<?xml version="1.0" encoding="UTF-8"?>' . "\n"
           . '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" '
-                             . 'xmlns:ns1="http://framework.zend.com" '
+                             . 'xmlns:ns1="https://getlaminas.org" '
                              . 'xmlns:xsd="http://www.w3.org/2001/XMLSchema" '
                              . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
                              . 'xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" '
@@ -623,7 +622,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $expectedResponse =
             '<?xml version="1.0" encoding="UTF-8"?>' . "\n"
           . '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" '
-                             . 'xmlns:ns1="http://framework.zend.com" '
+                             . 'xmlns:ns1="https://getlaminas.org" '
                              . 'xmlns:xsd="http://www.w3.org/2001/XMLSchema" '
                              . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
                              . 'xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" '
@@ -636,9 +635,9 @@ class ServerTest extends \PHPUnit_Framework_TestCase
           . '</SOAP-ENV:Envelope>' . "\n";
 
         $server1 = new Server();
-        $server1->setOptions(array('location'=>'test://', 'uri'=>'http://framework.zend.com'));
+        $server1->setOptions(array('location'=>'test://', 'uri'=>'https://getlaminas.org'));
 
-        $server1->setClass('\ZendTest\Soap\TestAsset\ServerTestClass');
+        $server1->setClass('\LaminasTest\Soap\TestAsset\ServerTestClass');
         $server1->setReturnResponse(true);
 
         $this->assertEquals($expectedResponse, $server1->handle($request));
@@ -710,11 +709,11 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array('Exception'),
-            array('Zend\Soap\Exception\InvalidArgumentException'),
+            array('Laminas\Soap\Exception\InvalidArgumentException'),
             array('InvalidArgumentException'),
-            array('Zend\Server\Exception\RuntimeException'),
-            array(array('Zend\Server\Exception\RuntimeException')),
-            array(array('Zend\Server\Exception\RuntimeException', 'InvalidArgumentException')),
+            array('Laminas\Server\Exception\RuntimeException'),
+            array(array('Laminas\Server\Exception\RuntimeException')),
+            array(array('Laminas\Server\Exception\RuntimeException', 'InvalidArgumentException')),
         );
     }
 
@@ -740,9 +739,9 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testFaultWithRegisteredException()
     {
         $server = new Server();
-        $server->registerFaultException('\Zend\Soap\Exception\RuntimeException');
-        $server->registerFaultException('\Zend\Soap\Exception\InvalidArgumentException');
-        $fault = $server->fault(new \Zend\Soap\Exception\RuntimeException('MyException'));
+        $server->registerFaultException('\Laminas\Soap\Exception\RuntimeException');
+        $server->registerFaultException('\Laminas\Soap\Exception\InvalidArgumentException');
+        $fault = $server->fault(new \Laminas\Soap\Exception\RuntimeException('MyException'));
         $this->assertTrue($fault instanceof \SoapFault);
         $this->assertNotContains('Unknown error', $fault->getMessage());
         $this->assertContains('MyException', $fault->getMessage());
@@ -757,7 +756,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-3958
+     * @group Laminas-3958
      */
     public function testFaultWithIntegerFailureCodeDoesNotBreakClassSoapFault()
     {
@@ -793,16 +792,16 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $autodiscover->setUri('http://example.com');
 
 
-        $autodiscover->setClass('\ZendTest\Soap\TestAsset\errorClass');
+        $autodiscover->setClass('\LaminasTest\Soap\TestAsset\errorClass');
 
         $wsdl = $autodiscover->generate();
         $wsdl->dump($wsdlFilename);
 
         $server = new Server($wsdlFilename);
 
-        $server->setClass('\ZendTest\Soap\TestAsset\errorClass');
+        $server->setClass('\LaminasTest\Soap\TestAsset\errorClass');
 
-        $client = new \Zend\Soap\Client\Local($server, $wsdlFilename);
+        $client = new \Laminas\Soap\Client\Local($server, $wsdlFilename);
         $client->triggerError();
         unlink($wsdlFilename);
     }
@@ -811,7 +810,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     {
         $server = new Server();
 
-        $this->setExpectedException('Zend\Soap\Exception\RuntimeException', 'Unimplemented method');
+        $this->setExpectedException('Laminas\Soap\Exception\RuntimeException', 'Unimplemented method');
         $server->loadFunctions("bogus");
     }
 
@@ -823,14 +822,14 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         }
 
         $server = new Server();
-        $server->setOptions(array('location'=>'test://', 'uri'=>'http://framework.zend.com'));
+        $server->setOptions(array('location'=>'test://', 'uri'=>'https://getlaminas.org'));
         $server->setReturnResponse(true);
 
         // Requesting Method with enforced parameter without it.
         $request =
             '<?xml version="1.0" encoding="UTF-8"?>' . "\n"
           . '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" '
-                             . 'xmlns:ns1="http://framework.zend.com" '
+                             . 'xmlns:ns1="https://getlaminas.org" '
                              . 'xmlns:xsd="http://www.w3.org/2001/XMLSchema" '
                              . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
                              . 'xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" '
@@ -840,7 +839,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
           .     '</SOAP-ENV:Body>'
           . '</SOAP-ENV:Envelope>' . "\n";
 
-        $server->setClass('\ZendTest\Soap\TestAsset\ServerTestClass');
+        $server->setClass('\LaminasTest\Soap\TestAsset\ServerTestClass');
         $response = $server->handle($request);
 
         $this->assertContains(
@@ -850,18 +849,18 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-5597
+     * @group Laminas-5597
      */
-    public function testServerAcceptsZendConfigObject()
+    public function testServerAcceptsLaminasConfigObject()
     {
         $options = array('soap_version' => SOAP_1_1,
-                         'actor' => 'http://framework.zend.com/Zend_Soap_ServerTest.php',
-                         'classmap' => array('TestData1' => '\ZendTest\Soap\TestAsset\TestData1',
-                                             'TestData2' => '\ZendTest\Soap\TestAsset\TestData2',),
+                         'actor' => 'https://getlaminas.org/Laminas_Soap_ServerTest.php',
+                         'classmap' => array('TestData1' => '\LaminasTest\Soap\TestAsset\TestData1',
+                                             'TestData2' => '\LaminasTest\Soap\TestAsset\TestData2',),
                          'encoding' => 'ISO-8859-1',
-                         'uri' => 'http://framework.zend.com/Zend_Soap_ServerTest.php'
+                         'uri' => 'https://getlaminas.org/Laminas_Soap_ServerTest.php'
                         );
-        $config = new \Zend\Config\Config($options);
+        $config = new \Laminas\Config\Config($options);
 
         $server = new Server();
         $server->setOptions($config);
@@ -869,7 +868,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-5300
+     * @group Laminas-5300
      */
     public function testSetAndGetFeatures()
     {
@@ -883,7 +882,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-5300
+     * @group Laminas-5300
      */
     public function testSetAndGetWSDLCache()
     {
@@ -897,11 +896,11 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-11411
+     * @group Laminas-11411
      */
     public function testHandleUsesProperRequestParameter()
     {
-        $server = new \ZendTest\Soap\TestAsset\MockServer();
+        $server = new \LaminasTest\Soap\TestAsset\MockServer();
         $r = $server->handle(new \DOMDocument('1.0', 'UTF-8'));
         $this->assertTrue(is_string($server->mockSoapServer->handle[0]));
     }
@@ -912,15 +911,15 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testShouldThrowExceptionIfHandledRequestContainsDoctype()
     {
         $server = new Server();
-        $server->setOptions(array('location'=>'test://', 'uri'=>'http://framework.zend.com'));
+        $server->setOptions(array('location'=>'test://', 'uri'=>'https://getlaminas.org'));
         $server->setReturnResponse(true);
 
-        $server->setClass('\ZendTest\Soap\TestAsset\ServerTestClass');
+        $server->setClass('\LaminasTest\Soap\TestAsset\ServerTestClass');
 
         $request =
             '<?xml version="1.0" encoding="UTF-8"?>' . "\n" . '<!DOCTYPE foo>' . "\n"
           . '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" '
-                             . 'xmlns:ns1="http://framework.zend.com" '
+                             . 'xmlns:ns1="https://getlaminas.org" '
                              . 'xmlns:xsd="http://www.w3.org/2001/XMLSchema" '
                              . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
                              . 'xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" '
@@ -962,7 +961,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testGetSoapInternalInstance()
     {
         $server = new Server();
-        $server->setOptions(array('location'=>'test://', 'uri'=>'http://framework.zend.com'));
+        $server->setOptions(array('location'=>'test://', 'uri'=>'https://getlaminas.org'));
         $internalServer = $server->getSoap();
         $this->assertInstanceOf('\SoapServer', $internalServer);
         $this->assertSame($internalServer, $server->getSoap());
@@ -971,9 +970,9 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testDisableEntityLoaderAfterException()
     {
         $server = new Server();
-        $server->setOptions(array('location'=>'test://', 'uri'=>'http://framework.zend.com'));
+        $server->setOptions(array('location'=>'test://', 'uri'=>'https://getlaminas.org'));
         $server->setReturnResponse(true);
-        $server->setClass('\ZendTest\Soap\TestAsset\ServerTestClass');
+        $server->setClass('\LaminasTest\Soap\TestAsset\ServerTestClass');
         $loadEntities = libxml_disable_entity_loader(false);
 
         // Doing a request that is guaranteed to cause an exception in Server::_setRequest():
