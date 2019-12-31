@@ -1,19 +1,18 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-soap for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Soap\TestAsset\fulltests;
+namespace LaminasTest\Soap\TestAsset\fulltests;
 
 class Server1
 {
     /**
-     * @param  \ZendTest\Soap\TestAsset\fulltests\ComplexTypeB
-     * @return \ZendTest\Soap\TestAsset\fulltests\ComplexTypeA[]
+     * @param  \LaminasTest\Soap\TestAsset\fulltests\ComplexTypeB
+     * @return \LaminasTest\Soap\TestAsset\fulltests\ComplexTypeA[]
      */
     public function request($request)
     {
@@ -50,16 +49,16 @@ class ComplexTypeB
 class ComplexTypeA
 {
     /**
-     * @var \ZendTest\Soap\TestAsset\fulltests\ComplexTypeB[]
+     * @var \LaminasTest\Soap\TestAsset\fulltests\ComplexTypeB[]
      */
     public $baz = [];
 }
 
 if (isset($_GET['wsdl'])) {
-    $server = new \Zend\Soap\AutoDiscover(new \Zend\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplex());
+    $server = new \Laminas\Soap\AutoDiscover(new \Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplex());
 } else {
     $uri = "http://".$_SERVER['HTTP_HOST']."/".$_SERVER['PHP_SELF']."?wsdl";
-    $server = new \Zend\Soap\Server($uri);
+    $server = new \Laminas\Soap\Server($uri);
 }
-$server->setClass('\ZendTest\Soap\TestAsset\fulltests\Server1');
+$server->setClass('\LaminasTest\Soap\TestAsset\fulltests\Server1');
 $server->handle();

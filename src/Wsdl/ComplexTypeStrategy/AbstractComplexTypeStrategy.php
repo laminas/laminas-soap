@@ -1,17 +1,18 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-soap for the canonical source repository
- * @copyright Copyright (c) 2005-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-soap/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-soap for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Soap\Wsdl\ComplexTypeStrategy;
+namespace Laminas\Soap\Wsdl\ComplexTypeStrategy;
 
-use Zend\Soap\Wsdl;
-use Zend\Soap\Wsdl\DocumentationStrategy\DocumentationStrategyInterface;
+use Laminas\Soap\Wsdl;
+use Laminas\Soap\Wsdl\DocumentationStrategy\DocumentationStrategyInterface;
 
 /**
- * Abstract class for Zend\Soap\Wsdl\Strategy.
+ * Abstract class for Laminas\Soap\Wsdl\Strategy.
  */
 abstract class AbstractComplexTypeStrategy implements ComplexTypeStrategyInterface
 {

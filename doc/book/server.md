@@ -1,6 +1,6 @@
-# Zend\\Soap\\Server
+# Laminas\\Soap\\Server
 
-`Zend\Soap\Server` provides a wrapper around PHP's
+`Laminas\Soap\Server` provides a wrapper around PHP's
 [SoapServer](http://php.net/SoapServer) implementation with convenience
 functionality for generating WSDL and registering internal handlers.
 
@@ -11,13 +11,13 @@ When in WSDL mode, it uses a prepared WSDL document to define server object
 behavior and transport layer options.
 
 WSDL documents may be auto-generated with functionality provided by the
-[Zend\Soap\AutoDiscover](auto-discovery.md) component, or constructed manually
-using the [Zend\Soap\Wsdl](wsdl.md) class or any other XML generation tool.
+[Laminas\Soap\AutoDiscover](auto-discovery.md) component, or constructed manually
+using the [Laminas\Soap\Wsdl](wsdl.md) class or any other XML generation tool.
 
 If the non-WSDL mode is used, then all protocol options must be provided via the
 options mechanism.
 
-## Zend\Soap\Server instantiation
+## Laminas\Soap\Server instantiation
 
 Instantiation of `Server` instances varies based on whether or not you are using
 WSDL mode.
@@ -50,7 +50,7 @@ The following options are recognized in the WSDL mode:
 ### Instantiation for non-WSDL mode
 
 The first constructor parameter **must** be set to `NULL` if you plan to use
-`Zend\Soap\Server` functionality in non-WSDL mode.
+`Laminas\Soap\Server` functionality in non-WSDL mode.
 
 You also have to set the `uri` option in this case (see below).
 
@@ -71,7 +71,7 @@ configuring the behavior of the server; these may also be provided later using
 
 There are two ways to define your SOAP API in order to expose PHP functionality.
 
-The first one is to attach a class to the `Zend\Soap\Server` object that
+The first one is to attach a class to the `Laminas\Soap\Server` object that
 completely describes your API:
 
 ```php
@@ -103,7 +103,7 @@ class MyClass
     /* ... */
 }
 
-$server = new Zend\Soap\Server(null, $options);
+$server = new Laminas\Soap\Server(null, $options);
 
 // Bind class to Soap Server:
 $server->setClass(MyClass::class);
@@ -147,7 +147,7 @@ function function2($inputParam1, $inputParam2)
     // ...
 }
 
-$server = new Zend\Soap\Server(null, $options);
+$server = new Laminas\Soap\Server(null, $options);
 $server->addFunction('function1');
 $server->addFunction('function2');
 
@@ -156,18 +156,18 @@ $server->handle();
 
 ## Request and response handling
 
-`Zend\Soap\Server` component performs request/response processing automatically,
+`Laminas\Soap\Server` component performs request/response processing automatically,
 but allows you to intercept each in order to perform pre- or post-processing.
 
 ### Request pre- and post-processing
 
-The `Zend\Soap\Server::handle()` method handles a request from the standard
+The `Laminas\Soap\Server::handle()` method handles a request from the standard
 input stream ('php://input'). It may be overridden either by supplying a request
 instance to the `handle()` method, or by setting the request via the
 `setRequest()` method:
 
 ```php
-$server = new Zend\Soap\Server(/* ... */);
+$server = new Laminas\Soap\Server(/* ... */);
 
 // Set request using optional $request parameter to the handle() method:
 $server->handle($request);
@@ -190,7 +190,7 @@ The last request processed may be retrieved using the `getLastRequest()` method,
 which returns the XML string:
 
 ```php
-$server = new Zend\Soap\Server(/* ... */);
+$server = new Laminas\Soap\Server(/* ... */);
 
 $server->handle();
 $request = $server->getLastRequest();
@@ -198,7 +198,7 @@ $request = $server->getLastRequest();
 
 ### Response post-processing
 
-The `Zend\Soap\Server::handle()` method automatically emits the generated
+The `Laminas\Soap\Server::handle()` method automatically emits the generated
 response to the output stream. It may be blocked using `setReturnResponse()`
 with `true` or `false` as a parameter. When set to `true`, `handle()` will
 return the generated response instead of emitting it.
@@ -214,7 +214,7 @@ a `SoapFault` exception instance.
 > manually.
 
 ```php
-$server = new Zend\Soap\Server(/* ... */);
+$server = new Laminas\Soap\Server(/* ... */);
 
 // Get a response as a return value of handle(),
 // instead of emitting it to standard output:
@@ -233,7 +233,7 @@ The last response emitted may also be retrieved for post-processing using
 `getLastResponse()`:
 
 ```php
-$server = new Zend\Soap\Server(/* ... */);
+$server = new Laminas\Soap\Server(/* ... */);
 
 $server->handle();
 
@@ -257,10 +257,10 @@ the SOAP service. The parameters of the function are properties on the request
 object, and the response object contains a single parameter that is built in the
 style `<methodName>Result`
 
-zend-soap supports this pattern in both the AutoDiscover and Server
+laminas-soap supports this pattern in both the AutoDiscover and Server
 components. You can write your service object without knowledge of the pattern.
 Use docblock comments to hint the parameter and return types as usual. The
-`Zend\Soap\Server\DocumentLiteralWrapper` wraps around your service object and
+`Laminas\Soap\Server\DocumentLiteralWrapper` wraps around your service object and
 converts request and response into normal method calls on your service.
 
 See the class doc block of the `DocumentLiteralWrapper` for a detailed example

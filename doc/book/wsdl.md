@@ -1,15 +1,15 @@
 # WSDL Parsing and Generation
 
-The `Zend\Soap\Wsdl` class is used by `Zend\Soap\Server` internally to operate
+The `Laminas\Soap\Wsdl` class is used by `Laminas\Soap\Server` internally to operate
 with WSDL documents. In most cases, you will not interact with it directly.
 
 Nevertheless, you could also use functionality provided by this class for your
-own needs.  `Zend\Soap\Wsdl` contains both a parser and a generator for WSDL
+own needs.  `Laminas\Soap\Wsdl` contains both a parser and a generator for WSDL
 documents.
 
 ## Instantiation
 
-The `Zend\Soap\Wsdl` constructor takes three parameters:
+The `Laminas\Soap\Wsdl` constructor takes three parameters:
 
 - `$name` - name of the web service being described.
 - `$uri` - URI where the WSDL will be available (could also be a reference to
@@ -25,8 +25,8 @@ The `Zend\Soap\Wsdl` constructor takes three parameters:
 The `addMessage($name, $parts)` method adds a new message description to the
 WSDL document (`/definitions/message` element).
 
-Each message corresponds to methods in terms of `Zend\Soap\Server` and
-`Zend\Soap\Client` functionality.
+Each message corresponds to methods in terms of `Laminas\Soap\Server` and
+`Laminas\Soap\Client` functionality.
 
 The `$name` parameter represents the message name.
 
@@ -50,7 +50,7 @@ Type mapping management is performed using one of the `addTypes()` and
 > for details).
 >
 > All non-standard types, which may be added using the
-> `Zend\Soap\Wsdl::addComplexType()` method, are described using the
+> `Laminas\Soap\Wsdl::addComplexType()` method, are described using the
 > `complexType` node of the `/definitions/types/schema/` section of the WSDL
 > document.
 >
@@ -61,7 +61,7 @@ Type mapping management is performed using one of the `addTypes()` and
 The `addPortType($name)` method adds a new port type to the WSDL document
 (`/definitions/portType`) with the specified port type name.
 
-In terms of the `Zend\Soap\Server` implementation, it joins a set of web service
+In terms of the `Laminas\Soap\Server` implementation, it joins a set of web service
 methods into a single operation.
 
 See [the W3C portTypes documentation](http://www.w3.org/TR/wsdl#_porttypes) for
@@ -73,7 +73,7 @@ The `addPortOperation($portType, $name, $input = false, $output = false, $fault
 = false)` method adds new port operation to the specified port type of the WSDL
 document (`/definitions/portType/operation`).
 
-In terms of the `Zend\Soap\Server` implementation, Each port operation
+In terms of the `Laminas\Soap\Server` implementation, Each port operation
 corresponds to a class method (if the web service is based on a class) or
 function (if the web service is based on a set of methods).
 
@@ -82,7 +82,7 @@ It also adds corresponding port operation messages depending on the specified
 
 > ### Generated messages
 >
-> `Zend\Soap\Server` generates two messages for each port operation when
+> `Laminas\Soap\Server` generates two messages for each port operation when
 > describing operations it provides:
 >
 > - input message with name `<$methodName>Request`.
@@ -103,7 +103,7 @@ binding documentation](http://www.w3.org/TR/wsdl#_bindings)).
 The method creates a binding node and returns it; you may then fill the returned
 node with data.
 
-`Zend\Soap\Server` uses the name `<$serviceName>Binding` for the 'binding'
+`Laminas\Soap\Server` uses the name `<$serviceName>Binding` for the 'binding'
 element in the WSDL document.
 
 ## addBindingOperation() method
@@ -116,7 +116,7 @@ It takes an `XML_Tree_Node` object returned by `addBinding()` as an input
 (`$binding` parameter) to add an 'operation' element with input/output/false
 entries depending on the specified parameters
 
-The `Zend\Soap\Server` implementation adds a corresponding binding entry for each web service method with
+The `Laminas\Soap\Server` implementation adds a corresponding binding entry for each web service method with
 input and output entries, defining the `soap:body` element as `<soap:body use="encoded"
 encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">`.
 
@@ -128,7 +128,7 @@ for more details.
 The `addSoapBinding($binding, $style = 'document', $transport =
 'http://schemas.xmlsoap.org/soap/http')` method adds a SOAP binding
 (`soap:binding`) entry to the binding element (which is already linked to some
-port type) using the specified style and transport (the `Zend\Soap\Server`
+port type) using the specified style and transport (the `Laminas\Soap\Server`
 implementation uses the RPC style over HTTP).
 
 A `/definitions/binding/soap:binding` element is used to signify that the
@@ -150,7 +150,7 @@ specifies the value of the SOAP action header for this operation. This attribute
 is required for SOAP over HTTP and **must not** be specified for other
 transports.
 
-The `Zend\Soap\Server` implementation uses the format
+The `Laminas\Soap\Server` implementation uses the format
 `<$serviceUri>#<$methodName>` for the SOAP operation action name.
 
 See the [W3C soap:operation documentation](http://www.w3.org/TR/wsdl#_soap:operation)
@@ -163,9 +163,9 @@ The `addService($name, $port_name, $binding, $location)` method adds a
 name, port name, binding, and location.
 
 WSDL 1.1 allows several port types (sets of operations) per service; however,
-zend-soap does not support this ability.
+laminas-soap does not support this ability.
 
-The `Zend\Soap\Server` implementation uses:
+The `Laminas\Soap\Server` implementation uses:
 
 - `<$name>Service` as the service name.
 - `<$name>Port` as the port type name.
@@ -185,7 +185,7 @@ for more details.
 
 ## Type mapping
 
-The zend-soap WSDL implementation uses the following type mappings between PHP
+The laminas-soap WSDL implementation uses the following type mappings between PHP
 and SOAP types:
 
 - PHP strings &lt;-&gt; `xsd:string`.
@@ -210,17 +210,17 @@ Where:
 
 > ### Complex types
 >
-> By default, `Zend\Soap\Wsdl` will be created with the
-> `Zend\Soap\Wsdl\ComplexTypeStrategy\DefaultComplexType` class as its detection
+> By default, `Laminas\Soap\Wsdl` will be created with the
+> `Laminas\Soap\Wsdl\ComplexTypeStrategy\DefaultComplexType` class as its detection
 > algorithm for complex types. The first parameter of the `AutoDiscover`
 > constructor takes any complex type strategy implementing
-> `Zend\Soap\Wsdl\ComplexTypeStrategy\ComplexTypeStrategyInterface`, or a string
+> `Laminas\Soap\Wsdl\ComplexTypeStrategy\ComplexTypeStrategyInterface`, or a string
 > class name of a class implementing the interface. For backwards compatibility
 > with the `$extractComplexType` setting, boolean variables are parsed the
 > following way:
 >
-> - If `TRUE`, `Zend\Soap\Wsdl\ComplexTypeStrategy\DefaultComplexType` is used.
-> - If `FALSE`, `Zend\Soap\Wsdl\ComplexTypeStrategy\AnyType` is used.
+> - If `TRUE`, `Laminas\Soap\Wsdl\ComplexTypeStrategy\DefaultComplexType` is used.
+> - If `FALSE`, `Laminas\Soap\Wsdl\ComplexTypeStrategy\AnyType` is used.
 
 ### Retrieving type information
 
@@ -228,7 +228,7 @@ The `getType($type)` method may be used to retrieve the mapping for a specified
 PHP type:
 
 ```php
-$wsdl = new Zend\Soap\Wsdl('My_Web_Service', $myWebServiceUri);
+$wsdl = new Laminas\Soap\Wsdl('My_Web_Service', $myWebServiceUri);
 $soapIntType = $wsdl->getType('int');
 
 class MyClass
@@ -250,34 +250,34 @@ complex types of method parameters or return types.
 The detection and generation algorithm it uses is based on the currently active
 detection strategy for complex types. You can set the detection strategy either
 by specifying the class name as a string or providing an instance of a
-`Zend\Soap\Wsdl\ComplexTypeStrategy` implementation as the third parameter to
+`Laminas\Soap\Wsdl\ComplexTypeStrategy` implementation as the third parameter to
 the constructor, or by calling the `setComplexTypeStrategy($strategy)` function
-of `Zend\Soap\Wsdl`.
+of `Laminas\Soap\Wsdl`.
 
 The following detection strategies currently exist:
 
-- `Zend\Soap\Wsdl\ComplexTypeStrategy\DefaultComplexType`: Enabled by default
+- `Laminas\Soap\Wsdl\ComplexTypeStrategy\DefaultComplexType`: Enabled by default
   (when no third constructor parameter is set). Iterates over the public
   attributes of a class type and registers them as subtypes of the complex
   object type.
-- `Zend\Soap\Wsdl\ComplexTypeStrategy\AnyType`: Casts all complex types into the
+- `Laminas\Soap\Wsdl\ComplexTypeStrategy\AnyType`: Casts all complex types into the
   simple XSD type `xsd:anyType`. Warning: this shortcut for complex type
   detection can probably only be handled successfully by weakly typed languages
   such as PHP.
-- `Zend\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeSequence`: This strategy allows
+- `Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeSequence`: This strategy allows
   specifying arrays of the given type, which can be any PHP scalar type (`int`,
   `string`, `bool`, `float`), as well as objects or arrays of objects.
-- `Zend\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplex`: This strategy allows
+- `Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplex`: This strategy allows
   detecting very complex arrays of objects. Objects types are detected based on
-  the `Zend\Soap\Wsdl\Strategy\DefaultComplexType`, and an array is wrapped
+  the `Laminas\Soap\Wsdl\Strategy\DefaultComplexType`, and an array is wrapped
   around that definition.
-- `Zend\Soap\Wsdl\ComplexTypeStrategy\Composite`: This strategy can combine all
+- `Laminas\Soap\Wsdl\ComplexTypeStrategy\Composite`: This strategy can combine all
   strategies by connecting PHP complex types (classes/objects) to the desired
   strategy via the `connectTypeToStrategy($type, $strategy)` method. A complete
   typemap can be given to the constructor as an array with `$type` / `$strategy`
   pairs. The second parameter specifies the default strategy that will be used
   if an unknown type is requested for adding, and defaults to the
-  `Zend\Soap\Wsdl\Strategy\DefaultComplexType` strategy.
+  `Laminas\Soap\Wsdl\Strategy\DefaultComplexType` strategy.
 
 The `addComplexType()` method creates a
 `/definitions/types/xsd:schema/xsd:complexType` element for each described
@@ -307,7 +307,7 @@ for more details.
 ## Documenting complex types
 
 To automatically generate documentation for complex types add a class implementing
-`Zend\Soap\Wsdl\DocumentationStrategy\DocumentationStrategyInterface` to your
+`Laminas\Soap\Wsdl\DocumentationStrategy\DocumentationStrategyInterface` to your
 complex type strategy. A `ReflectionDocumentation` strategy is included, which 
 will parse class and property docblocks and generate documentation based on the
 comments found:
@@ -315,7 +315,7 @@ comments found:
 ```php
 $strategy = new ArrayOfTypeSequence();
 $strategy->setDocumentationStrategy(new ReflectionDocumentation());
-$wsdl = new Zend\Soap\Wsdl('MyService', $myWebServiceUri, $strategy);
+$wsdl = new Laminas\Soap\Wsdl('MyService', $myWebServiceUri, $strategy);
 ```
 
 ## Retrieve the final WSDL document

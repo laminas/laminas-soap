@@ -1,18 +1,17 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-soap for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Soap\Wsdl;
+namespace LaminasTest\Soap\Wsdl;
 
-use Zend\Soap\Exception\InvalidArgumentException;
-use Zend\Soap\Wsdl;
-use Zend\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplex;
-use ZendTest\Soap\WsdlTestHelper;
+use Laminas\Soap\Exception\InvalidArgumentException;
+use Laminas\Soap\Wsdl;
+use Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplex;
+use LaminasTest\Soap\WsdlTestHelper;
 
 class ArrayOfTypeComplexStrategyTest extends WsdlTestHelper
 {
@@ -27,25 +26,25 @@ class ArrayOfTypeComplexStrategyTest extends WsdlTestHelper
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('ArrayOfTypeComplex cannot return nested ArrayOfObject deeper than one level');
-        $this->wsdl->addComplexType('\ZendTest\Soap\TestAsset\ComplexTest[][]');
+        $this->wsdl->addComplexType('\LaminasTest\Soap\TestAsset\ComplexTest[][]');
     }
 
     public function testAddComplexTypeOfNonExistingClassThrowsException()
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            'Cannot add a complex type \ZendTest\Soap\TestAsset\UnknownClass that is not an object or where class'
+            'Cannot add a complex type \LaminasTest\Soap\TestAsset\UnknownClass that is not an object or where class'
         );
-        $this->wsdl->addComplexType('\ZendTest\Soap\TestAsset\UnknownClass[]');
+        $this->wsdl->addComplexType('\LaminasTest\Soap\TestAsset\UnknownClass[]');
     }
 
     /**
-     * @group ZF-5046
+     * @group Laminas-5046
      */
     public function testArrayOfSimpleObject()
     {
-        $return = $this->wsdl->addComplexType('\ZendTest\Soap\TestAsset\ComplexTest[]');
-        $return = $this->wsdl->addComplexType('\ZendTest\Soap\TestAsset\ComplexTest[]');
+        $return = $this->wsdl->addComplexType('\LaminasTest\Soap\TestAsset\ComplexTest[]');
+        $return = $this->wsdl->addComplexType('\LaminasTest\Soap\TestAsset\ComplexTest[]');
         $this->assertEquals("tns:ArrayOfComplexTest", $return);
 
         // single element
@@ -84,16 +83,16 @@ class ArrayOfTypeComplexStrategyTest extends WsdlTestHelper
 
     public function testThatOverridingStrategyIsReset()
     {
-        $return = $this->wsdl->addComplexType('\ZendTest\Soap\TestAsset\ComplexTest[]');
+        $return = $this->wsdl->addComplexType('\LaminasTest\Soap\TestAsset\ComplexTest[]');
         $this->assertEquals("tns:ArrayOfComplexTest", $return);
     }
 
     /**
-     * @group ZF-5046
+     * @group Laminas-5046
      */
     public function testArrayOfComplexObjects()
     {
-        $return = $this->wsdl->addComplexType('\ZendTest\Soap\TestAsset\ComplexObjectStructure[]');
+        $return = $this->wsdl->addComplexType('\LaminasTest\Soap\TestAsset\ComplexObjectStructure[]');
         $this->assertEquals("tns:ArrayOfComplexObjectStructure", $return);
 
         $nodes = $this->xpath->query(
@@ -150,7 +149,7 @@ class ArrayOfTypeComplexStrategyTest extends WsdlTestHelper
 
     public function testArrayOfObjectWithObject()
     {
-        $return = $this->wsdl->addComplexType('\ZendTest\Soap\TestAsset\ComplexObjectWithObjectStructure[]');
+        $return = $this->wsdl->addComplexType('\LaminasTest\Soap\TestAsset\ComplexObjectWithObjectStructure[]');
         $this->assertEquals("tns:ArrayOfComplexObjectWithObjectStructure", $return);
 
         // single element
@@ -211,12 +210,12 @@ class ArrayOfTypeComplexStrategyTest extends WsdlTestHelper
     }
 
     /**
-     * @group ZF-4937
+     * @group Laminas-4937
      */
     public function testAddingTypesMultipleTimesIsSavedOnlyOnce()
     {
-        $this->wsdl->addComplexType('\ZendTest\Soap\TestAsset\ComplexObjectWithObjectStructure[]');
-        $this->wsdl->addComplexType('\ZendTest\Soap\TestAsset\ComplexObjectWithObjectStructure[]');
+        $this->wsdl->addComplexType('\LaminasTest\Soap\TestAsset\ComplexObjectWithObjectStructure[]');
+        $this->wsdl->addComplexType('\LaminasTest\Soap\TestAsset\ComplexObjectWithObjectStructure[]');
 
         // this xpath is proper version of simpler:
         //     //*[wsdl:arrayType="tns:ComplexObjectWithObjectStructure[]"]
@@ -241,12 +240,12 @@ class ArrayOfTypeComplexStrategyTest extends WsdlTestHelper
     }
 
     /**
-     * @group ZF-4937
+     * @group Laminas-4937
      */
     public function testAddingSingularThenArrayTypeIsRecognizedCorretly()
     {
-        $this->wsdl->addComplexType('\ZendTest\Soap\TestAsset\ComplexObjectWithObjectStructure');
-        $this->wsdl->addComplexType('\ZendTest\Soap\TestAsset\ComplexObjectWithObjectStructure[]');
+        $this->wsdl->addComplexType('\LaminasTest\Soap\TestAsset\ComplexObjectWithObjectStructure');
+        $this->wsdl->addComplexType('\LaminasTest\Soap\TestAsset\ComplexObjectWithObjectStructure[]');
 
         // this xpath is proper version of simpler:
         //     //*[wsdl:arrayType="tns:ComplexObjectWithObjectStructure[]"]
@@ -271,11 +270,11 @@ class ArrayOfTypeComplexStrategyTest extends WsdlTestHelper
     }
 
     /**
-     * @group ZF-5149
+     * @group Laminas-5149
      */
     public function testArrayOfComplexNestedObjectsIsCoveredByStrategyAndAddsAllTypesRecursivly()
     {
-        $return = $this->wsdl->addComplexType('\ZendTest\Soap\TestAsset\ComplexTypeA');
+        $return = $this->wsdl->addComplexType('\LaminasTest\Soap\TestAsset\ComplexTypeA');
         $this->assertEquals("tns:ComplexTypeA", $return);
 
 
