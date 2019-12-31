@@ -1,25 +1,24 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-soap for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Soap;
+namespace Laminas\Soap;
 
-use SoapServer;
-use SoapFault;
-use Traversable;
 use DOMDocument;
 use DOMNode;
-use SimpleXMLElement;
+use Laminas\Server\Server as LaminasServerServer;
+use Laminas\Stdlib\ArrayUtils;
 use ReflectionClass;
-use Zend\Server\Server as ZendServerServer;
-use Zend\Stdlib\ArrayUtils;
+use SimpleXMLElement;
+use SoapFault;
+use SoapServer;
+use Traversable;
 
-class Server implements ZendServerServer
+class Server implements LaminasServerServer
 {
     /**
      * Actor URI
@@ -1033,7 +1032,7 @@ class Server implements ZendServerServer
             $this->faultExceptions = array_unique($this->faultExceptions);
         } else {
             throw new Exception\InvalidArgumentException(
-                'Argument for Zend\Soap\Server::registerFaultException should be'
+                'Argument for Laminas\Soap\Server::registerFaultException should be'
                 . ' string or array of strings with valid exception names'
             );
         }

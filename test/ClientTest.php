@@ -1,18 +1,17 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-soap for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Soap;
+namespace LaminasTest\Soap;
 
-use Zend\Soap\AutoDiscover;
-use Zend\Soap\Client;
-use Zend\Soap\Server;
-use Zend\Soap\Wsdl;
+use Laminas\Soap\AutoDiscover;
+use Laminas\Soap\Client;
+use Laminas\Soap\Server;
+use Laminas\Soap\Wsdl;
 
 class ClientTest extends \PHPUnit_Framework_TestCase
 {
@@ -50,11 +49,11 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         ];
 
         $nonWSDLOptions = ['soap_version'   => SOAP_1_1,
-                                'classmap'       => ['TestData1' => '\ZendTest\Soap\TestAsset\TestData1',
-                                                    'TestData2' => '\ZendTest\Soap\TestAsset\TestData2',],
+                                'classmap'       => ['TestData1' => '\LaminasTest\Soap\TestAsset\TestData1',
+                                                    'TestData2' => '\LaminasTest\Soap\TestAsset\TestData2',],
                                 'encoding'       => 'ISO-8859-1',
-                                'uri'            => 'http://framework.zend.com/Zend_Soap_ServerTest.php',
-                                'location'       => 'http://framework.zend.com/Zend_Soap_ServerTest.php',
+                                'uri'            => 'https://getlaminas.org/Laminas_Soap_ServerTest.php',
+                                'location'       => 'https://getlaminas.org/Laminas_Soap_ServerTest.php',
                                 'use'            => SOAP_ENCODED,
                                 'style'          => SOAP_RPC,
 
@@ -91,8 +90,8 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $wsdlOptions = ['soap_version'   => SOAP_1_1,
                              'wsdl'           => __DIR__.'/TestAsset/wsdl_example.wsdl',
-                             'classmap'       => ['TestData1' => '\ZendTest\Soap\TestAsset\TestData1',
-                                                 'TestData2' => '\ZendTest\Soap\TestAsset\TestData2',],
+                             'classmap'       => ['TestData1' => '\LaminasTest\Soap\TestAsset\TestData1',
+                                                 'TestData2' => '\LaminasTest\Soap\TestAsset\TestData2',],
                              'encoding'       => 'ISO-8859-1',
 
                              'login'          => 'http_login',
@@ -142,11 +141,11 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $options = ['soap_version'   => SOAP_1_1,
                          'wsdl'           => __DIR__.'/TestAsset/wsdl_example.wsdl',
 
-                         'classmap'       => ['TestData1' => '\ZendTest\Soap\TestAsset\TestData1',
-                                             'TestData2' => '\ZendTest\Soap\TestAsset\TestData2',],
+                         'classmap'       => ['TestData1' => '\LaminasTest\Soap\TestAsset\TestData1',
+                                             'TestData2' => '\LaminasTest\Soap\TestAsset\TestData2',],
                          'encoding'       => 'ISO-8859-1',
-                         'uri'            => 'http://framework.zend.com/Zend_Soap_ServerTest.php',
-                         'location'       => 'http://framework.zend.com/Zend_Soap_ServerTest.php',
+                         'uri'            => 'https://getlaminas.org/Laminas_Soap_ServerTest.php',
+                         'location'       => 'https://getlaminas.org/Laminas_Soap_ServerTest.php',
                          'use'            => SOAP_ENCODED,
                          'style'          => SOAP_RPC,
 
@@ -172,7 +171,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-8053
+     * @group Laminas-8053
      */
     public function testGetAndSetUserAgentOption()
     {
@@ -202,7 +201,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-6954
+     * @group Laminas-6954
      */
     public function testUserAgentAllowsEmptyString()
     {
@@ -223,7 +222,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-10542
+     * @group Laminas-10542
      */
     public function testAllowNumericZeroAsValueForCacheWsdlOption()
     {
@@ -244,7 +243,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-10542
+     * @group Laminas-10542
      */
     public function testAllowNumericZeroAsValueForCompressionOptions()
     {
@@ -267,7 +266,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testGetFunctions()
     {
         $server = new Server(__DIR__ . '/TestAsset/wsdl_example.wsdl');
-        $server->setClass('\ZendTest\Soap\TestAsset\TestClass');
+        $server->setClass('\LaminasTest\Soap\TestAsset\TestClass');
 
         $client = new Client\Local($server, __DIR__ . '/TestAsset/wsdl_example.wsdl');
 
@@ -284,14 +283,14 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $autodiscover = new AutoDiscover();
         $autodiscover->setServiceName('ExampleService');
-        $autodiscover->setComplexTypeStrategy(new \Zend\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplex);
-        $autodiscover->setClass('\ZendTest\Soap\TestAsset\AutoDiscoverTestClass2');
+        $autodiscover->setComplexTypeStrategy(new \Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplex);
+        $autodiscover->setClass('\LaminasTest\Soap\TestAsset\AutoDiscoverTestClass2');
         $autodiscover->setUri('http://example.com');
         $wsdl = $autodiscover->generate();
         $wsdl->dump($wsdlFilename);
 
         $server = new Server($wsdlFilename);
-        $server->setClass('\ZendTest\Soap\TestAsset\AutoDiscoverTestClass2');
+        $server->setClass('\LaminasTest\Soap\TestAsset\AutoDiscoverTestClass2');
 
         $client = new Client\Local($server, $wsdlFilename);
         $soapClient = $client->getSoapClient();
@@ -328,7 +327,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         }
 
         $server = new Server(__DIR__ . '/TestAsset/wsdl_example.wsdl');
-        $server->setClass('\ZendTest\Soap\TestAsset\TestClass');
+        $server->setClass('\LaminasTest\Soap\TestAsset\TestClass');
 
         $client = new Client\Local($server, __DIR__ . '/TestAsset/wsdl_example.wsdl');
 
@@ -360,7 +359,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         }
 
         $server = new Server(__DIR__ . '/TestAsset/wsdl_example.wsdl');
-        $server->setClass('\ZendTest\Soap\TestAsset\TestClass');
+        $server->setClass('\LaminasTest\Soap\TestAsset\TestClass');
 
         $client = new Client\Local($server, __DIR__ . '/TestAsset/wsdl_example.wsdl');
 
@@ -393,7 +392,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         }
 
         $server = new Server(__DIR__ . '/TestAsset/wsdl_example.wsdl');
-        $server->setClass('\ZendTest\Soap\TestAsset\TestClass');
+        $server->setClass('\LaminasTest\Soap\TestAsset\TestClass');
 
         $client = new Client\Local($server, __DIR__ . '/TestAsset/wsdl_example.wsdl');
 
@@ -410,7 +409,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         }
 
         $server = new Server(__DIR__ . '/TestAsset/wsdl_example.wsdl');
-        $server->setClass('\ZendTest\Soap\TestAsset\TestClass');
+        $server->setClass('\LaminasTest\Soap\TestAsset\TestClass');
 
         $client = new Client\Local($server, __DIR__ . '/TestAsset/wsdl_example.wsdl');
 
@@ -427,23 +426,23 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         }
 
         $server = new Server(__DIR__ . '/TestAsset/wsdl_example.wsdl');
-        $server->setClass('\ZendTest\Soap\TestAsset\TestClass');
+        $server->setClass('\LaminasTest\Soap\TestAsset\TestClass');
 
         $client = new Client\Local($server, __DIR__ . '/TestAsset/wsdl_example.wsdl');
 
         $this->assertEquals($client->call('testFunc2', 'World'), 'Hello World!');
     }
 
-    public function testSetOptionsWithZendConfig()
+    public function testSetOptionsWithLaminasConfig()
     {
         $ctx = stream_context_create();
 
         $nonWSDLOptions = ['soap_version'   => SOAP_1_1,
-                                'classmap'       => ['TestData1' => '\ZendTest\Soap\TestAsset\TestData1',
-                                                    'TestData2' => '\ZendTest\Soap\TestAsset\TestData2',],
+                                'classmap'       => ['TestData1' => '\LaminasTest\Soap\TestAsset\TestData1',
+                                                    'TestData2' => '\LaminasTest\Soap\TestAsset\TestData2',],
                                 'encoding'       => 'ISO-8859-1',
-                                'uri'            => 'http://framework.zend.com/Zend_Soap_ServerTest.php',
-                                'location'       => 'http://framework.zend.com/Zend_Soap_ServerTest.php',
+                                'uri'            => 'https://getlaminas.org/Laminas_Soap_ServerTest.php',
+                                'location'       => 'https://getlaminas.org/Laminas_Soap_ServerTest.php',
                                 'use'            => SOAP_ENCODED,
                                 'style'          => SOAP_RPC,
 
@@ -463,7 +462,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
                                 'compression'    => SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP | 5
         ];
 
-        $config = new \Zend\Config\Config($nonWSDLOptions);
+        $config = new \Laminas\Config\Config($nonWSDLOptions);
 
         $client = new Client(null, $config);
 
@@ -480,7 +479,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         }
 
         $server = new Server(__DIR__ . '/TestAsset/wsdl_example.wsdl');
-        $server->setClass('\ZendTest\Soap\TestAsset\TestClass');
+        $server->setClass('\LaminasTest\Soap\TestAsset\TestClass');
 
         $client = new Client\Local($server, __DIR__ . '/TestAsset/wsdl_example.wsdl');
 
@@ -577,7 +576,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-6955
+     * @group Laminas-6955
      */
     public function testSetCookieIsDelegatedToSoapClient()
     {
@@ -589,7 +588,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ['__setCookie'],
             [
                 null,
-                ['uri' => 'http://www.zend.com', 'location' => 'http://www.zend.com']
+                ['uri' => 'https://www.zend.com', 'location' => 'https://www.zend.com']
             ]
         );
         $clientMock->expects($this->once())
@@ -609,7 +608,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ['__setCookie'],
             [
                 null,
-                ['uri' => 'http://www.zend.com', 'location' => 'http://www.zend.com']
+                ['uri' => 'https://www.zend.com', 'location' => 'https://www.zend.com']
             ]
         );
 
@@ -620,7 +619,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Zend\Soap\Exception\UnexpectedValueException
+     * @expectedException \Laminas\Soap\Exception\UnexpectedValueException
      * @dataProvider dataProviderForInitSoapClientObjectException
      */
     public function testInitSoapClientObjectException($wsdl, $options)
