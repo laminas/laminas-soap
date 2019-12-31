@@ -1,26 +1,24 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Soap
+ * @see       https://github.com/laminas/laminas-soap for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Soap;
+namespace LaminasTest\Soap;
 
-use Zend\Soap\Wsdl;
-use Zend\Soap\Wsdl\ComplexTypeStrategy;
+use Laminas\Soap\Wsdl;
+use Laminas\Soap\Wsdl\ComplexTypeStrategy;
 
 /**
- * Test cases for Zend_Soap_Wsdl
+ * Test cases for Laminas_Soap_Wsdl
  *
- * @category   Zend
- * @package    Zend_Soap
+ * @category   Laminas
+ * @package    Laminas_Soap
  * @subpackage UnitTests
- * @group      Zend_Soap
- * @group      Zend_Soap_Wsdl
+ * @group      Laminas_Soap
+ * @group      Laminas_Soap_Wsdl
  */
 class WsdlTest extends \PHPUnit_Framework_TestCase
 {
@@ -518,46 +516,46 @@ class WsdlTest extends \PHPUnit_Framework_TestCase
     public function testGetComplexTypeBasedOnStrategiesBackwardsCompabilityBoolean()
     {
         $wsdl = new Wsdl('MyService', 'http://localhost/MyService.php');
-        $this->assertEquals('tns:WsdlTestClass', $wsdl->getType('\ZendTest\Soap\TestAsset\WsdlTestClass'));
+        $this->assertEquals('tns:WsdlTestClass', $wsdl->getType('\LaminasTest\Soap\TestAsset\WsdlTestClass'));
         $this->assertTrue($wsdl->getComplexTypeStrategy() instanceof ComplexTypeStrategy\DefaultComplexType);
 
 //        $wsdl2 = new Wsdl('MyService', 'http://localhost/MyService.php', false);
-//        $this->assertEquals('xsd:anyType', $wsdl2->getType('\ZendTest\Soap\TestAsset\WsdlTestClass'));
+//        $this->assertEquals('xsd:anyType', $wsdl2->getType('\LaminasTest\Soap\TestAsset\WsdlTestClass'));
 //        $this->assertTrue($wsdl2->getComplexTypeStrategy() instanceof ComplexTypeStrategy\AnyType);
     }
 
     public function testGetComplexTypeBasedOnStrategiesStringNames()
     {
-        $wsdl = new Wsdl('MyService', 'http://localhost/MyService.php', new \Zend\Soap\Wsdl\ComplexTypeStrategy\DefaultComplexType);
-        $this->assertEquals('tns:WsdlTestClass', $wsdl->getType('\ZendTest\Soap\TestAsset\WsdlTestClass'));
+        $wsdl = new Wsdl('MyService', 'http://localhost/MyService.php', new \Laminas\Soap\Wsdl\ComplexTypeStrategy\DefaultComplexType);
+        $this->assertEquals('tns:WsdlTestClass', $wsdl->getType('\LaminasTest\Soap\TestAsset\WsdlTestClass'));
         $this->assertTrue($wsdl->getComplexTypeStrategy() instanceof ComplexTypeStrategy\DefaultComplexType);
 
-        $wsdl2 = new Wsdl('MyService', 'http://localhost/MyService.php', new \Zend\Soap\Wsdl\ComplexTypeStrategy\AnyType);
-        $this->assertEquals('xsd:anyType', $wsdl2->getType('\ZendTest\Soap\TestAsset\WsdlTestClass'));
+        $wsdl2 = new Wsdl('MyService', 'http://localhost/MyService.php', new \Laminas\Soap\Wsdl\ComplexTypeStrategy\AnyType);
+        $this->assertEquals('xsd:anyType', $wsdl2->getType('\LaminasTest\Soap\TestAsset\WsdlTestClass'));
         $this->assertTrue($wsdl2->getComplexTypeStrategy() instanceof ComplexTypeStrategy\AnyType);
     }
 
     public function testAddingSameComplexTypeMoreThanOnceIsIgnored()
     {
         $wsdl = new Wsdl('MyService', 'http://localhost/MyService.php');
-        $wsdl->addType('\ZendTest\Soap\TestAsset\WsdlTestClass', 'tns:SomeTypeName');
-        $wsdl->addType('\ZendTest\Soap\TestAsset\WsdlTestClass', 'tns:AnotherTypeName');
+        $wsdl->addType('\LaminasTest\Soap\TestAsset\WsdlTestClass', 'tns:SomeTypeName');
+        $wsdl->addType('\LaminasTest\Soap\TestAsset\WsdlTestClass', 'tns:AnotherTypeName');
         $types = $wsdl->getTypes();
         $this->assertEquals(1, count($types));
-        $this->assertEquals(array('\ZendTest\Soap\TestAsset\WsdlTestClass' => 'tns:SomeTypeName'),
+        $this->assertEquals(array('\LaminasTest\Soap\TestAsset\WsdlTestClass' => 'tns:SomeTypeName'),
                             $types);
     }
 
     public function testUsingSameComplexTypeTwiceLeadsToReuseOfDefinition()
     {
         $wsdl = new Wsdl('MyService', 'http://localhost/MyService.php');
-        $wsdl->addComplexType('\ZendTest\Soap\TestAsset\WsdlTestClass');
-        $this->assertEquals(array('\ZendTest\Soap\TestAsset\WsdlTestClass' =>
+        $wsdl->addComplexType('\LaminasTest\Soap\TestAsset\WsdlTestClass');
+        $this->assertEquals(array('\LaminasTest\Soap\TestAsset\WsdlTestClass' =>
                                      'tns:WsdlTestClass'),
                             $wsdl->getTypes());
 
-        $wsdl->addComplexType('\ZendTest\Soap\TestAsset\WsdlTestClass');
-        $this->assertEquals(array('\ZendTest\Soap\TestAsset\WsdlTestClass' =>
+        $wsdl->addComplexType('\LaminasTest\Soap\TestAsset\WsdlTestClass');
+        $this->assertEquals(array('\LaminasTest\Soap\TestAsset\WsdlTestClass' =>
                                      'tns:WsdlTestClass'),
                             $wsdl->getTypes());
     }
@@ -566,7 +564,7 @@ class WsdlTest extends \PHPUnit_Framework_TestCase
     {
         $wsdl = new Wsdl('MyService', 'http://localhost/MyService.php');
 
-        $wsdl->addComplexType('\ZendTest\Soap\TestAsset\WsdlTestClass');
+        $wsdl->addComplexType('\LaminasTest\Soap\TestAsset\WsdlTestClass');
 
         $this->assertEquals($this->sanitizeWsdlXmlOutputForOsCompability($wsdl->toXml()),
                             '<?xml version="1.0"?>'  .
@@ -591,9 +589,9 @@ class WsdlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-3910
+     * @group Laminas-3910
      */
-    public function testCaseOfDocBlockParamsDosNotMatterForSoapTypeDetectionZf3910()
+    public function testCaseOfDocBlockParamsDosNotMatterForSoapTypeDetectionLaminas3910()
     {
         $wsdl = new Wsdl('MyService', 'http://localhost/MyService.php');
 
@@ -606,7 +604,7 @@ class WsdlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-11937
+     * @group Laminas-11937
      */
     public function testWsdlGetTypeWillAllowLongType()
     {
@@ -615,7 +613,7 @@ class WsdlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-5430
+     * @group Laminas-5430
      */
     public function testMultipleSequenceDefinitionsOfSameTypeWillBeRecognizedOnceBySequenceStrategy()
     {
@@ -635,7 +633,7 @@ class WsdlTest extends \PHPUnit_Framework_TestCase
     const URI_WITHOUT_EXPANDED_AMP = "http://localhost/MyService.php?a=b&b=c";
 
     /**
-     * @group ZF-5736
+     * @group Laminas-5736
      */
     public function testHtmlAmpersandInUrlInConstructorIsEncodedCorrectly()
     {
@@ -644,7 +642,7 @@ class WsdlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-5736
+     * @group Laminas-5736
      */
     public function testHtmlAmpersandInUrlInSetUriIsEncodedCorrectly()
     {
