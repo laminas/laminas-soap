@@ -1,28 +1,26 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Soap
+ * @see       https://github.com/laminas/laminas-soap for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Soap\Client;
+namespace Laminas\Soap\Client;
 
-use Zend\Soap\Client as SOAPClient;
-use Zend\Soap\Server as SOAPServer;
+use Laminas\Soap\Client as SOAPClient;
+use Laminas\Soap\Server as SOAPServer;
 
 /**
- * \Zend\Soap\Client\Local
+ * \Laminas\Soap\Client\Local
  *
  * Class is intended to be used as local SOAP client which works
  * with a provided Server object.
  *
  * Could be used for development or testing purposes.
  *
- * @category   Zend
- * @package    Zend_Soap
+ * @category   Laminas
+ * @package    Laminas_Soap
  * @subpackage Client
  */
 class Local extends SOAPClient
@@ -30,14 +28,14 @@ class Local extends SOAPClient
     /**
      * Server object
      *
-     * @var \Zend\Soap\Server
+     * @var \Laminas\Soap\Server
      */
     protected $server;
 
     /**
      * Local client constructor
      *
-     * @param \Zend\Soap\Server $server
+     * @param \Laminas\Soap\Server $server
      * @param string $wsdl
      * @param array $options
      */
@@ -55,7 +53,7 @@ class Local extends SOAPClient
      * Actual "do request" method.
      *
      * @internal
-     * @param \Zend\Soap\Client\Common $client
+     * @param \Laminas\Soap\Client\Common $client
      * @param string $request
      * @param string $location
      * @param string $action
