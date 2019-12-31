@@ -1,33 +1,31 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Soap
+ * @see       https://github.com/laminas/laminas-soap for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Soap\Wsdl;
+namespace LaminasTest\Soap\Wsdl;
 
 require_once __DIR__."/../TestAsset/commontypes.php";
 
-use Zend\Soap\Wsdl;
-use Zend\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplex;
+use Laminas\Soap\Wsdl;
+use Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplex;
 
 /**
- * @category   Zend
- * @package    Zend_Soap
+ * @category   Laminas
+ * @package    Laminas_Soap
  * @subpackage UnitTests
- * @group      Zend_Soap
- * @group      Zend_Soap_Wsdl
+ * @group      Laminas_Soap
+ * @group      Laminas_Soap_Wsdl
  */
 class ArrayOfTypeComplexStrategyTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Zend\Soap\Wsdl */
+    /** @var \Laminas\Soap\Wsdl */
     private $wsdl;
 
-    /** @var \Zend\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplex */
+    /** @var \Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplex */
     private $strategy;
 
     public function setUp()
@@ -38,22 +36,22 @@ class ArrayOfTypeComplexStrategyTest extends \PHPUnit_Framework_TestCase
 
     public function testNestingObjectsDeepMakesNoSenseThrowingException()
     {
-        $this->setExpectedException('Zend\Soap\Exception\InvalidArgumentException', 'ArrayOfTypeComplex cannot return nested ArrayOfObject deeper than one level');
-        $this->wsdl->addComplexType('\ZendTest\Soap\TestAsset\ComplexTest[][]');
+        $this->setExpectedException('Laminas\Soap\Exception\InvalidArgumentException', 'ArrayOfTypeComplex cannot return nested ArrayOfObject deeper than one level');
+        $this->wsdl->addComplexType('\LaminasTest\Soap\TestAsset\ComplexTest[][]');
     }
 
     public function testAddComplexTypeOfNonExistingClassThrowsException()
     {
-        $this->setExpectedException('Zend\Soap\Exception\InvalidArgumentException', 'Cannot add a complex type \ZendTest\Soap\TestAsset\UnknownClass that is not an object or where class');
-        $this->wsdl->addComplexType('\ZendTest\Soap\TestAsset\UnknownClass[]');
+        $this->setExpectedException('Laminas\Soap\Exception\InvalidArgumentException', 'Cannot add a complex type \LaminasTest\Soap\TestAsset\UnknownClass that is not an object or where class');
+        $this->wsdl->addComplexType('\LaminasTest\Soap\TestAsset\UnknownClass[]');
     }
 
     /**
-     * @group ZF-5046
+     * @group Laminas-5046
      */
     public function testArrayOfSimpleObject()
     {
-        $return = $this->wsdl->addComplexType('\ZendTest\Soap\TestAsset\ComplexTest[]');
+        $return = $this->wsdl->addComplexType('\LaminasTest\Soap\TestAsset\ComplexTest[]');
         $this->assertEquals("tns:ArrayOfComplexTest", $return);
 
         $wsdl = $this->wsdl->toXML();
@@ -72,19 +70,19 @@ class ArrayOfTypeComplexStrategyTest extends \PHPUnit_Framework_TestCase
 
     public function testThatOverridingStrategyIsReset()
     {
-        $return = $this->wsdl->addComplexType('\ZendTest\Soap\TestAsset\ComplexTest[]');
+        $return = $this->wsdl->addComplexType('\LaminasTest\Soap\TestAsset\ComplexTest[]');
         $this->assertEquals("tns:ArrayOfComplexTest", $return);
-        // $this->assertTrue($this->wsdl->getComplexTypeStrategy() instanceof \Zend\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplexStrategy);
+        // $this->assertTrue($this->wsdl->getComplexTypeStrategy() instanceof \Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplexStrategy);
 
         $wsdl = $this->wsdl->toXML();
     }
 
     /**
-     * @group ZF-5046
+     * @group Laminas-5046
      */
     public function testArrayOfComplexObjects()
     {
-        $return = $this->wsdl->addComplexType('\ZendTest\Soap\TestAsset\ComplexObjectStructure[]');
+        $return = $this->wsdl->addComplexType('\LaminasTest\Soap\TestAsset\ComplexObjectStructure[]');
         $this->assertEquals("tns:ArrayOfComplexObjectStructure", $return);
 
         $wsdl = $this->wsdl->toXML();
@@ -103,7 +101,7 @@ class ArrayOfTypeComplexStrategyTest extends \PHPUnit_Framework_TestCase
 
     public function testArrayOfObjectWithObject()
     {
-        $return = $this->wsdl->addComplexType('\ZendTest\Soap\TestAsset\ComplexObjectWithObjectStructure[]');
+        $return = $this->wsdl->addComplexType('\LaminasTest\Soap\TestAsset\ComplexObjectWithObjectStructure[]');
         $this->assertEquals("tns:ArrayOfComplexObjectWithObjectStructure", $return);
 
         $wsdl = $this->wsdl->toXML();
@@ -126,12 +124,12 @@ class ArrayOfTypeComplexStrategyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-4937
+     * @group Laminas-4937
      */
     public function testAddingTypesMultipleTimesIsSavedOnlyOnce()
     {
-        $return = $this->wsdl->addComplexType('\ZendTest\Soap\TestAsset\ComplexObjectWithObjectStructure[]');
-        $return = $this->wsdl->addComplexType('\ZendTest\Soap\TestAsset\ComplexObjectWithObjectStructure[]');
+        $return = $this->wsdl->addComplexType('\LaminasTest\Soap\TestAsset\ComplexObjectWithObjectStructure[]');
+        $return = $this->wsdl->addComplexType('\LaminasTest\Soap\TestAsset\ComplexObjectWithObjectStructure[]');
 
         $wsdl = $this->wsdl->toXML();
 
@@ -147,12 +145,12 @@ class ArrayOfTypeComplexStrategyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-4937
+     * @group Laminas-4937
      */
     public function testAddingSingularThenArrayTypeIsRecognizedCorretly()
     {
-        $return = $this->wsdl->addComplexType('\ZendTest\Soap\TestAsset\ComplexObjectWithObjectStructure');
-        $return = $this->wsdl->addComplexType('\ZendTest\Soap\TestAsset\ComplexObjectWithObjectStructure[]');
+        $return = $this->wsdl->addComplexType('\LaminasTest\Soap\TestAsset\ComplexObjectWithObjectStructure');
+        $return = $this->wsdl->addComplexType('\LaminasTest\Soap\TestAsset\ComplexObjectWithObjectStructure[]');
 
         $wsdl = $this->wsdl->toXML();
 
@@ -168,21 +166,21 @@ class ArrayOfTypeComplexStrategyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-5149
+     * @group Laminas-5149
      */
     public function testArrayOfComplexNestedObjectsIsCoveredByStrategy()
     {
-        $return = $this->wsdl->addComplexType('\ZendTest\Soap\TestAsset\ComplexTypeA');
+        $return = $this->wsdl->addComplexType('\LaminasTest\Soap\TestAsset\ComplexTypeA');
         $wsdl = $this->wsdl->toXml();
         $this->assertTrue(is_string($wsdl)); // no exception was thrown
     }
 
     /**
-     * @group ZF-5149
+     * @group Laminas-5149
      */
     public function testArrayOfComplexNestedObjectsIsCoveredByStrategyAndAddsAllTypesRecursivly()
     {
-        $return = $this->wsdl->addComplexType('\ZendTest\Soap\TestAsset\ComplexTypeA');
+        $return = $this->wsdl->addComplexType('\LaminasTest\Soap\TestAsset\ComplexTypeA');
         $wsdl = $this->wsdl->toXml();
 
         $this->assertEquals(1,

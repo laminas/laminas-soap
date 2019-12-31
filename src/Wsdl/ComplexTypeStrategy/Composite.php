@@ -1,20 +1,19 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-soap for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Soap\Wsdl\ComplexTypeStrategy;
+namespace Laminas\Soap\Wsdl\ComplexTypeStrategy;
 
-use Zend\Soap\Exception;
-use Zend\Soap\Wsdl;
-use Zend\Soap\Wsdl\ComplexTypeStrategy\ComplexTypeStrategyInterface as ComplexTypeStrategy;
+use Laminas\Soap\Exception;
+use Laminas\Soap\Wsdl;
+use Laminas\Soap\Wsdl\ComplexTypeStrategy\ComplexTypeStrategyInterface as ComplexTypeStrategy;
 
 /**
- * Zend_Soap_Wsdl_Strategy_Composite
+ * Laminas_Soap_Wsdl_Strategy_Composite
  */
 class Composite implements ComplexTypeStrategy
 {
@@ -35,7 +34,7 @@ class Composite implements ComplexTypeStrategy
     /**
      * Context WSDL file that this composite serves
      *
-     * @var \Zend\Soap\Wsdl|null
+     * @var \Laminas\Soap\Wsdl|null
      */
     protected $context;
 
@@ -45,7 +44,7 @@ class Composite implements ComplexTypeStrategy
      * @param array $typeMap
      * @param string|ComplexTypeStrategy $defaultStrategy
      */
-    public function __construct(array $typeMap=array(), $defaultStrategy='\Zend\Soap\Wsdl\ComplexTypeStrategy\DefaultComplexType')
+    public function __construct(array $typeMap=array(), $defaultStrategy='\Laminas\Soap\Wsdl\ComplexTypeStrategy\DefaultComplexType')
     {
         foreach ($typeMap AS $type => $strategy) {
             $this->connectTypeToStrategy($type, $strategy);
@@ -122,7 +121,7 @@ class Composite implements ComplexTypeStrategy
     /**
      * Method accepts the current WSDL context file.
      *
-     * @param \Zend\Soap\Wsdl $context
+     * @param \Laminas\Soap\Wsdl $context
      * @return Composite
      */
     public function setContext(Wsdl $context)
