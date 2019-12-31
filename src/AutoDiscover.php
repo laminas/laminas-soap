@@ -1,24 +1,23 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-soap for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Soap;
+namespace Laminas\Soap;
 
-use Zend\Server\Reflection;
-use Zend\Server\Reflection\AbstractFunction;
-use Zend\Soap\AutoDiscover\DiscoveryStrategy\DiscoveryStrategyInterface as DiscoveryStrategy;
-use Zend\Soap\AutoDiscover\DiscoveryStrategy\ReflectionDiscovery;
-use Zend\Soap\Wsdl;
-use Zend\Soap\Wsdl\ComplexTypeStrategy\ComplexTypeStrategyInterface as ComplexTypeStrategy;
-use Zend\Uri;
+use Laminas\Server\Reflection;
+use Laminas\Server\Reflection\AbstractFunction;
+use Laminas\Soap\AutoDiscover\DiscoveryStrategy\DiscoveryStrategyInterface as DiscoveryStrategy;
+use Laminas\Soap\AutoDiscover\DiscoveryStrategy\ReflectionDiscovery;
+use Laminas\Soap\Wsdl;
+use Laminas\Soap\Wsdl\ComplexTypeStrategy\ComplexTypeStrategyInterface as ComplexTypeStrategy;
+use Laminas\Uri;
 
 /**
- * \Zend\Soap\AutoDiscover
+ * \Laminas\Soap\AutoDiscover
  */
 class AutoDiscover
 {
@@ -28,7 +27,7 @@ class AutoDiscover
     protected $serviceName;
 
     /**
-     * @var \Zend\Server\Reflection
+     * @var \Laminas\Server\Reflection
      */
     protected $reflection = null;
 
@@ -77,7 +76,7 @@ class AutoDiscover
      *
      * @var string
      */
-    protected $wsdlClass = 'Zend\Soap\Wsdl';
+    protected $wsdlClass = 'Laminas\Soap\Wsdl';
 
     /**
      * Class Map of PHP to WSDL types.
@@ -204,7 +203,7 @@ class AutoDiscover
     {
         if (!is_string($uri) && !($uri instanceof Uri\Uri)) {
             throw new Exception\InvalidArgumentException(
-                'No uri given to \Zend\Soap\AutoDiscover::setUri as string or \Zend\Uri\Uri instance.'
+                'No uri given to \Laminas\Soap\AutoDiscover::setUri as string or \Laminas\Uri\Uri instance.'
             );
         }
         $this->uri = $uri;
@@ -239,9 +238,9 @@ class AutoDiscover
      */
     public function setWsdlClass($wsdlClass)
     {
-        if (!is_string($wsdlClass) && !is_subclass_of($wsdlClass, 'Zend\Soap\Wsdl')) {
+        if (!is_string($wsdlClass) && !is_subclass_of($wsdlClass, 'Laminas\Soap\Wsdl')) {
             throw new Exception\InvalidArgumentException(
-                'No \Zend\Soap\Wsdl subclass given to Zend\Soap\AutoDiscover::setWsdlClass as string.'
+                'No \Laminas\Soap\Wsdl subclass given to Laminas\Soap\AutoDiscover::setWsdlClass as string.'
             );
         }
         $this->wsdlClass = $wsdlClass;
@@ -392,8 +391,8 @@ class AutoDiscover
     /**
      * Add a function to the WSDL document.
      *
-     * @param $function \Zend\Server\Reflection\AbstractFunction function to add
-     * @param $wsdl \Zend\Soap\Wsdl WSDL document
+     * @param $function \Laminas\Server\Reflection\AbstractFunction function to add
+     * @param $wsdl \Laminas\Soap\Wsdl WSDL document
      * @param $port object wsdl:portType
      * @param $binding object wsdl:binding
      * @throws Exception\InvalidArgumentException
@@ -527,7 +526,7 @@ class AutoDiscover
      *
      * @param string $filename
      * @return bool
-     * @throws \Zend\Soap\Exception\RuntimeException
+     * @throws \Laminas\Soap\Exception\RuntimeException
      */
     public function dump($filename)
     {
@@ -538,7 +537,7 @@ class AutoDiscover
      * Proxy to WSDL toXml() function
      *
      * @return string
-     * @throws \Zend\Soap\Exception\RuntimeException
+     * @throws \Laminas\Soap\Exception\RuntimeException
      */
     public function toXml()
     {
