@@ -1,27 +1,26 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-soap for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Soap;
+namespace LaminasTest\Soap;
 
 /** Include Common TestTypes */
 require_once 'TestAsset/commontypes.php';
 
-use Zend\Soap\AutoDiscover;
-use Zend\Soap\Wsdl;
-use Zend\Uri\Uri;
+use Laminas\Soap\AutoDiscover;
+use Laminas\Soap\Wsdl;
+use Laminas\Uri\Uri;
 
 /** PHPUnit Test Case */
 
 /**
- * Test cases for Zend_Soap_AutoDiscover
+ * Test cases for Laminas_Soap_AutoDiscover
  *
- * @group      Zend_Soap
+ * @group      Laminas_Soap
  */
 class AutoDiscoverTest extends \PHPUnit_Framework_TestCase
 {
@@ -61,7 +60,7 @@ class AutoDiscoverTest extends \PHPUnit_Framework_TestCase
     /**
      *
      *
-     * @param \Zend\Soap\Wsdl $wsdl
+     * @param \Laminas\Soap\Wsdl $wsdl
      * @param null            $documentNamespace
      */
     public function bindWsdl(Wsdl $wsdl, $documentNamespace = null)
@@ -156,7 +155,7 @@ class AutoDiscoverTest extends \PHPUnit_Framework_TestCase
     {
         $server = new AutoDiscover($strategy);
 
-        $server->addFunction('\ZendTest\Soap\TestAsset\TestFunc');
+        $server->addFunction('\LaminasTest\Soap\TestAsset\TestFunc');
         $server->setServiceName('TestService');
         $server->setUri('http://example.com');
         $wsdl = $server->generate();
@@ -185,28 +184,28 @@ class AutoDiscoverTest extends \PHPUnit_Framework_TestCase
         $server = new AutoDiscover();
 
         $this->assertEquals(
-            'Zend\Soap\AutoDiscover\DiscoveryStrategy\ReflectionDiscovery',
+            'Laminas\Soap\AutoDiscover\DiscoveryStrategy\ReflectionDiscovery',
             get_class($server->getDiscoveryStrategy())
         );
     }
 
     public function testAutoDiscoverConstructorWsdlClass()
     {
-        $server = new AutoDiscover(null, null, '\Zend\Soap\Wsdl');
+        $server = new AutoDiscover(null, null, '\Laminas\Soap\Wsdl');
 
-        $server->addFunction('\ZendTest\Soap\TestAsset\TestFunc');
+        $server->addFunction('\LaminasTest\Soap\TestAsset\TestFunc');
         $server->setServiceName('TestService');
         $server->setUri('http://example.com');
         $wsdl = $server->generate();
 
-        $this->assertEquals('Zend\Soap\Wsdl', trim(get_class($wsdl), '\\'));
+        $this->assertEquals('Laminas\Soap\Wsdl', trim(get_class($wsdl), '\\'));
         $this->assertEquals(
-            'Zend\Soap\Wsdl', trim($server->getWsdlClass(), '\\')
+            'Laminas\Soap\Wsdl', trim($server->getWsdlClass(), '\\')
         );
     }
 
     /**
-     * @expectedException \Zend\Soap\Exception\InvalidArgumentException
+     * @expectedException \Laminas\Soap\Exception\InvalidArgumentException
      */
     public function testAutoDiscoverConstructorWsdlClassException()
     {
@@ -251,25 +250,25 @@ class AutoDiscoverTest extends \PHPUnit_Framework_TestCase
     {
         $server = new AutoDiscover();
 
-        $server->setClass('\ZendTest\Soap\TestAsset\Test');
+        $server->setClass('\LaminasTest\Soap\TestAsset\Test');
 
         $this->assertEquals('Test', $server->getServiceName());
     }
 
     /**
-     * @expectedException \Zend\Soap\Exception\RuntimeException
+     * @expectedException \Laminas\Soap\Exception\RuntimeException
      */
     public function testGetServiceNameException()
     {
         $server = new AutoDiscover();
 
-        $server->addFunction('\ZendTest\Soap\TestAsset\TestFunc');
+        $server->addFunction('\LaminasTest\Soap\TestAsset\TestFunc');
 
         $this->assertEquals('Test', $server->getServiceName());
     }
 
     /**
-     * @expectedException \Zend\Soap\Exception\InvalidArgumentException
+     * @expectedException \Laminas\Soap\Exception\InvalidArgumentException
      */
     public function testSetUriException()
     {
@@ -279,7 +278,7 @@ class AutoDiscoverTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Zend\Soap\Exception\RuntimeException
+     * @expectedException \Laminas\Soap\Exception\RuntimeException
      */
     public function testGetUriException()
     {
@@ -301,7 +300,7 @@ class AutoDiscoverTest extends \PHPUnit_Framework_TestCase
 
     public function testSetClass()
     {
-        $this->server->setClass('\ZendTest\Soap\TestAsset\Test');
+        $this->server->setClass('\LaminasTest\Soap\TestAsset\Test');
 
         $this->bindWsdl($this->server->generate());
 
@@ -479,7 +478,7 @@ class AutoDiscoverTest extends \PHPUnit_Framework_TestCase
         $this->server->setOperationBodyStyle(
             array('use' => 'literal', 'namespace' => $this->defaultServiceUri)
         );
-        $this->server->setClass('\ZendTest\Soap\TestAsset\Test');
+        $this->server->setClass('\LaminasTest\Soap\TestAsset\Test');
 
         $this->bindWsdl($this->server->generate());
 
@@ -708,11 +707,11 @@ class AutoDiscoverTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-5072
+     * @group Laminas-5072
      */
     public function testSetClassWithResponseReturnPartCompabilityMode()
     {
-        $this->server->setClass('\ZendTest\Soap\TestAsset\Test');
+        $this->server->setClass('\LaminasTest\Soap\TestAsset\Test');
         $this->bindWsdl($this->server->generate());
 
 
@@ -728,7 +727,7 @@ class AutoDiscoverTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Zend\Soap\Exception\InvalidArgumentException
+     * @expectedException \Laminas\Soap\Exception\InvalidArgumentException
      * @dataProvider dataProviderForAddFunctionException
      */
     public function testAddFunctionException($function)
@@ -750,7 +749,7 @@ class AutoDiscoverTest extends \PHPUnit_Framework_TestCase
 
     public function testAddFunctionSimple()
     {
-        $this->server->addFunction('\ZendTest\Soap\TestAsset\TestFunc');
+        $this->server->addFunction('\LaminasTest\Soap\TestAsset\TestFunc');
         $this->bindWsdl($this->server->generate());
 
 
@@ -847,7 +846,7 @@ class AutoDiscoverTest extends \PHPUnit_Framework_TestCase
         $this->server->setOperationBodyStyle(
             array('use' => 'literal', 'namespace' => $this->defaultServiceUri)
         );
-        $this->server->addFunction('\ZendTest\Soap\TestAsset\TestFunc');
+        $this->server->addFunction('\LaminasTest\Soap\TestAsset\TestFunc');
         $this->bindWsdl($this->server->generate());
 
 
@@ -956,11 +955,11 @@ class AutoDiscoverTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-5072
+     * @group Laminas-5072
      */
     public function testAddFunctionSimpleInReturnNameCompabilityMode()
     {
-        $this->server->addFunction('\ZendTest\Soap\TestAsset\TestFunc');
+        $this->server->addFunction('\LaminasTest\Soap\TestAsset\TestFunc');
         $this->bindWsdl($this->server->generate());
 
         $this->assertSpecificNodeNumberInXPath(
@@ -1058,14 +1057,14 @@ class AutoDiscoverTest extends \PHPUnit_Framework_TestCase
 
     public function testAddFunctionMultiple()
     {
-        $this->server->addFunction('\ZendTest\Soap\TestAsset\TestFunc');
-        $this->server->addFunction('\ZendTest\Soap\TestAsset\TestFunc2');
-        $this->server->addFunction('\ZendTest\Soap\TestAsset\TestFunc3');
-        $this->server->addFunction('\ZendTest\Soap\TestAsset\TestFunc4');
-        $this->server->addFunction('\ZendTest\Soap\TestAsset\TestFunc5');
-        $this->server->addFunction('\ZendTest\Soap\TestAsset\TestFunc6');
-        $this->server->addFunction('\ZendTest\Soap\TestAsset\TestFunc7');
-        $this->server->addFunction('\ZendTest\Soap\TestAsset\TestFunc9');
+        $this->server->addFunction('\LaminasTest\Soap\TestAsset\TestFunc');
+        $this->server->addFunction('\LaminasTest\Soap\TestAsset\TestFunc2');
+        $this->server->addFunction('\LaminasTest\Soap\TestAsset\TestFunc3');
+        $this->server->addFunction('\LaminasTest\Soap\TestAsset\TestFunc4');
+        $this->server->addFunction('\LaminasTest\Soap\TestAsset\TestFunc5');
+        $this->server->addFunction('\LaminasTest\Soap\TestAsset\TestFunc6');
+        $this->server->addFunction('\LaminasTest\Soap\TestAsset\TestFunc7');
+        $this->server->addFunction('\LaminasTest\Soap\TestAsset\TestFunc9');
 
         $this->bindWsdl($this->server->generate());
 
@@ -1171,13 +1170,13 @@ class AutoDiscoverTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-4117
+     * @group Laminas-4117
      *
      * @dataProvider dataProviderValidUris
      */
     public function testChangeWsdlUriInConstructor($uri, $expectedUri)
     {
-        $this->server->addFunction('\ZendTest\Soap\TestAsset\TestFunc');
+        $this->server->addFunction('\LaminasTest\Soap\TestAsset\TestFunc');
         $this->server->setUri($uri);
         $this->bindWsdl($this->server->generate());
 
@@ -1195,26 +1194,26 @@ class AutoDiscoverTest extends \PHPUnit_Framework_TestCase
         $this->testDocumentNodes();
     }
 
-    public function testSetNonStringNonZendUriUriThrowsException()
+    public function testSetNonStringNonLaminasUriUriThrowsException()
     {
 
         $server = new AutoDiscover();
 
         $this->setExpectedException(
-            '\Zend\Soap\Exception\InvalidArgumentException',
-            'Argument to \Zend\Soap\AutoDiscover::setUri should be string or \Zend\Uri\Uri instance.'
+            '\Laminas\Soap\Exception\InvalidArgumentException',
+            'Argument to \Laminas\Soap\AutoDiscover::setUri should be string or \Laminas\Uri\Uri instance.'
         );
         $server->setUri(array("bogus"));
     }
 
     /**
-     * @group ZF-4117
+     * @group Laminas-4117
      * @dataProvider dataProviderValidUris
      */
     public function testChangingWsdlUriAfterGenerationIsPossible(
         $uri, $expectedUri
     ) {
-        $this->server->addFunction('\ZendTest\Soap\TestAsset\TestFunc');
+        $this->server->addFunction('\LaminasTest\Soap\TestAsset\TestFunc');
         $wsdl = $this->server->generate();
         $wsdl->setUri($uri);
 
@@ -1253,15 +1252,15 @@ class AutoDiscoverTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-4688
-     * @group ZF-4125
+     * @group Laminas-4688
+     * @group Laminas-4125
      *
      */
     public function testUsingClassWithMethodsWithMultipleDefaultParameterValues(
     )
     {
         $this->server->setClass(
-            '\ZendTest\Soap\TestAsset\TestFixingMultiplePrototypes'
+            '\LaminasTest\Soap\TestAsset\TestFixingMultiplePrototypes'
         );
         $this->bindWsdl($this->server->generate());
 
@@ -1279,15 +1278,15 @@ class AutoDiscoverTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-4937
+     * @group Laminas-4937
      */
     public function testComplexTypesThatAreUsedMultipleTimesAreRecoginzedOnce()
     {
         $this->server->setComplexTypeStrategy(
-            new \Zend\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplex
+            new \Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplex
         );
         $this->server->setClass(
-            '\ZendTest\Soap\TestAsset\AutoDiscoverTestClass2'
+            '\LaminasTest\Soap\TestAsset\AutoDiscoverTestClass2'
         );
         $this->bindWsdl($this->server->generate());
 
@@ -1321,15 +1320,15 @@ class AutoDiscoverTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-5604
+     * @group Laminas-5604
      */
     public function testReturnSameArrayOfObjectsResponseOnDifferentMethodsWhenArrayComplex(
     )
     {
         $this->server->setComplexTypeStrategy(
-            new \Zend\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplex
+            new \Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplex
         );
-        $this->server->setClass('\ZendTest\Soap\TestAsset\MyService');
+        $this->server->setClass('\LaminasTest\Soap\TestAsset\MyService');
         $this->bindWsdl($this->server->generate());
 
 
@@ -1346,15 +1345,15 @@ class AutoDiscoverTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-5430
+     * @group Laminas-5430
      */
     public function testReturnSameArrayOfObjectsResponseOnDifferentMethodsWhenArraySequence(
     )
     {
         $this->server->setComplexTypeStrategy(
-            new \Zend\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeSequence
+            new \Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeSequence
         );
-        $this->server->setClass('\ZendTest\Soap\TestAsset\MyServiceSequence');
+        $this->server->setClass('\LaminasTest\Soap\TestAsset\MyServiceSequence');
         $this->bindWsdl($this->server->generate());
 
 
@@ -1377,11 +1376,11 @@ class AutoDiscoverTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-6689
+     * @group Laminas-6689
      */
     public function testNoReturnIsOneWayCallInSetClass()
     {
-        $this->server->setClass('\ZendTest\Soap\TestAsset\NoReturnType');
+        $this->server->setClass('\LaminasTest\Soap\TestAsset\NoReturnType');
         $this->bindWsdl($this->server->generate());
 
 
@@ -1398,11 +1397,11 @@ class AutoDiscoverTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-6689
+     * @group Laminas-6689
      */
     public function testNoReturnIsOneWayCallInAddFunction()
     {
-        $this->server->addFunction('\ZendTest\Soap\TestAsset\OneWay');
+        $this->server->addFunction('\LaminasTest\Soap\TestAsset\OneWay');
         $this->bindWsdl($this->server->generate());
 
 
@@ -1419,24 +1418,24 @@ class AutoDiscoverTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF-8948
-     * @group ZF-5766
+     * @group Laminas-8948
+     * @group Laminas-5766
      */
     public function testRecursiveWsdlDependencies()
     {
         $this->server->setComplexTypeStrategy(
-            new \Zend\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeSequence
+            new \Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeSequence
         );
-        $this->server->setClass('\ZendTest\Soap\TestAsset\Recursion');
+        $this->server->setClass('\LaminasTest\Soap\TestAsset\Recursion');
 
         $this->bindWsdl($this->server->generate());
 
 
         //  <types>
         //      <xsd:schema targetNamespace="http://localhost/my_script.php">
-        //          <xsd:complexType name="Zend_Soap_AutoDiscover_Recursion">
+        //          <xsd:complexType name="Laminas_Soap_AutoDiscover_Recursion">
         //              <xsd:all>
-        //                  <xsd:element name="recursion" type="tns:Zend_Soap_AutoDiscover_Recursion"/>
+        //                  <xsd:element name="recursion" type="tns:Laminas_Soap_AutoDiscover_Recursion"/>
         $this->assertSpecificNodeNumberInXPath(
             1,
             '//wsdl:types/xsd:schema/xsd:complexType[@name="Recursion"]/xsd:all/'
@@ -1455,7 +1454,7 @@ class AutoDiscoverTest extends \PHPUnit_Framework_TestCase
     {
         $scriptUri = 'http://localhost/MyService.php';
 
-        $this->server->setClass('\ZendTest\Soap\TestAsset\Test');
+        $this->server->setClass('\LaminasTest\Soap\TestAsset\Test');
 
         ob_start();
         $this->server->handle();
