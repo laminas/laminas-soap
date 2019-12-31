@@ -1,20 +1,18 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Soap
+ * @see       https://github.com/laminas/laminas-soap for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Soap\Wsdl\ComplexTypeStrategy;
+namespace Laminas\Soap\Wsdl\ComplexTypeStrategy;
 
 /**
- * Zend_Soap_Wsdl_Strategy_AnyType
+ * Laminas_Soap_Wsdl_Strategy_AnyType
  *
- * @category   Zend
- * @package    Zend_Soap
+ * @category   Laminas
+ * @package    Laminas_Soap
  * @subpackage WSDL
  */
 class AnyType implements ComplexTypeStrategyInterface
@@ -22,9 +20,9 @@ class AnyType implements ComplexTypeStrategyInterface
     /**
      * Not needed in this strategy.
      *
-     * @param \Zend\Soap\Wsdl $context
+     * @param \Laminas\Soap\Wsdl $context
      */
-    public function setContext(\Zend\Soap\Wsdl $context)
+    public function setContext(\Laminas\Soap\Wsdl $context)
     {
 
     }
