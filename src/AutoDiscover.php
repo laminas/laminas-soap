@@ -1,19 +1,18 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-soap for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Soap;
+namespace Laminas\Soap;
 
-use Zend\Server\Reflection;
-use Zend\Soap\AutoDiscover\DiscoveryStrategy\DiscoveryStrategyInterface as DiscoveryStrategy;
-use Zend\Soap\AutoDiscover\DiscoveryStrategy\ReflectionDiscovery;
-use Zend\Soap\Wsdl\ComplexTypeStrategy\ComplexTypeStrategyInterface as ComplexTypeStrategy;
-use Zend\Uri;
+use Laminas\Server\Reflection;
+use Laminas\Soap\AutoDiscover\DiscoveryStrategy\DiscoveryStrategyInterface as DiscoveryStrategy;
+use Laminas\Soap\AutoDiscover\DiscoveryStrategy\ReflectionDiscovery;
+use Laminas\Soap\Wsdl\ComplexTypeStrategy\ComplexTypeStrategyInterface as ComplexTypeStrategy;
+use Laminas\Uri;
 
 class AutoDiscover
 {
@@ -72,7 +71,7 @@ class AutoDiscover
      * Name of the class to handle the WSDL creation.
      * @var string
      */
-    protected $wsdlClass = 'Zend\Soap\Wsdl';
+    protected $wsdlClass = 'Laminas\Soap\Wsdl';
 
     /**
      * Class Map of PHP to WSDL types.
@@ -219,7 +218,7 @@ class AutoDiscover
     {
         if (!is_string($uri) && !($uri instanceof Uri\Uri)) {
             throw new Exception\InvalidArgumentException(
-                'Argument to \Zend\Soap\AutoDiscover::setUri should be string or \Zend\Uri\Uri instance.'
+                'Argument to \Laminas\Soap\AutoDiscover::setUri should be string or \Laminas\Uri\Uri instance.'
             );
         }
 
@@ -262,9 +261,9 @@ class AutoDiscover
      */
     public function setWsdlClass($wsdlClass)
     {
-        if (!is_string($wsdlClass) && !is_subclass_of($wsdlClass, '\Zend\Soap\Wsdl')) {
+        if (!is_string($wsdlClass) && !is_subclass_of($wsdlClass, '\Laminas\Soap\Wsdl')) {
             throw new Exception\InvalidArgumentException(
-                'No \Zend\Soap\Wsdl subclass given to Zend\Soap\AutoDiscover::setWsdlClass as string.'
+                'No \Laminas\Soap\Wsdl subclass given to Laminas\Soap\AutoDiscover::setWsdlClass as string.'
             );
         }
 
@@ -362,13 +361,13 @@ class AutoDiscover
                 $this->functions[] = $function;
             } else {
                 throw new Exception\InvalidArgumentException(
-                    'Argument to Zend\Soap\AutoDiscover::addFunction should be a valid function name.'
+                    'Argument to Laminas\Soap\AutoDiscover::addFunction should be a valid function name.'
                 );
             }
 
         } else {
             throw new Exception\InvalidArgumentException(
-                'Argument to Zend\Soap\AutoDiscover::addFunction should be string or array of strings.'
+                'Argument to Laminas\Soap\AutoDiscover::addFunction should be string or array of strings.'
             );
         }
         return $this;

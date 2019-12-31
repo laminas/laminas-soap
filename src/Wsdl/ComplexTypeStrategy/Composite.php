@@ -1,17 +1,16 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-soap for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Soap\Wsdl\ComplexTypeStrategy;
+namespace Laminas\Soap\Wsdl\ComplexTypeStrategy;
 
-use Zend\Soap\Exception;
-use Zend\Soap\Wsdl;
-use Zend\Soap\Wsdl\ComplexTypeStrategy\ComplexTypeStrategyInterface as ComplexTypeStrategy;
+use Laminas\Soap\Exception;
+use Laminas\Soap\Wsdl;
+use Laminas\Soap\Wsdl\ComplexTypeStrategy\ComplexTypeStrategyInterface as ComplexTypeStrategy;
 
 class Composite implements ComplexTypeStrategy
 {
@@ -41,7 +40,7 @@ class Composite implements ComplexTypeStrategy
      */
     public function __construct(
         array $typeMap = array(),
-        $defaultStrategy = 'Zend\Soap\Wsdl\ComplexTypeStrategy\DefaultComplexType'
+        $defaultStrategy = 'Laminas\Soap\Wsdl\ComplexTypeStrategy\DefaultComplexType'
     ) {
         foreach ($typeMap as $type => $strategy) {
             $this->connectTypeToStrategy($type, $strategy);

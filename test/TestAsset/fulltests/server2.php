@@ -1,13 +1,12 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-soap for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Soap\TestAsset\fulltests;
+namespace LaminasTest\Soap\TestAsset\fulltests;
 
 class ComplexTypeB
 {
@@ -26,7 +25,7 @@ class Server2
     /**
      * @param  string $foo
      * @param  string $bar
-     * @return \ZendTest\Soap\TestAsset\fulltests\ComplexTypeB
+     * @return \LaminasTest\Soap\TestAsset\fulltests\ComplexTypeB
      */
     public function request($foo, $bar)
     {
@@ -38,10 +37,10 @@ class Server2
 }
 
 if (isset($_GET['wsdl'])) {
-    $server = new \Zend\Soap\AutoDiscover(new \Zend\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplex());
+    $server = new \Laminas\Soap\AutoDiscover(new \Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplex());
 } else {
     $uri = "http://".$_SERVER['HTTP_HOST']."/".$_SERVER['PHP_SELF']."?wsdl";
-    $server = new \Zend\Soap\Server($uri);
+    $server = new \Laminas\Soap\Server($uri);
 }
-$server->setClass('ZendTest\Soap\TestAsset\fulltests\Server2');
+$server->setClass('LaminasTest\Soap\TestAsset\fulltests\Server2');
 $server->handle();
