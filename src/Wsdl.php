@@ -1,22 +1,21 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-soap for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Soap;
+namespace Laminas\Soap;
 
-use DOMNode;
 use DOMDocument;
 use DOMElement;
-use Zend\Soap\Wsdl\ComplexTypeStrategy\ComplexTypeStrategyInterface as ComplexTypeStrategy;
-use Zend\Uri\Uri;
+use DOMNode;
+use Laminas\Soap\Wsdl\ComplexTypeStrategy\ComplexTypeStrategyInterface as ComplexTypeStrategy;
+use Laminas\Uri\Uri;
 
 /**
- * \Zend\Soap\Wsdl
+ * \Laminas\Soap\Wsdl
  */
 class Wsdl
 {
@@ -169,7 +168,7 @@ class Wsdl
      * Set a new uri for this WSDL
      *
      * @param  string|Uri $uri
-     * @return \Zend\Soap\Wsdl
+     * @return \Laminas\Soap\Wsdl
      */
     public function setUri($uri)
     {
@@ -193,7 +192,7 @@ class Wsdl
      * Set a strategy for complex type detection and handling
      *
      * @param ComplexTypeStrategy $strategy
-     * @return \Zend\Soap\Wsdl
+     * @return \Laminas\Soap\Wsdl
      */
     public function setComplexTypeStrategy(ComplexTypeStrategy $strategy)
     {
@@ -511,7 +510,7 @@ class Wsdl
      *
      * @param string $type
      * @param string $wsdlType
-     * @return \Zend\Soap\Wsdl
+     * @return \Laminas\Soap\Wsdl
      */
     public function addType($type, $wsdlType)
     {
@@ -621,7 +620,7 @@ class Wsdl
     /**
      * This function makes sure a complex types section and schema additions are set.
      *
-     * @return \Zend\Soap\Wsdl
+     * @return \Laminas\Soap\Wsdl
      */
     public function addSchemaTypeSection()
     {
