@@ -1,42 +1,40 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Soap
+ * @see       https://github.com/laminas/laminas-soap for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Soap\Client;
+namespace LaminasTest\Soap\Client;
 
+use Laminas\Soap\Client\DotNet as DotNetClient;
+use LaminasTest\Soap\TestAsset\MockCallUserFunc;
 use PHPUnit_Framework_TestCase;
-use Zend\Soap\Client\DotNet as DotNetClient;
-use ZendTest\Soap\TestAsset\MockCallUserFunc;
 
 require_once __DIR__ . '/../TestAsset/call_user_func.php';
 
 /**
  * .NET SOAP client tester.
  *
- * @category   Zend
- * @package    Zend_Soap
+ * @category   Laminas
+ * @package    Laminas_Soap
  * @subpackage UnitTests
- * @group      Zend_Soap
+ * @group      Laminas_Soap
  */
 class DotNetTest extends PHPUnit_Framework_TestCase
 {
     /**
      * .NET SOAP client.
      *
-     * @var \Zend\Soap\Client\DotNet
+     * @var \Laminas\Soap\Client\DotNet
      */
     private $client = null;
 
     /**
      * cURL client.
      *
-     * @var \Zend\Http\Client\Adapter\Curl
+     * @var \Laminas\Http\Client\Adapter\Curl
      */
     private $curlClient = null;
 
@@ -55,19 +53,19 @@ class DotNetTest extends PHPUnit_Framework_TestCase
      * Tests that a default cURL client is used if none is injected.
      *
      * @return void
-     * @covers Zend\Soap\Client\DotNet::getCurlClient
+     * @covers Laminas\Soap\Client\DotNet::getCurlClient
      */
     public function testADefaultCurlClientIsUsedIfNoneIsInjected()
     {
-        $this->assertInstanceOf('Zend\Http\Client\Adapter\Curl', $this->client->getCurlClient());
+        $this->assertInstanceOf('Laminas\Http\Client\Adapter\Curl', $this->client->getCurlClient());
     }
 
     /**
      * Tests that the cURL client can be injected.
      *
      * @return void
-     * @covers Zend\Soap\Client\DotNet::getCurlClient
-     * @covers Zend\Soap\Client\DotNet::setCurlClient
+     * @covers Laminas\Soap\Client\DotNet::getCurlClient
+     * @covers Laminas\Soap\Client\DotNet::setCurlClient
      */
     public function testCurlClientCanBeInjected()
     {
@@ -80,7 +78,7 @@ class DotNetTest extends PHPUnit_Framework_TestCase
      * authentication.
      *
      * @return void
-     * @covers Zend\Soap\Client\DotNet::_doRequest
+     * @covers Laminas\Soap\Client\DotNet::_doRequest
      */
     public function testCurlClientRequestIsDoneWhenUsingNtlmAuthentication()
     {
@@ -92,11 +90,11 @@ class DotNetTest extends PHPUnit_Framework_TestCase
      * Tests that the default SOAP client request is done when not using NTLM authentication.
      *
      * @return void
-     * @covers Zend\Soap\Client\DotNet::_doRequest
+     * @covers Laminas\Soap\Client\DotNet::_doRequest
      */
     public function testDefaultSoapClientRequestIsDoneWhenNotUsingNtlmAuthentication()
     {
-        $soapClient = $this->getMock('Zend\Soap\Client\Common',
+        $soapClient = $this->getMock('Laminas\Soap\Client\Common',
                                      array('_doRequest'),
                                      array(array($this->client, '_doRequest'),
                                            null,
@@ -116,7 +114,7 @@ class DotNetTest extends PHPUnit_Framework_TestCase
      * Tests that the last request headers can be fetched correctly.
      *
      * @return void
-     * @covers Zend\Soap\Client\DotNet::getLastRequestHeaders
+     * @covers Laminas\Soap\Client\DotNet::getLastRequestHeaders
      */
     public function testLastRequestHeadersCanBeFetchedCorrectly()
     {
@@ -135,7 +133,7 @@ class DotNetTest extends PHPUnit_Framework_TestCase
      * Tests that the last response headers can be fetched correctly.
      *
      * @return void
-     * @covers Zend\Soap\Client\DotNet::getLastResponseHeaders
+     * @covers Laminas\Soap\Client\DotNet::getLastResponseHeaders
      */
     public function testLastResponseHeadersCanBeFetchedCorrectly()
     {
@@ -155,7 +153,7 @@ class DotNetTest extends PHPUnit_Framework_TestCase
      */
     private function mockCurlClient()
     {
-        $this->curlClient = $this->getMock('Zend\Http\Client\Adapter\Curl',
+        $this->curlClient = $this->getMock('Laminas\Http\Client\Adapter\Curl',
                                            array('close', 'connect', 'read', 'write'));
         $this->client->setCurlClient($this->curlClient);
     }
@@ -195,7 +193,7 @@ class DotNetTest extends PHPUnit_Framework_TestCase
                          ->will($this->returnValue($response));
         $this->curlClient->expects($this->any())
                          ->method('write')
-                         ->with('POST', $this->isInstanceOf('Zend\Uri\Http'), 1.1, $headers, $this->stringContains('<SOAP-ENV'));
+                         ->with('POST', $this->isInstanceOf('Laminas\Uri\Http'), 1.1, $headers, $this->stringContains('<SOAP-ENV'));
 
         $this->client->setOptions(array('authentication' => 'ntlm',
                                         'login'          => 'username',
