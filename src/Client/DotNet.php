@@ -1,20 +1,19 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-soap for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Soap\Client;
+namespace Laminas\Soap\Client;
 
-use Zend\Http\Client\Adapter\Curl as CurlClient;
-use Zend\Http\Response as HttpResponse;
-use Zend\Soap\Client as SOAPClient;
-use Zend\Soap\Client\Common as CommonClient;
-use Zend\Soap\Exception;
-use Zend\Uri\Http as HttpUri;
+use Laminas\Http\Client\Adapter\Curl as CurlClient;
+use Laminas\Http\Response as HttpResponse;
+use Laminas\Soap\Client as SOAPClient;
+use Laminas\Soap\Client\Common as CommonClient;
+use Laminas\Soap\Exception;
+use Laminas\Uri\Http as HttpUri;
 
 /**
  * .NET SOAP client
