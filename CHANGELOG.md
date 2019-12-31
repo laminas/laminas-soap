@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Adds GitHub Pages documentation at https://zendframework.github.io/zend-soap/
+- Adds GitHub Pages documentation at https://docs.laminas.dev/laminas-soap/
 
 ### Deprecated
 
@@ -18,7 +18,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#7](https://github.com/zendframework/zend-soap/pull/7) fixes
+- [zendframework/zend-soap#7](https://github.com/zendframework/zend-soap/pull/7) fixes
   behavior when the request contains empty content.
-- [#21](https://github.com/zendframework/zend-soap/pull/21) updates the
-  dependencies to allow usage with zend-stdlib v3 releases.
+- [zendframework/zend-soap#21](https://github.com/zendframework/zend-soap/pull/21) updates the
+  dependencies to allow usage with laminas-stdlib v3 releases.
