@@ -1,20 +1,18 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Soap
+ * @see       https://github.com/laminas/laminas-soap for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Soap\Wsdl\ComplexTypeStrategy;
+namespace Laminas\Soap\Wsdl\ComplexTypeStrategy;
 
 /**
- * Abstract class for Zend_Soap_Wsdl_Strategy.
+ * Abstract class for Laminas_Soap_Wsdl_Strategy.
  *
- * @category   Zend
- * @package    Zend_Soap
+ * @category   Laminas
+ * @package    Laminas_Soap
  * @subpackage WSDL
  */
 abstract class AbstractComplexTypeStrategy implements ComplexTypeStrategyInterface
@@ -22,25 +20,25 @@ abstract class AbstractComplexTypeStrategy implements ComplexTypeStrategyInterfa
     /**
      * Context object
      *
-     * @var \Zend\Soap\Wsdl
+     * @var \Laminas\Soap\Wsdl
      */
     protected $context;
 
     /**
-     * Set the Zend_Soap_Wsdl Context object this strategy resides in.
+     * Set the Laminas_Soap_Wsdl Context object this strategy resides in.
      *
-     * @param \Zend\Soap\Wsdl $context
+     * @param \Laminas\Soap\Wsdl $context
      * @return void
      */
-    public function setContext(\Zend\Soap\Wsdl $context)
+    public function setContext(\Laminas\Soap\Wsdl $context)
     {
         $this->context = $context;
     }
 
     /**
-     * Return the current Zend_Soap_Wsdl context object
+     * Return the current Laminas_Soap_Wsdl context object
      *
-     * @return \Zend\Soap\Wsdl
+     * @return \Laminas\Soap\Wsdl
      */
     public function getContext()
     {
