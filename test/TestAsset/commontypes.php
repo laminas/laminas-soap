@@ -1,13 +1,12 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-soap for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Soap\TestAsset;
+namespace LaminasTest\Soap\TestAsset;
 
 /* Test Functions */
 
@@ -182,7 +181,7 @@ class AutoDiscoverTestClass2
 {
     /**
      *
-     * @param \ZendTest\Soap\TestAsset\AutoDiscoverTestClass1 $test
+     * @param \LaminasTest\Soap\TestAsset\AutoDiscoverTestClass1 $test
      * @return bool
      */
     public function add(AutoDiscoverTestClass1 $test)
@@ -191,7 +190,7 @@ class AutoDiscoverTestClass2
     }
 
     /**
-     * @return \ZendTest\Soap\TestAsset\AutoDiscoverTestClass1[]
+     * @return \LaminasTest\Soap\TestAsset\AutoDiscoverTestClass1[]
      */
     public function fetchAll()
     {
@@ -202,7 +201,7 @@ class AutoDiscoverTestClass2
     }
 
     /**
-     * @param \ZendTest\Soap\TestAsset\AutoDiscoverTestClass1[]
+     * @param \LaminasTest\Soap\TestAsset\AutoDiscoverTestClass1[]
      */
     public function addMultiple($test)
     {
@@ -225,7 +224,7 @@ class ComplexTypeB
 class ComplexTypeA
 {
     /**
-     * @var \ZendTest\Soap\TestAsset\ComplexTypeB[]
+     * @var \LaminasTest\Soap\TestAsset\ComplexTypeB[]
      */
     public $baz = array();
 }
@@ -264,7 +263,7 @@ class ComplexObjectStructure
 class ComplexObjectWithObjectStructure
 {
     /**
-     * @var \ZendTest\Soap\TestAsset\ComplexTest
+     * @var \LaminasTest\Soap\TestAsset\ComplexTest
      */
     public $object;
 }
@@ -273,14 +272,14 @@ class MyService
 {
     /**
      *    @param string $foo
-     *    @return \ZendTest\Soap\TestAsset\MyResponse[]
+     *    @return \LaminasTest\Soap\TestAsset\MyResponse[]
      */
     public function foo($foo)
     {
     }
     /**
      *    @param string $bar
-     *    @return \ZendTest\Soap\TestAsset\MyResponse[]
+     *    @return \LaminasTest\Soap\TestAsset\MyResponse[]
      */
     public function bar($bar)
     {
@@ -288,7 +287,7 @@ class MyService
 
     /**
      *    @param string $baz
-     *    @return \ZendTest\Soap\TestAsset\MyResponse[]
+     *    @return \LaminasTest\Soap\TestAsset\MyResponse[]
      */
     public function baz($baz)
     {
@@ -340,12 +339,12 @@ class MyResponse
 class Recursion
 {
     /**
-     * @var \ZendTest\Soap\TestAsset\Recursion
+     * @var \LaminasTest\Soap\TestAsset\Recursion
      */
     public $recursion;
 
     /**
-     * @return \ZendTest\Soap\TestAsset\Recursion
+     * @return \LaminasTest\Soap\TestAsset\Recursion
      */
     public function create() {}
 }
@@ -464,7 +463,7 @@ class MockSoapServer
     public function __call($name, $args) {}
 }
 
-class MockServer extends \Zend\Soap\Server
+class MockServer extends \Laminas\Soap\Server
 {
     public $mockSoapServer = null;
     public function getSoap()
@@ -540,18 +539,18 @@ class TestLocalSoapClient extends \SoapClient
     /**
      * Server object
      *
-     * @var Zend_Soap_Server
+     * @var Laminas_Soap_Server
      */
     public $server;
 
     /**
      * Local client constructor
      *
-     * @param Zend_Soap_Server $server
+     * @param Laminas_Soap_Server $server
      * @param string $wsdl
      * @param array $options
      */
-    public function __construct(\Zend\Soap\Server $server, $wsdl, $options)
+    public function __construct(\Laminas\Soap\Server $server, $wsdl, $options)
     {
         $this->server = $server;
         parent::__construct($wsdl, $options);

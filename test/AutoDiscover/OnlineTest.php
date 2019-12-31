@@ -1,20 +1,19 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-soap for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Soap\AutoDiscover;
+namespace LaminasTest\Soap\AutoDiscover;
 
 require_once __DIR__ . '/../TestAsset/commontypes.php';
 
-use Zend\Soap\Client;
+use Laminas\Soap\Client;
 
 /**
- * @group      Zend_Soap
+ * @group      Laminas_Soap
  */
 class OnlineTest extends \PHPUnit_Framework_TestCase
 {
@@ -22,17 +21,17 @@ class OnlineTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        if (!defined('TESTS_ZEND_SOAP_AUTODISCOVER_ONLINE_SERVER_BASEURI') || constant('TESTS_ZEND_SOAP_AUTODISCOVER_ONLINE_SERVER_BASEURI') == false) {
-            $this->markTestSkipped('The constant TESTS_ZEND_SOAP_AUTODISCOVER_ONLINE_SERVER_BASEURI has to be defined to allow the Online test to work.');
+        if (!defined('TESTS_LAMINAS_SOAP_AUTODISCOVER_ONLINE_SERVER_BASEURI') || constant('TESTS_LAMINAS_SOAP_AUTODISCOVER_ONLINE_SERVER_BASEURI') == false) {
+            $this->markTestSkipped('The constant TESTS_LAMINAS_SOAP_AUTODISCOVER_ONLINE_SERVER_BASEURI has to be defined to allow the Online test to work.');
         }
-        $this->baseuri = TESTS_ZEND_SOAP_AUTODISCOVER_ONLINE_SERVER_BASEURI;
+        $this->baseuri = TESTS_LAMINAS_SOAP_AUTODISCOVER_ONLINE_SERVER_BASEURI;
     }
 
     public function testNestedObjectArrayResponse()
     {
         $wsdl = $this->baseuri."/server1.php?wsdl";
 
-        $b = new \ZendTest_Soap_TestAsset_ComplexTypeB();
+        $b = new \LaminasTest_Soap_TestAsset_ComplexTypeB();
         $b->bar = "test";
         $b->foo = "test";
 
