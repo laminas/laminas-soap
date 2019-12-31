@@ -5,7 +5,7 @@ steps required for SOAP communications more simple. SOAP is a language
 independent protocol, however, which means it may be used for more than just
 PHP-to-PHP communications, adding some complexity to its implementation.
 
-There are three configurations for SOAP applications supported by zend-soap:
+There are three configurations for SOAP applications supported by laminas-soap:
 
 - SOAP server PHP application &lt;---&gt; SOAP client PHP application
 - SOAP server non-PHP application &lt;---&gt; SOAP client PHP application
@@ -18,14 +18,14 @@ The WSDL language is quite complex, making preparation of WSDL documents
 difficult; this task is complicated when the API for your service changes, as
 any changes then need to be synced back to the WSDL.
 
-These problems may be solved via WSDL autodiscovery, which zend-soap provides
-via its `Zend\Soap\AutoDiscover` class.
+These problems may be solved via WSDL autodiscovery, which laminas-soap provides
+via its `Laminas\Soap\AutoDiscover` class.
 
-Autodiscovery in zend-soap follows the same patterns as you use for creating a
-zend-soap `Server`, but uses the classes and functions attached to it to extract
+Autodiscovery in laminas-soap follows the same patterns as you use for creating a
+laminas-soap `Server`, but uses the classes and functions attached to it to extract
 the information required to generate a WSDL document.
 
-As a refresher, zend-soap allows using either of the following to define a
+As a refresher, laminas-soap allows using either of the following to define a
 server:
 
 - PHP classes.
@@ -35,9 +35,9 @@ Each are also supported by the autodiscovery functionality. Additionally,
 `AutoDiscover` supports datatype mappins from PHP to [XSD types](http://www.w3.org/TR/xmlschema-2/).
 
 The following is a basic example demonstrating the autodiscovery functionality.
-It uses similar functionality as when using [Zend\Soap\Server](server.md), but
+It uses similar functionality as when using [Laminas\Soap\Server](server.md), but
 instead of using `handle()` to handle an incoming SOAP request, it provides a
-`generate()` method, which returns a [Zend\Soap\Wsdl](wsdl.md) instance. This
+`generate()` method, which returns a [Laminas\Soap\Wsdl](wsdl.md) instance. This
 can then be used to return an XML representation to the client.
 
 ```php
@@ -46,7 +46,7 @@ class MySoapServerClass
     /* ... */
 }
 
-$autodiscover = new Zend\Soap\AutoDiscover();
+$autodiscover = new Laminas\Soap\AutoDiscover();
 $autodiscover
     ->setClass('MySoapServerClass')
     ->setUri('http://localhost/server.php')
@@ -82,7 +82,7 @@ $dom = $wsdl->toDomDocument();
 >         return;
 >     }
 >
->     $autodiscover = new Zend\Soap\AutoDiscover();
+>     $autodiscover = new Laminas\Soap\AutoDiscover();
 >     $autodiscover->setClass('HelloWorldService')
 >         ->setUri('http://example.com/soap.php');
 >     header('Content-Type: application/wsdl+xml');
@@ -96,7 +96,7 @@ $dom = $wsdl->toDomDocument();
 > }
 >
 > // pointing to the current file here
-> $soap = new Zend\Soap\Server("http://example.com/soap.php?wsdl");
+> $soap = new Laminas\Soap\Server("http://example.com/soap.php?wsdl");
 > $soap->setClass('HelloWorldService');
 > $soap->handle();
 > ```
@@ -104,10 +104,10 @@ $dom = $wsdl->toDomDocument();
 ## Class autodiscovery
 
 If a class is used to provide SOAP server functionality, then the same class
-should be provided to `Zend\Soap\AutoDiscover` for WSDL generation:
+should be provided to `Laminas\Soap\AutoDiscover` for WSDL generation:
 
 ```php
-$autodiscover = new Zend\Soap\AutoDiscover();
+$autodiscover = new Laminas\Soap\AutoDiscover();
 $autodiscover
     ->setClass('My_SoapServer_Class')
     ->setUri('http://localhost/server.php')
@@ -143,11 +143,11 @@ Complex types are generated using the following rules:
 ## Function autodiscovery
 
 If a set of functions are used to provide your SOAP server functionality, then
-the same set should be provided to `Zend\Soap\AutoDiscovery` for WSDL
+the same set should be provided to `Laminas\Soap\AutoDiscovery` for WSDL
 generation:
 
 ```php
-$autodiscover = new Zend\Soap\AutoDiscover();
+$autodiscover = new Laminas\Soap\AutoDiscover();
 $autodiscover->addFunction('function1');
 $autodiscover->addFunction('function2');
 $autodiscover->addFunction('function3');
@@ -183,13 +183,13 @@ Where:
 
 > ### Complex type discovery
 >
-> `Zend\Soap\AutoDiscover` will be created with the
-> `Zend\Soap\Wsdl\ComplexTypeStrategy\DefaultComplexType` class as its detection
+> `Laminas\Soap\AutoDiscover` will be created with the
+> `Laminas\Soap\Wsdl\ComplexTypeStrategy\DefaultComplexType` class as its detection
 > algorithm for complex types. The first parameter of the `AutoDiscover`
 > constructor takes any complex type strategy implementing
-> `Zend\Soap\Wsdl\ComplexTypeStrategy\ComplexTypeStrategyInterface` (or a string
+> `Laminas\Soap\Wsdl\ComplexTypeStrategy\ComplexTypeStrategyInterface` (or a string
 > class name of an implementation).  name of the class. See the
-> [Zend\Soap\Wsdl documentation on adding complex types](wsdl.md#adding-complex-type-information)
+> [Laminas\Soap\Wsdl documentation on adding complex types](wsdl.md#adding-complex-type-information)
 > for more information.
 
 ## WSDL Binding Styles
@@ -201,14 +201,14 @@ really work. Therefore you can set the styles before you call either the
 `setClass()` or `addFunction()` method on the `AutoDiscover` class.
 
 ```php
-$autodiscover = new Zend\Soap\AutoDiscover();
+$autodiscover = new Laminas\Soap\AutoDiscover();
 
 // Defaults are
 // - 'use' => 'encoded'
 // - 'encodingStyle' => 'http://schemas.xmlsoap.org/soap/encoding/'
 $autodiscover->setOperationBodyStyle([
     'use'       => 'literal',
-    'namespace' => 'http://framework.zend.com',
+    'namespace' => 'https://getlaminas.org',
 ]);
 
 // Defaults are:
@@ -216,7 +216,7 @@ $autodiscover->setOperationBodyStyle([
 // - 'transport' => 'http://schemas.xmlsoap.org/soap/http'
 $autodiscover->setBindingStyle([
     'style'     => 'document',
-    'transport' => 'http://framework.zend.com',
+    'transport' => 'https://getlaminas.org',
 ]);
 
 $autodiscover->addFunction('myfunc1');

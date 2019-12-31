@@ -1,15 +1,16 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-soap for the canonical source repository
- * @copyright Copyright (c) 2005-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-soap/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-soap for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Soap;
+namespace LaminasTest\Soap;
 
-use Zend\Soap\Wsdl;
-use Zend\Uri\Uri;
-use ZendTest\Soap\TestAsset\WsdlTestClass;
+use Laminas\Soap\Wsdl;
+use Laminas\Uri\Uri;
+use LaminasTest\Soap\TestAsset\WsdlTestClass;
 
 class WsdlTest extends WsdlTestHelper
 {
@@ -56,7 +57,7 @@ class WsdlTest extends WsdlTestHelper
      *
      * @param string $uri
      */
-    public function testSetUriWithZendUriChangesDomDocumentWsdlStructureTnsAndTargetNamespaceAttributes(
+    public function testSetUriWithLaminasUriChangesDomDocumentWsdlStructureTnsAndTargetNamespaceAttributes(
         $uri,
         $expectedUri
     ) {
@@ -95,12 +96,12 @@ class WsdlTest extends WsdlTestHelper
             ['http://localhost/MyNewService.php',              'http://localhost/MyNewService.php'],
             [new Uri('http://localhost/MyService.php'),        'http://localhost/MyService.php'],
             /**
-             * @bug ZF-5736
+             * @bug Laminas-5736
              */
             ['http://localhost/MyService.php?a=b&amp;b=c',     'http://localhost/MyService.php?a=b&amp;b=c'],
 
             /**
-             * @bug ZF-5736
+             * @bug Laminas-5736
              */
             ['http://localhost/MyService.php?a=b&b=c',         'http://localhost/MyService.php?a=b&amp;b=c'],
         ];
@@ -582,7 +583,7 @@ class WsdlTest extends WsdlTestHelper
 
     public function testDumpToFile()
     {
-        $file = tempnam(sys_get_temp_dir(), 'zfunittest');
+        $file = tempnam(sys_get_temp_dir(), 'laminasunittest');
 
         $dumpStatus = $this->wsdl->dump($file);
 
@@ -645,9 +646,9 @@ class WsdlTest extends WsdlTestHelper
 
     public function testGetComplexTypeBasedOnStrategiesBackwardsCompabilityBoolean()
     {
-        $this->assertEquals('tns:WsdlTestClass', $this->wsdl->getType('\ZendTest\Soap\TestAsset\WsdlTestClass'));
+        $this->assertEquals('tns:WsdlTestClass', $this->wsdl->getType('\LaminasTest\Soap\TestAsset\WsdlTestClass'));
         $this->assertInstanceOf(
-            'Zend\Soap\Wsdl\ComplexTypeStrategy\DefaultComplexType',
+            'Laminas\Soap\Wsdl\ComplexTypeStrategy\DefaultComplexType',
             $this->wsdl->getComplexTypeStrategy()
         );
     }
@@ -659,26 +660,26 @@ class WsdlTest extends WsdlTestHelper
             'http://localhost/MyService.php',
             new Wsdl\ComplexTypeStrategy\DefaultComplexType
         );
-        $this->assertEquals('tns:WsdlTestClass', $this->wsdl->getType('\ZendTest\Soap\TestAsset\WsdlTestClass'));
+        $this->assertEquals('tns:WsdlTestClass', $this->wsdl->getType('\LaminasTest\Soap\TestAsset\WsdlTestClass'));
         $this->assertInstanceOf(
-            'Zend\Soap\Wsdl\ComplexTypeStrategy\DefaultComplexType',
+            'Laminas\Soap\Wsdl\ComplexTypeStrategy\DefaultComplexType',
             $this->wsdl->getComplexTypeStrategy()
         );
 
         $wsdl2 = new Wsdl($this->defaultServiceName, $this->defaultServiceUri, new Wsdl\ComplexTypeStrategy\AnyType);
-        $this->assertEquals('xsd:anyType', $wsdl2->getType('\ZendTest\Soap\TestAsset\WsdlTestClass'));
-        $this->assertInstanceOf('Zend\Soap\Wsdl\ComplexTypeStrategy\AnyType', $wsdl2->getComplexTypeStrategy());
+        $this->assertEquals('xsd:anyType', $wsdl2->getType('\LaminasTest\Soap\TestAsset\WsdlTestClass'));
+        $this->assertInstanceOf('Laminas\Soap\Wsdl\ComplexTypeStrategy\AnyType', $wsdl2->getComplexTypeStrategy());
     }
 
     public function testAddingSameComplexTypeMoreThanOnceIsIgnored()
     {
-        $this->wsdl->addType('\ZendTest\Soap\TestAsset\WsdlTestClass', 'tns:SomeTypeName');
-        $this->wsdl->addType('\ZendTest\Soap\TestAsset\WsdlTestClass', 'tns:AnotherTypeName');
+        $this->wsdl->addType('\LaminasTest\Soap\TestAsset\WsdlTestClass', 'tns:SomeTypeName');
+        $this->wsdl->addType('\LaminasTest\Soap\TestAsset\WsdlTestClass', 'tns:AnotherTypeName');
         $types = $this->wsdl->getTypes();
         $this->assertEquals(1, count($types));
         $this->assertEquals(
             [
-                '\ZendTest\Soap\TestAsset\WsdlTestClass' => 'tns:SomeTypeName'
+                '\LaminasTest\Soap\TestAsset\WsdlTestClass' => 'tns:SomeTypeName'
             ],
             $types
         );
@@ -688,18 +689,18 @@ class WsdlTest extends WsdlTestHelper
 
     public function testUsingSameComplexTypeTwiceLeadsToReuseOfDefinition()
     {
-        $this->wsdl->addComplexType('\ZendTest\Soap\TestAsset\WsdlTestClass');
+        $this->wsdl->addComplexType('\LaminasTest\Soap\TestAsset\WsdlTestClass');
         $this->assertEquals(
             [
-                'ZendTest\Soap\TestAsset\WsdlTestClass' => 'tns:WsdlTestClass'
+                'LaminasTest\Soap\TestAsset\WsdlTestClass' => 'tns:WsdlTestClass'
             ],
             $this->wsdl->getTypes()
         );
 
-        $this->wsdl->addComplexType('\ZendTest\Soap\TestAsset\WsdlTestClass');
+        $this->wsdl->addComplexType('\LaminasTest\Soap\TestAsset\WsdlTestClass');
         $this->assertEquals(
             [
-                'ZendTest\Soap\TestAsset\WsdlTestClass' => 'tns:WsdlTestClass'
+                'LaminasTest\Soap\TestAsset\WsdlTestClass' => 'tns:WsdlTestClass'
             ],
             $this->wsdl->getTypes()
         );
@@ -716,7 +717,7 @@ class WsdlTest extends WsdlTestHelper
 
     public function testAddComplexType()
     {
-        $this->wsdl->addComplexType('\ZendTest\Soap\TestAsset\WsdlTestClass');
+        $this->wsdl->addComplexType('\LaminasTest\Soap\TestAsset\WsdlTestClass');
 
         $this->documentNodesTest();
 
@@ -785,10 +786,10 @@ class WsdlTest extends WsdlTestHelper
 
 
     /**
-     * @group ZF-3910
-     * @group ZF-11937
+     * @group Laminas-3910
+     * @group Laminas-11937
      */
-    public function testCaseOfDocBlockParamsDosNotMatterForSoapTypeDetectionZf3910()
+    public function testCaseOfDocBlockParamsDosNotMatterForSoapTypeDetectionLaminas3910()
     {
         $this->assertEquals("xsd:string", $this->wsdl->getType("StrIng"));
         $this->assertEquals("xsd:string", $this->wsdl->getType("sTr"));
@@ -802,7 +803,7 @@ class WsdlTest extends WsdlTestHelper
     }
 
     /**
-     * @group ZF-5430
+     * @group Laminas-5430
      */
     public function testMultipleSequenceDefinitionsOfSameTypeWillBeRecognizedOnceBySequenceStrategy()
     {

@@ -1,26 +1,25 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-soap for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Soap\Wsdl;
+namespace LaminasTest\Soap\Wsdl;
 
-use Zend\Soap\Exception\InvalidArgumentException;
-use Zend\Soap\Wsdl\ComplexTypeStrategy;
-use Zend\Soap\Wsdl\ComplexTypeStrategy\AnyType;
-use Zend\Soap\Wsdl\ComplexTypeStrategy\Composite;
-use Zend\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplex;
-use Zend\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeSequence;
-use Zend\Soap\Wsdl\ComplexTypeStrategy\DefaultComplexType;
-use ZendTest\Soap\WsdlTestHelper;
+use Laminas\Soap\Exception\InvalidArgumentException;
+use Laminas\Soap\Wsdl\ComplexTypeStrategy;
+use Laminas\Soap\Wsdl\ComplexTypeStrategy\AnyType;
+use Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplex;
+use Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeSequence;
+use Laminas\Soap\Wsdl\ComplexTypeStrategy\Composite;
+use Laminas\Soap\Wsdl\ComplexTypeStrategy\DefaultComplexType;
+use LaminasTest\Soap\WsdlTestHelper;
 
 /**
- * @group      Zend_Soap
- * @group      Zend_Soap_Wsdl
+ * @group      Laminas_Soap
+ * @group      Laminas_Soap_Wsdl
  */
 class CompositeStrategyTest extends WsdlTestHelper
 {
@@ -37,13 +36,13 @@ class CompositeStrategyTest extends WsdlTestHelper
         $bookStrategy = $strategy->getStrategyOfType('Book');
         $cookieStrategy = $strategy->getStrategyOfType('Cookie');
 
-        $this->assertInstanceOf('Zend\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplex', $bookStrategy);
-        $this->assertInstanceOf('Zend\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeSequence', $cookieStrategy);
+        $this->assertInstanceOf('Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplex', $bookStrategy);
+        $this->assertInstanceOf('Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeSequence', $cookieStrategy);
     }
 
     public function testConstructorTypeMapSyntax()
     {
-        $typeMap = ['Book' => '\Zend\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplex'];
+        $typeMap = ['Book' => '\Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplex'];
 
         $strategy = new ComplexTypeStrategy\Composite(
             $typeMap,
@@ -53,8 +52,8 @@ class CompositeStrategyTest extends WsdlTestHelper
         $bookStrategy = $strategy->getStrategyOfType('Book');
         $cookieStrategy = $strategy->getStrategyOfType('Cookie');
 
-        $this->assertInstanceOf('Zend\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplex', $bookStrategy);
-        $this->assertInstanceOf('Zend\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeSequence', $cookieStrategy);
+        $this->assertInstanceOf('Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplex', $bookStrategy);
+        $this->assertInstanceOf('Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeSequence', $cookieStrategy);
     }
 
     public function testCompositeThrowsExceptionOnInvalidType()
@@ -90,19 +89,19 @@ class CompositeStrategyTest extends WsdlTestHelper
     {
         $this->strategy = new ComplexTypeStrategy\Composite([], new AnyType);
         $this->strategy->connectTypeToStrategy(
-            '\ZendTest\Soap\TestAsset\Book',
+            '\LaminasTest\Soap\TestAsset\Book',
             new ArrayOfTypeComplex
         );
         $this->strategy->connectTypeToStrategy(
-            '\ZendTest\Soap\TestAsset\Cookie',
+            '\LaminasTest\Soap\TestAsset\Cookie',
             new DefaultComplexType
         );
 
         parent::setUp();
 
-        $this->assertEquals('tns:Book', $this->strategy->addComplexType('\ZendTest\Soap\TestAsset\Book'));
-        $this->assertEquals('tns:Cookie', $this->strategy->addComplexType('\ZendTest\Soap\TestAsset\Cookie'));
-        $this->assertEquals('xsd:anyType', $this->strategy->addComplexType('\ZendTest\Soap\TestAsset\Anything'));
+        $this->assertEquals('tns:Book', $this->strategy->addComplexType('\LaminasTest\Soap\TestAsset\Book'));
+        $this->assertEquals('tns:Cookie', $this->strategy->addComplexType('\LaminasTest\Soap\TestAsset\Cookie'));
+        $this->assertEquals('xsd:anyType', $this->strategy->addComplexType('\LaminasTest\Soap\TestAsset\Anything'));
 
         $this->documentNodesTest();
     }
@@ -118,7 +117,7 @@ class CompositeStrategyTest extends WsdlTestHelper
 
     public function testGetDefaultStrategy()
     {
-        $strategyClass = 'Zend\Soap\Wsdl\ComplexTypeStrategy\AnyType';
+        $strategyClass = 'Laminas\Soap\Wsdl\ComplexTypeStrategy\AnyType';
 
         $strategy = new Composite([], $strategyClass);
 

@@ -1,17 +1,18 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-soap for the canonical source repository
- * @copyright Copyright (c) 2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-soap/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-soap for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Soap\Wsdl\DocumentationStrategy;
+namespace LaminasTest\Soap\Wsdl\DocumentationStrategy;
 
+use Laminas\Soap\Wsdl\DocumentationStrategy\ReflectionDocumentation;
+use LaminasTest\Soap\TestAsset\PropertyDocumentationTestClass;
+use LaminasTest\Soap\TestAsset\WsdlTestClass;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
-use Zend\Soap\Wsdl\DocumentationStrategy\ReflectionDocumentation;
-use ZendTest\Soap\TestAsset\PropertyDocumentationTestClass;
-use ZendTest\Soap\TestAsset\WsdlTestClass;
 
 class ReflectionDocumentationTest extends TestCase
 {
