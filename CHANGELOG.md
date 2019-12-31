@@ -6,13 +6,13 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- [#42](https://github.com/zendframework/zend-soap/pull/42) adds support for PHP
+- [zendframework/zend-soap#42](https://github.com/zendframework/zend-soap/pull/42) adds support for PHP
   versions 7.1 and 7.2.
 
-- [#31](https://github.com/zendframework/zend-soap/pull/31) adds support for
+- [zendframework/zend-soap#31](https://github.com/zendframework/zend-soap/pull/31) adds support for
   `xsd:date` elements.
 
-- [#36](https://github.com/zendframework/zend-soap/pull/36) adds support for
+- [zendframework/zend-soap#36](https://github.com/zendframework/zend-soap/pull/36) adds support for
   the libxml `LIBXML_PARSEHUGE` flag when creating a `Server` instance. When the
   support is enabled, the `Server` instance will pass that flag to
   `DOMDocument::loadXML()`. The flag may be set in one of two ways:
@@ -23,7 +23,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
-- [#38](https://github.com/zendframework/zend-soap/pull/38) adds `ext-soap` as
+- [zendframework/zend-soap#38](https://github.com/zendframework/zend-soap/pull/38) adds `ext-soap` as
   an explicit package dependency. While it was previously implied; installation
   will now fail if that dependency is missing.
 
@@ -33,13 +33,13 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Removed
 
-- [#42](https://github.com/zendframework/zend-soap/pull/42) removes support for
+- [zendframework/zend-soap#42](https://github.com/zendframework/zend-soap/pull/42) removes support for
   PHP 5.5.
 
-- [#42](https://github.com/zendframework/zend-soap/pull/42) removes support for
+- [zendframework/zend-soap#42](https://github.com/zendframework/zend-soap/pull/42) removes support for
   HHVM.
 
-- [#49](https://github.com/zendframework/zend-soap/pull/49) removes all
+- [zendframework/zend-soap#49](https://github.com/zendframework/zend-soap/pull/49) removes all
   arguments besides `$errno` and `$errstr` from the `Server::handlePhpError()`
   method, as they were unused.
 
@@ -51,9 +51,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- [#1](https://github.com/zendframework/zend-soap/pull/1) adds
+- [zendframework/zend-soap#1](https://github.com/zendframework/zend-soap/pull/1) adds
   support for the `SoapClient` options `keep_alive` and `ssl_method`.
-- [#20](https://github.com/zendframework/zend-soap/pull/20) adds support for
+- [zendframework/zend-soap#20](https://github.com/zendframework/zend-soap/pull/20) adds support for
   the  `SoapServer` `send_errors` constructor option.
 
 ### Deprecated
@@ -72,7 +72,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Adds GitHub Pages documentation at https://zendframework.github.io/zend-soap/
+- Adds GitHub Pages documentation at https://docs.laminas.dev/laminas-soap/
 
 ### Deprecated
 
@@ -84,7 +84,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#7](https://github.com/zendframework/zend-soap/pull/7) fixes
+- [zendframework/zend-soap#7](https://github.com/zendframework/zend-soap/pull/7) fixes
   behavior when the request contains empty content.
-- [#21](https://github.com/zendframework/zend-soap/pull/21) updates the
-  dependencies to allow usage with zend-stdlib v3 releases.
+- [zendframework/zend-soap#21](https://github.com/zendframework/zend-soap/pull/21) updates the
+  dependencies to allow usage with laminas-stdlib v3 releases.

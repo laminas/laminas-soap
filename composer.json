@@ -1,44 +1,54 @@
 {
-    "name": "zendframework/zend-soap",
+    "name": "laminas/laminas-soap",
     "description": " ",
     "license": "BSD-3-Clause",
     "keywords": [
-        "zf2",
+        "laminas",
         "soap"
     ],
-    "homepage": "https://github.com/zendframework/zend-soap",
-    "autoload": {
-        "psr-4": {
-            "Zend\\Soap\\": "src/"
-        }
+    "homepage": "https://laminas.dev",
+    "support": {
+        "docs": "https://docs.laminas.dev/laminas-soap/",
+        "issues": "https://github.com/laminas/laminas-soap/issues",
+        "source": "https://github.com/laminas/laminas-soap",
+        "rss": "https://github.com/laminas/laminas-soap/releases.atom",
+        "chat": "https://laminas.dev/chat",
+        "forum": "https://discourse.laminas.dev"
     },
-    "require": {
-        "php": "^5.6 || ^7.0",
-        "ext-soap": "*",
-        "zendframework/zend-server": "^2.6.1",
-        "zendframework/zend-stdlib": "^2.7 || ^3.0",
-        "zendframework/zend-uri": "^2.5.2"
+    "config": {
+        "sort-packages": true
     },
-    "require-dev": {
-        "phpunit/phpunit": "^5.7.21 || ^6.3",
-        "zendframework/zend-coding-standard": "~1.0.0",
-        "zendframework/zend-config": "^2.6",
-        "zendframework/zend-http": "^2.5.4"
-    },
-    "suggest": {
-        "zendframework/zend-http": "Zend\\Http component"
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "extra": {
         "branch-alias": {
             "dev-master": "2.7.x-dev",
             "dev-develop": "2.8.x-dev"
         }
     },
+    "require": {
+        "php": "^5.6 || ^7.0",
+        "ext-soap": "*",
+        "laminas/laminas-server": "^2.6.1",
+        "laminas/laminas-stdlib": "^2.7 || ^3.0",
+        "laminas/laminas-uri": "^2.5.2",
+        "laminas/laminas-zendframework-bridge": "^1.0"
+    },
+    "require-dev": {
+        "laminas/laminas-coding-standard": "~1.0.0",
+        "laminas/laminas-config": "^2.6",
+        "laminas/laminas-http": "^2.5.4",
+        "phpunit/phpunit": "^5.7.21 || ^6.3"
+    },
+    "suggest": {
+        "laminas/laminas-http": "Laminas\\Http component"
+    },
+    "autoload": {
+        "psr-4": {
+            "Laminas\\Soap\\": "src/"
+        }
+    },
     "autoload-dev": {
         "psr-4": {
-            "ZendTest\\Soap\\": "test/"
+            "LaminasTest\\Soap\\": "test/"
         },
         "files": [
             "test/TestAsset/commontypes.php",
@@ -54,5 +64,8 @@
         "cs-fix": "phpcbf",
         "test": "phpunit",
         "test-coverage": "phpunit --coverage-clover clover.xml"
+    },
+    "replace": {
+        "zendframework/zend-soap": "self.version"
     }
 }
