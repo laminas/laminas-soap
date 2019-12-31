@@ -1,31 +1,29 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Soap
+ * @see       https://github.com/laminas/laminas-soap for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Soap\Wsdl;
+namespace LaminasTest\Soap\Wsdl;
 
-use ZendTest\Soap\WsdlTestHelper;
+use LaminasTest\Soap\WsdlTestHelper;
 
 require_once __DIR__ . '/../TestAsset/commontypes.php';
 
 /**
- * @category   Zend
- * @package    Zend_Soap
+ * @category   Laminas
+ * @package    Laminas_Soap
  * @subpackage UnitTests
- * @group      Zend_Soap
- * @group      Zend_Soap_Wsdl
+ * @group      Laminas_Soap
+ * @group      Laminas_Soap_Wsdl
  */
 class ArrayOfTypeSequenceStrategyTest extends WsdlTestHelper
 {
     public function setUp()
     {
-        $this->strategy = new \Zend\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeSequence();
+        $this->strategy = new \Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeSequence();
 
         parent::setUp();
     }
@@ -160,7 +158,7 @@ class ArrayOfTypeSequenceStrategyTest extends WsdlTestHelper
 
     public function testAddComplexTypeObject()
     {
-        $return = $this->wsdl->addComplexType('\ZendTest\Soap\TestAsset\SequenceTest');
+        $return = $this->wsdl->addComplexType('\LaminasTest\Soap\TestAsset\SequenceTest');
 
         $this->assertEquals('tns:SequenceTest', $return);
 
@@ -178,7 +176,7 @@ class ArrayOfTypeSequenceStrategyTest extends WsdlTestHelper
 
     public function testAddComplexTypeArrayOfObject()
     {
-        $return = $this->wsdl->addComplexType('\ZendTest\Soap\TestAsset\ComplexTypeA[]');
+        $return = $this->wsdl->addComplexType('\LaminasTest\Soap\TestAsset\ComplexTypeA[]');
         $this->assertEquals('tns:ArrayOfComplexTypeA', $return);
 
 
@@ -253,7 +251,7 @@ class ArrayOfTypeSequenceStrategyTest extends WsdlTestHelper
 
     public function testAddComplexTypeOfNonExistingClassThrowsException()
     {
-        $this->setExpectedException('\Zend\Soap\Exception\InvalidArgumentException', 'Cannot add a complex type');
-        $this->wsdl->addComplexType('ZendTest\Soap\Wsdl\UnknownClass[]');
+        $this->setExpectedException('\Laminas\Soap\Exception\InvalidArgumentException', 'Cannot add a complex type');
+        $this->wsdl->addComplexType('LaminasTest\Soap\Wsdl\UnknownClass[]');
     }
 }
