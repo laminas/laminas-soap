@@ -1,11 +1,12 @@
 <?php
+
 /**
- * @author   : matt
- * @copyright: 2018 Claritum Limited
- * @license  : Commercial
+ * @see       https://github.com/laminas/laminas-soap for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Soap\TestAsset;
+namespace LaminasTest\Soap\TestAsset;
 
 class PropertyDocumentationTestClass
 {

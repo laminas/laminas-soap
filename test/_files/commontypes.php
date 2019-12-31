@@ -1,10 +1,8 @@
 <?php // @codingStandardsIgnoreFile
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-soap for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
 /* Test Functions */
@@ -15,7 +13,7 @@
  * @param string $arg
  * @return string
  */
-function Zend_Soap_AutoDiscover_TestFunc($who)
+function Laminas_Soap_AutoDiscover_TestFunc($who)
 {
     return "Hello $who";
 }
@@ -23,7 +21,7 @@ function Zend_Soap_AutoDiscover_TestFunc($who)
 /**
  * Test Function 2
  */
-function Zend_Soap_AutoDiscover_TestFunc2()
+function Laminas_Soap_AutoDiscover_TestFunc2()
 {
     return "Hello World";
 }
@@ -33,7 +31,7 @@ function Zend_Soap_AutoDiscover_TestFunc2()
  *
  * @return bool
  */
-function Zend_Soap_AutoDiscover_TestFunc3()
+function Laminas_Soap_AutoDiscover_TestFunc3()
 {
     return false;
 }
@@ -43,7 +41,7 @@ function Zend_Soap_AutoDiscover_TestFunc3()
  *
  * @return bool
  */
-function Zend_Soap_AutoDiscover_TestFunc4()
+function Laminas_Soap_AutoDiscover_TestFunc4()
 {
     return true;
 }
@@ -53,7 +51,7 @@ function Zend_Soap_AutoDiscover_TestFunc4()
  *
  * @return int
  */
-function Zend_Soap_AutoDiscover_TestFunc5()
+function Laminas_Soap_AutoDiscover_TestFunc5()
 {
     return 123;
 }
@@ -63,7 +61,7 @@ function Zend_Soap_AutoDiscover_TestFunc5()
  *
  * @return string
  */
-function Zend_Soap_AutoDiscover_TestFunc6()
+function Laminas_Soap_AutoDiscover_TestFunc6()
 {
     return "string";
 }
@@ -73,7 +71,7 @@ function Zend_Soap_AutoDiscover_TestFunc6()
  *
  * @return array
  */
-function Zend_Soap_AutoDiscover_TestFunc7()
+function Laminas_Soap_AutoDiscover_TestFunc7()
 {
     return ['foo' => 'bar', 'baz' => true, 1 => false, 'bat' => 123];
 }
@@ -83,7 +81,7 @@ function Zend_Soap_AutoDiscover_TestFunc7()
  *
  * @return stdClass
  */
-function Zend_Soap_AutoDiscover_TestFunc8()
+function Laminas_Soap_AutoDiscover_TestFunc8()
 {
     $return = (object) ['foo' => 'bar', 'baz' => true, 'bat' => 123, 'qux' => false];
     return $return;
@@ -96,12 +94,12 @@ function Zend_Soap_AutoDiscover_TestFunc8()
  * @param string $bar
  * @return string
  */
-function Zend_Soap_AutoDiscover_TestFunc9($foo, $bar)
+function Laminas_Soap_AutoDiscover_TestFunc9($foo, $bar)
 {
     return "$foo $bar";
 }
 
-class Zend_Soap_AutoDiscover_TestFixingMultiplePrototypes
+class Laminas_Soap_AutoDiscover_TestFixingMultiplePrototypes
 {
     /**
      * Test function
@@ -117,7 +115,7 @@ class Zend_Soap_AutoDiscover_TestFixingMultiplePrototypes
     }
 }
 
-class Zend_Soap_AutoDiscover_Test
+class Laminas_Soap_AutoDiscover_Test
 {
     /**
      * Test Function 1
@@ -163,7 +161,7 @@ class Zend_Soap_AutoDiscover_Test
     }
 }
 
-class Zend_Soap_AutoDiscoverTestClass1
+class Laminas_Soap_AutoDiscoverTestClass1
 {
     /**
      * @var integer $var
@@ -176,31 +174,31 @@ class Zend_Soap_AutoDiscoverTestClass1
     public $param = "hello";
 }
 
-class Zend_Soap_AutoDiscoverTestClass2
+class Laminas_Soap_AutoDiscoverTestClass2
 {
     /**
      *
-     * @param Zend_Soap_AutoDiscoverTestClass1 $test
+     * @param Laminas_Soap_AutoDiscoverTestClass1 $test
      * @return bool
      */
-    public function add(Zend_Soap_AutoDiscoverTestClass1 $test)
+    public function add(Laminas_Soap_AutoDiscoverTestClass1 $test)
     {
         return true;
     }
 
     /**
-     * @return Zend_Soap_AutoDiscoverTestClass1[]
+     * @return Laminas_Soap_AutoDiscoverTestClass1[]
      */
     public function fetchAll()
     {
         return [
-            new Zend_Soap_AutoDiscoverTestClass1(),
-            new Zend_Soap_AutoDiscoverTestClass1(),
+            new Laminas_Soap_AutoDiscoverTestClass1(),
+            new Laminas_Soap_AutoDiscoverTestClass1(),
         ];
     }
 
     /**
-     * @param Zend_Soap_AutoDiscoverTestClass1[]
+     * @param Laminas_Soap_AutoDiscoverTestClass1[]
      */
     public function addMultiple($test)
     {
@@ -208,7 +206,7 @@ class Zend_Soap_AutoDiscoverTestClass2
     }
 }
 
-class Zend_Soap_Wsdl_ComplexTypeB
+class Laminas_Soap_Wsdl_ComplexTypeB
 {
     /**
      * @var string
@@ -220,15 +218,15 @@ class Zend_Soap_Wsdl_ComplexTypeB
     public $foo;
 }
 
-class Zend_Soap_Wsdl_ComplexTypeA
+class Laminas_Soap_Wsdl_ComplexTypeA
 {
     /**
-     * @var Zend_Soap_Wsdl_ComplexTypeB[]
+     * @var Laminas_Soap_Wsdl_ComplexTypeB[]
      */
     public $baz = [];
 }
 
-class Zend_Soap_Wsdl_ComplexTest
+class Laminas_Soap_Wsdl_ComplexTest
 {
     /**
      * @var int
@@ -236,7 +234,7 @@ class Zend_Soap_Wsdl_ComplexTest
     public $var = 5;
 }
 
-class Zend_Soap_Wsdl_ComplexObjectStructure
+class Laminas_Soap_Wsdl_ComplexObjectStructure
 {
     /**
      * @var bool
@@ -259,26 +257,26 @@ class Zend_Soap_Wsdl_ComplexObjectStructure
     public $array = [1, 2, 3];
 }
 
-class Zend_Soap_Wsdl_ComplexObjectWithObjectStructure
+class Laminas_Soap_Wsdl_ComplexObjectWithObjectStructure
 {
     /**
-     * @var Zend_Soap_Wsdl_ComplexTest
+     * @var Laminas_Soap_Wsdl_ComplexTest
      */
     public $object;
 }
 
-class Zend_Soap_AutoDiscover_MyService
+class Laminas_Soap_AutoDiscover_MyService
 {
     /**
      *    @param string $foo
-     *    @return Zend_Soap_AutoDiscover_MyResponse[]
+     *    @return Laminas_Soap_AutoDiscover_MyResponse[]
      */
     public function foo($foo)
     {
     }
     /**
      *    @param string $bar
-     *    @return Zend_Soap_AutoDiscover_MyResponse[]
+     *    @return Laminas_Soap_AutoDiscover_MyResponse[]
      */
     public function bar($bar)
     {
@@ -286,14 +284,14 @@ class Zend_Soap_AutoDiscover_MyService
 
     /**
      *    @param string $baz
-     *    @return Zend_Soap_AutoDiscover_MyResponse[]
+     *    @return Laminas_Soap_AutoDiscover_MyResponse[]
      */
     public function baz($baz)
     {
     }
 }
 
-class Zend_Soap_AutoDiscover_MyServiceSequence
+class Laminas_Soap_AutoDiscover_MyServiceSequence
 {
     /**
      *    @param string $foo
@@ -327,7 +325,7 @@ class Zend_Soap_AutoDiscover_MyServiceSequence
     }
 }
 
-class Zend_Soap_AutoDiscover_MyResponse
+class Laminas_Soap_AutoDiscover_MyResponse
 {
     /**
      * @var string
@@ -335,15 +333,15 @@ class Zend_Soap_AutoDiscover_MyResponse
     public $p1;
 }
 
-class Zend_Soap_AutoDiscover_Recursion
+class Laminas_Soap_AutoDiscover_Recursion
 {
     /**
-     * @var Zend_Soap_AutoDiscover_Recursion
+     * @var Laminas_Soap_AutoDiscover_Recursion
      */
     public $recursion;
 
     /**
-     * @return Zend_Soap_AutoDiscover_Recursion
+     * @return Laminas_Soap_AutoDiscover_Recursion
      */
     public function create()
     {
@@ -353,12 +351,12 @@ class Zend_Soap_AutoDiscover_Recursion
 /**
  * @param string $message
  */
-function Zend_Soap_AutoDiscover_OneWay($message)
+function Laminas_Soap_AutoDiscover_OneWay($message)
 {
 
 }
 
-class Zend_Soap_AutoDiscover_NoReturnType
+class Laminas_Soap_AutoDiscover_NoReturnType
 {
     /**
      *

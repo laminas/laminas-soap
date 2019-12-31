@@ -1,22 +1,21 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-soap for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Soap\Wsdl;
+namespace LaminasTest\Soap\Wsdl;
 
-use Zend\Soap\Exception\InvalidArgumentException;
-use ZendTest\Soap\WsdlTestHelper;
+use Laminas\Soap\Exception\InvalidArgumentException;
+use LaminasTest\Soap\WsdlTestHelper;
 
 class ArrayOfTypeSequenceStrategyTest extends WsdlTestHelper
 {
     public function setUp()
     {
-        $this->strategy = new \Zend\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeSequence();
+        $this->strategy = new \Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeSequence();
 
         parent::setUp();
     }
@@ -166,7 +165,7 @@ class ArrayOfTypeSequenceStrategyTest extends WsdlTestHelper
 
     public function testAddComplexTypeObject()
     {
-        $return = $this->wsdl->addComplexType('\ZendTest\Soap\TestAsset\SequenceTest');
+        $return = $this->wsdl->addComplexType('\LaminasTest\Soap\TestAsset\SequenceTest');
 
         $this->assertEquals('tns:SequenceTest', $return);
 
@@ -184,7 +183,7 @@ class ArrayOfTypeSequenceStrategyTest extends WsdlTestHelper
 
     public function testAddComplexTypeArrayOfObject()
     {
-        $return = $this->wsdl->addComplexType('\ZendTest\Soap\TestAsset\ComplexTypeA[]');
+        $return = $this->wsdl->addComplexType('\LaminasTest\Soap\TestAsset\ComplexTypeA[]');
         $this->assertEquals('tns:ArrayOfComplexTypeA', $return);
 
 
@@ -278,6 +277,6 @@ class ArrayOfTypeSequenceStrategyTest extends WsdlTestHelper
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Cannot add a complex type');
-        $this->wsdl->addComplexType('ZendTest\Soap\Wsdl\UnknownClass[]');
+        $this->wsdl->addComplexType('LaminasTest\Soap\Wsdl\UnknownClass[]');
     }
 }
