@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="laminas-soap">  
+    <link rel="canonical" href="https://docs.laminas.dev/wsdl/">
+    <link rel="shortcut icon" href="/img/trademark-laminas-foundation-rgb.svg">
+
+    <title>WSDL Parsing and Generation - laminas-soap - Laminas Docs</title>
+
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body id="page-top" class="components">
+
+    
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        
+        <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
+            <img src="../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+        </a>
+        <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
+            Documentation
+        </a>
+
+        
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
+                </li>
+            </ul>
+
+            
+            
+                <div class="d-block d-sm-none">
+                    
+    <div class="subnavigation hidden-print">
+        <h4 class="subnavigation__title">
+            <a href="..">laminas-soap</a>
+        </h4>
+
+        <h5 class="subnavigation__subtitle">Table of Contents</h5>
+
+        <ul class="subnavigation__list">
+            
+
+                
+                
+
+                    
+                    
+                        
+                            <li class="subnavigation__list-item ">
+                                <a href=".." class="subnavigation__link">laminas-soap</a>
+                            </li>
+                        
+                    
+                
+            
+
+                
+                
+
+                    
+                    
+                        
+                            <li class="subnavigation__list-item">
+                                <span class="subnavigation__headline">Reference</span>
+                                <ul class="subnavigation__list">
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../server/" class="subnavigation__link">Servers</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../client/" class="subnavigation__link">Clients</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">WSDL Parsing and Generation</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../auto-discovery/" class="subnavigation__link">WSDL AutoDiscovery</a>
+    </li>
+
+                                    
+                                </ul>
+                            </li>
+                        
+                    
+                
+            
+        </ul>
+    </div>
+
+                </div>
+            
+
+            
+            <div class="d-block d-sm-none">
+                <div class="component-selector">
+    
+    <h5 class="component-selector__subtitle">Find documentation…</h5>
+    <select class="form-control component-selector__control">
+        <option value="/">Overview</option>
+        <optgroup label="Components"></optgroup>
+    </select>
+</div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <header class="header">
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="col-6 offset-md-2">
+                <h1 class="header__title">
+                    Components
+
+                    
+                        <small class="header__subtitle">laminas-soap</small>
+                    
+                </h1>
+            </div>
+
+            
+            <div class="col-4 text-sm-right">
+                
+                    
+
+                    <a href="#" class="header__link header__link--search" data-toggle="modal" data-target="#mkdocs_search_modal" title="Open search">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                    <a href="https://github.com/laminas/laminas-soap/" class="header__link header__link--github" title="Go to repository of laminas-soap">
+                        <i class="fa fa-github"></i> GitHub
+                    </a>
+                
+            </div>
+        </div>
+    </div>
+</header>
+
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2 col-sm-12">
+                
+    
+
+    
+    
+        <div class="toc">
+            <h6 class="toc__headline">On this page</h6>
+            <ul class="toc__list">
+                
+                    <li class="toc__entry">
+                        <a href="#instantiation" class="toc__link">Instantiation</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#addmessage-method" class="toc__link">addMessage() method</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#addporttype-method" class="toc__link">addPortType() method</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#addportoperation-method" class="toc__link">addPortOperation() method</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#addbinding-method" class="toc__link">addBinding() method</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#addbindingoperation-method" class="toc__link">addBindingOperation() method</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#addsoapbinding-method" class="toc__link">addSoapBinding() method</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#addsoapoperation-method" class="toc__link">addSoapOperation() method</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#addservice-method" class="toc__link">addService() method</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#type-mapping" class="toc__link">Type mapping</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#adddocumentation-method" class="toc__link">addDocumentation() method</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#documenting-complex-types" class="toc__link">Documenting complex types</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#retrieve-the-final-wsdl-document" class="toc__link">Retrieve the final WSDL document</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
+
+            </div>
+            <div class="col-md-7 col-sm-12 content" role="main" data-spy="scroll" data-target=".toc">
+                
+                    <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        
+            <li class="breadcrumb-item"><a href="">Overview</a></li>
+
+            
+                <li class="breadcrumb-item"><a href="..">laminas-soap</a></li>
+
+                
+                    
+                        
+                        
+                            <li class="breadcrumb-item">Reference</li>
+                        
+                    
+                
+
+                <li class="breadcrumb-item active" aria-current="page">WSDL Parsing and Generation</li>
+            
+        
+    </ol>
+</nav>
+
+
+
+
+
+
+    
+    
+        <h2 class="chapter__headline">Reference</h2>
+    
+
+    <h1 id="wsdl-parsing-and-generation">WSDL Parsing and Generation</h1>
+<p>The <code>Laminas\Soap\Wsdl</code> class is used by <code>Laminas\Soap\Server</code> internally to operate
+with WSDL documents. In most cases, you will not interact with it directly.</p>
+<p>Nevertheless, you could also use functionality provided by this class for your
+own needs.  <code>Laminas\Soap\Wsdl</code> contains both a parser and a generator for WSDL
+documents.</p>
+<h2 id="instantiation">Instantiation</h2>
+<p>The <code>Laminas\Soap\Wsdl</code> constructor takes three parameters:</p>
+<ul>
+<li><code>$name</code> - name of the web service being described.</li>
+<li><code>$uri</code> - URI where the WSDL will be available (could also be a reference to
+  the file in the filesystem.)</li>
+<li><code>$strategy</code> - optional flag used to identify the strategy for complex types
+  (objects) detection.  To read more on complex type detection strategies go to
+  the section on <a href="#adding-complex-type-information">adding complex types</a>.</li>
+<li><code>$classMap</code> - Optional array of class name translations from PHP Type (key) to
+  WSDL type (value).</li>
+</ul>
+<h2 id="addmessage-method">addMessage() method</h2>
+<p>The <code>addMessage($name, $parts)</code> method adds a new message description to the
+WSDL document (<code>/definitions/message</code> element).</p>
+<p>Each message corresponds to methods in terms of <code>Laminas\Soap\Server</code> and
+<code>Laminas\Soap\Client</code> functionality.</p>
+<p>The <code>$name</code> parameter represents the message name.</p>
+<p>The <code>$parts</code> parameter is an array of message parts which describes SOAP call
+parameters, represented as an associative array of 'part name' (SOAP call
+parameter name) =&gt; 'part type' pairs.</p>
+<p>Type mapping management is performed using one of the <code>addTypes()</code> and
+<code>addComplexType()</code> methods (see below).</p>
+<blockquote>
+<h3>Message Typing</h3>
+<p>Messages parts can use either the <code>element</code> or <code>type</code> attribute for typing (see
+<a href="http://www.w3.org/TR/wsdl#_messages">the W3C WSDL specification</a>).</p>
+<p>The <code>element</code> attribute must refer to a corresponding element in the data type
+definition. A <code>type</code> attribute refers to a corresponding complexType entry.</p>
+<p>All standard XSD types have both <code>element</code> and <code>complexType</code> definitions (see
+the <a href="http://schemas.xmlsoap.org/soap/encoding/">SOAP encoding specification</a>
+for details).</p>
+<p>All non-standard types, which may be added using the
+<code>Laminas\Soap\Wsdl::addComplexType()</code> method, are described using the
+<code>complexType</code> node of the <code>/definitions/types/schema/</code> section of the WSDL
+document.</p>
+<p>The <code>addMessage()</code> method always uses the <code>type</code> attribute to describe types.</p>
+</blockquote>
+<h2 id="addporttype-method">addPortType() method</h2>
+<p>The <code>addPortType($name)</code> method adds a new port type to the WSDL document
+(<code>/definitions/portType</code>) with the specified port type name.</p>
+<p>In terms of the <code>Laminas\Soap\Server</code> implementation, it joins a set of web service
+methods into a single operation.</p>
+<p>See <a href="http://www.w3.org/TR/wsdl#_porttypes">the W3C portTypes documentation</a> for
+more details.</p>
+<h2 id="addportoperation-method">addPortOperation() method</h2>
+<p>The <code>addPortOperation($portType, $name, $input = false, $output = false, $fault
+= false)</code> method adds new port operation to the specified port type of the WSDL
+document (<code>/definitions/portType/operation</code>).</p>
+<p>In terms of the <code>Laminas\Soap\Server</code> implementation, Each port operation
+corresponds to a class method (if the web service is based on a class) or
+function (if the web service is based on a set of methods).</p>
+<p>It also adds corresponding port operation messages depending on the specified
+<code>$input</code>, <code>$output</code> and <code>$fault</code> parameters.</p>
+<blockquote>
+<h3>Generated messages</h3>
+<p><code>Laminas\Soap\Server</code> generates two messages for each port operation when
+describing operations it provides:</p>
+<ul>
+<li>input message with name <code>&lt;$methodName&gt;Request</code>.</li>
+<li>output message with name <code>&lt;$methodName&gt;Response</code>.</li>
+</ul>
+</blockquote>
+<p>See the <a href="http://www.w3.org/TR/wsdl#_request-response">W3C WSDL request/response documentation</a>
+for more details.</p>
+<h2 id="addbinding-method">addBinding() method</h2>
+<p>The <code>addBinding($name, $portType)</code> method adds new binding to the WSDL document
+(<code>/definitions/binding</code>).</p>
+<p>A <code>binding</code> WSDL document node defines the message format and protocol details
+for operations and messages defined by a particular portType (see the <a href="http://www.w3.org/TR/wsdl#_bindings">W3C WSDL
+binding documentation</a>).</p>
+<p>The method creates a binding node and returns it; you may then fill the returned
+node with data.</p>
+<p><code>Laminas\Soap\Server</code> uses the name <code>&lt;$serviceName&gt;Binding</code> for the 'binding'
+element in the WSDL document.</p>
+<h2 id="addbindingoperation-method">addBindingOperation() method</h2>
+<p>The <code>addBindingOperation($binding, $name, $input = false, $output = false,
+$fault = false)</code> method adds an operation to a binding element
+(<code>/definitions/binding/operation</code>) with the specified name.</p>
+<p>It takes an <code>XML_Tree_Node</code> object returned by <code>addBinding()</code> as an input
+(<code>$binding</code> parameter) to add an 'operation' element with input/output/false
+entries depending on the specified parameters</p>
+<p>The <code>Laminas\Soap\Server</code> implementation adds a corresponding binding entry for each web service method with
+input and output entries, defining the <code>soap:body</code> element as <code>&lt;soap:body use="encoded"
+encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"&gt;</code>.</p>
+<p>See the <a href="http://www.w3.org/TR/wsdl#_bindings">W3C WSDL bindings documentation</a>
+for more details.</p>
+<h2 id="addsoapbinding-method">addSoapBinding() method</h2>
+<p>The <code>addSoapBinding($binding, $style = 'document', $transport =
+'http://schemas.xmlsoap.org/soap/http')</code> method adds a SOAP binding
+(<code>soap:binding</code>) entry to the binding element (which is already linked to some
+port type) using the specified style and transport (the <code>Laminas\Soap\Server</code>
+implementation uses the RPC style over HTTP).</p>
+<p>A <code>/definitions/binding/soap:binding</code> element is used to signify that the
+binding is bound to the SOAP protocol format.</p>
+<p>See the <a href="http://www.w3.org/TR/wsdl#_bindings">W3C bindings documentation</a> for
+more details.</p>
+<h2 id="addsoapoperation-method">addSoapOperation() method</h2>
+<p>The <code>addSoapOperation($binding, $soap_action)</code> method adds a SOAP operation
+(<code>soap:operation</code>) entry to the binding element with the specified action. The
+<code>style</code> attribute of the <code>soap:operation</code> element is not used since the
+programming model (RPC-oriented or document-oriented) may be using the
+<code>addSoapBinding()</code> method already.</p>
+<p>The <code>soapAction</code> attribute of <code>/definitions/binding/soap:operation</code> element
+specifies the value of the SOAP action header for this operation. This attribute
+is required for SOAP over HTTP and <strong>must not</strong> be specified for other
+transports.</p>
+<p>The <code>Laminas\Soap\Server</code> implementation uses the format
+<code>&lt;$serviceUri&gt;#&lt;$methodName&gt;</code> for the SOAP operation action name.</p>
+<p>See the <a href="http://www.w3.org/TR/wsdl#_soap:operation">W3C soap:operation documentation</a>
+for more details.</p>
+<h2 id="addservice-method">addService() method</h2>
+<p>The <code>addService($name, $port_name, $binding, $location)</code> method adds a
+<code>/definitions/service</code> element to the WSDL document with the specified service
+name, port name, binding, and location.</p>
+<p>WSDL 1.1 allows several port types (sets of operations) per service; however,
+laminas-soap does not support this ability.</p>
+<p>The <code>Laminas\Soap\Server</code> implementation uses:</p>
+<ul>
+<li><code>&lt;$name&gt;Service</code> as the service name.</li>
+<li><code>&lt;$name&gt;Port</code> as the port type name.</li>
+<li><code>tns:&lt;$name&gt;Binding</code> [1] as the binding name. (<code>tns:namespace</code> is defined as
+  the script URI; generally this is <code>'http://' . $_SERVER['HTTP_HOST'] .
+  $_SERVER['SCRIPT_NAME']</code>)</li>
+<li>the script URI (<code>'http://' . $_SERVER['HTTP_HOST'] .  $_SERVER['SCRIPT_NAME']</code>)
+  as the service URI for the service definition.</li>
+</ul>
+<p>where <code>$name</code> is either:</p>
+<ul>
+<li>a class name, for servers representing a PHP class,</li>
+<li>a script name, for servers representing a collection of PHP functions.</li>
+</ul>
+<p>See the <a href="http://www.w3.org/TR/wsdl#_services">W3C WSDL services documentation</a>
+for more details.</p>
+<h2 id="type-mapping">Type mapping</h2>
+<p>The laminas-soap WSDL implementation uses the following type mappings between PHP
+and SOAP types:</p>
+<ul>
+<li>PHP strings &lt;-&gt; <code>xsd:string</code>.</li>
+<li>PHP integers &lt;-&gt; <code>xsd:int</code>.</li>
+<li>PHP floats and doubles &lt;-&gt; <code>xsd:float</code>.</li>
+<li>PHP booleans &lt;-&gt; <code>xsd:boolean</code>.</li>
+<li>PHP arrays &lt;-&gt; <code>soap-enc:Array</code>.</li>
+<li>PHP Date &lt;-&gt; <code>xsd:date</code>.</li>
+<li>PHP DateTime &lt;-&gt; <code>xsd:dateTime</code>.</li>
+<li>PHP object &lt;-&gt; <code>xsd:struct</code>.</li>
+<li>PHP class &lt;-&gt; based on complex type strategy (See
+  <a href="#adding-complex-type-information">the section on adding complex types</a>).</li>
+<li>PHP void &lt;-&gt; empty type.</li>
+<li>If a type is not matched to any of the above, then <code>xsd:anyType</code> is used.</li>
+</ul>
+<p>Where:</p>
+<ul>
+<li><code>xsd:</code> refers to the <a href="http://www.w3.org/2001/XMLSchema">http://www.w3.org/2001/XMLSchema</a> namespace</li>
+<li><code>soap-enc:</code> refers to the <a href="http://schemas.xmlsoap.org/soap/encoding/">http://schemas.xmlsoap.org/soap/encoding/</a>
+  namespace</li>
+<li><code>tns:</code> is the "target namespace" for the service.</li>
+</ul>
+<blockquote>
+<h3>Complex types</h3>
+<p>By default, <code>Laminas\Soap\Wsdl</code> will be created with the
+<code>Laminas\Soap\Wsdl\ComplexTypeStrategy\DefaultComplexType</code> class as its detection
+algorithm for complex types. The first parameter of the <code>AutoDiscover</code>
+constructor takes any complex type strategy implementing
+<code>Laminas\Soap\Wsdl\ComplexTypeStrategy\ComplexTypeStrategyInterface</code>, or a string
+class name of a class implementing the interface. For backwards compatibility
+with the <code>$extractComplexType</code> setting, boolean variables are parsed the
+following way:</p>
+<ul>
+<li>If <code>TRUE</code>, <code>Laminas\Soap\Wsdl\ComplexTypeStrategy\DefaultComplexType</code> is used.</li>
+<li>If <code>FALSE</code>, <code>Laminas\Soap\Wsdl\ComplexTypeStrategy\AnyType</code> is used.</li>
+</ul>
+</blockquote>
+<h3>Retrieving type information</h3>
+<p>The <code>getType($type)</code> method may be used to retrieve the mapping for a specified
+PHP type:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>$wsdl = new Laminas\Soap\Wsdl(&#39;My_Web_Service&#39;, $myWebServiceUri);</span>
+<span class=x>$soapIntType = $wsdl-&gt;getType(&#39;int&#39;);</span>
+
+<span class=x>class MyClass</span>
+<span class=x>{</span>
+<span class=x>    /* ... */</span>
+<span class=x>}</span>
+
+<span class=x>$soapMyClassType = $wsdl-&gt;getType(&#39;MyClass&#39;);</span>
+</pre></div></p>
+<h3>Adding complex type information</h3>
+<p>The <code>addComplexType($type)</code> method is used to add complex types (PHP classes) to
+a WSDL document.</p>
+<p>The method is automatically used by the <code>getType()</code> method to add corresponding
+complex types of method parameters or return types.</p>
+<p>The detection and generation algorithm it uses is based on the currently active
+detection strategy for complex types. You can set the detection strategy either
+by specifying the class name as a string or providing an instance of a
+<code>Laminas\Soap\Wsdl\ComplexTypeStrategy</code> implementation as the third parameter to
+the constructor, or by calling the <code>setComplexTypeStrategy($strategy)</code> function
+of <code>Laminas\Soap\Wsdl</code>.</p>
+<p>The following detection strategies currently exist:</p>
+<ul>
+<li><code>Laminas\Soap\Wsdl\ComplexTypeStrategy\DefaultComplexType</code>: Enabled by default
+  (when no third constructor parameter is set). Iterates over the public
+  attributes of a class type and registers them as subtypes of the complex
+  object type.</li>
+<li><code>Laminas\Soap\Wsdl\ComplexTypeStrategy\AnyType</code>: Casts all complex types into the
+  simple XSD type <code>xsd:anyType</code>. Warning: this shortcut for complex type
+  detection can probably only be handled successfully by weakly typed languages
+  such as PHP.</li>
+<li><code>Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeSequence</code>: This strategy allows
+  specifying arrays of the given type, which can be any PHP scalar type (<code>int</code>,
+  <code>string</code>, <code>bool</code>, <code>float</code>), as well as objects or arrays of objects.</li>
+<li><code>Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplex</code>: This strategy allows
+  detecting very complex arrays of objects. Objects types are detected based on
+  the <code>Laminas\Soap\Wsdl\Strategy\DefaultComplexType</code>, and an array is wrapped
+  around that definition.</li>
+<li><code>Laminas\Soap\Wsdl\ComplexTypeStrategy\Composite</code>: This strategy can combine all
+  strategies by connecting PHP complex types (classes/objects) to the desired
+  strategy via the <code>connectTypeToStrategy($type, $strategy)</code> method. A complete
+  typemap can be given to the constructor as an array with <code>$type</code> / <code>$strategy</code>
+  pairs. The second parameter specifies the default strategy that will be used
+  if an unknown type is requested for adding, and defaults to the
+  <code>Laminas\Soap\Wsdl\Strategy\DefaultComplexType</code> strategy.</li>
+</ul>
+<p>The <code>addComplexType()</code> method creates a
+<code>/definitions/types/xsd:schema/xsd:complexType</code> element for each described
+complex type, using the specified PHP class name.</p>
+<p>Class properties <strong>MUST</strong> have a docblock section with the described PHP type in
+order to be included in the WSDL description.</p>
+<p><code>addComplexType()</code> checks if the type is already described within types section
+of the WSDL document, and prevents duplication of types. Additionally, it has
+recursion detection.</p>
+<p>See the <a href="http://www.w3.org/TR/wsdl#_types">W3C WSDL types documentation</a> for
+more details.</p>
+<h2 id="adddocumentation-method">addDocumentation() method</h2>
+<p>The <code>addDocumentation($input_node, $documentation)</code> method adds human readable
+documentation using the optional <code>wsdl:document</code> element.</p>
+<p>The <code>/definitions/binding/soap:binding</code> element is used to signify that the
+binding is bound to the SOAP protocol format.</p>
+<p>See the <a href="http://www.w3.org/TR/wsdl#_documentation">W3C WSDL documentation section</a>
+for more details.</p>
+<h2 id="documenting-complex-types">Documenting complex types</h2>
+<p>To automatically generate documentation for complex types add a class implementing
+<code>Laminas\Soap\Wsdl\DocumentationStrategy\DocumentationStrategyInterface</code> to your
+complex type strategy. A <code>ReflectionDocumentation</code> strategy is included, which 
+will parse class and property docblocks and generate documentation based on the
+comments found:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>$strategy = new ArrayOfTypeSequence();</span>
+<span class=x>$strategy-&gt;setDocumentationStrategy(new ReflectionDocumentation());</span>
+<span class=x>$wsdl = new Laminas\Soap\Wsdl(&#39;MyService&#39;, $myWebServiceUri, $strategy);</span>
+</pre></div></p>
+<h2 id="retrieve-the-final-wsdl-document">Retrieve the final WSDL document</h2>
+<p>Several methods exist for retrieving the full WSDL definition document:</p>
+<ul>
+<li><code>toXML()</code> will generate an XML string.</li>
+<li><code>toDomDocument()</code> will generate a PHP <code>DOMDocument</code> instance.</li>
+<li><code>dump($filename = false)</code> will dump the XML to the specified filename, or, if
+  no filename is provided, return the XML string.</li>
+</ul>
+
+
+
+
+    <nav>
+    <ul class="page-nav hidden-print">
+
+        
+        <li class="page-nav__item">
+            
+                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../client/">
+                    <i class="fa fa-chevron-left"></i> Previous
+                </a>
+            
+        </li>
+
+        
+        <li class="page-nav__item">
+            
+                <a rel="next" class="page-nav__link page-nav__link--next" href="../auto-discovery/">
+                    Next <i class="fa fa-chevron-right"></i>
+                </a>
+            
+        </li>
+    </ul>
+</nav>
+
+
+
+
+    <div class="help-wanted">
+        <p>
+            Found a mistake or want to contribute to the documentation?
+            <a href="https://github.com/laminas/laminas-soap/edit/master/doc/book/wsdl.md" target="_blank" class="help-wanted__link">
+                Edit this page on GitHub!
+            </a>
+        </p>
+    </div>
+
+                
+            </div>
+            <div class="col-md-3 col-sm-12 sidebar">
+                
+                    <div class="component-selector">
+    
+    <h5 class="component-selector__subtitle">Find documentation…</h5>
+    <select class="form-control component-selector__control">
+        <option value="/">Overview</option>
+        <optgroup label="Components"></optgroup>
+    </select>
+</div>
+                    
+    <div class="subnavigation hidden-print">
+        <h4 class="subnavigation__title">
+            <a href="..">laminas-soap</a>
+        </h4>
+
+        <h5 class="subnavigation__subtitle">Table of Contents</h5>
+
+        <ul class="subnavigation__list">
+            
+
+                
+                
+
+                    
+                    
+                        
+                            <li class="subnavigation__list-item ">
+                                <a href=".." class="subnavigation__link">laminas-soap</a>
+                            </li>
+                        
+                    
+                
+            
+
+                
+                
+
+                    
+                    
+                        
+                            <li class="subnavigation__list-item">
+                                <span class="subnavigation__headline">Reference</span>
+                                <ul class="subnavigation__list">
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../server/" class="subnavigation__link">Servers</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../client/" class="subnavigation__link">Clients</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">WSDL Parsing and Generation</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../auto-discovery/" class="subnavigation__link">WSDL AutoDiscovery</a>
+    </li>
+
+                                    
+                                </ul>
+                            </li>
+                        
+                    
+                
+            
+        </ul>
+    </div>
+
+                
+            </div>
+        </div>
+    </div>
+
+    
+    <footer class="footer">
+    <div class="container">
+
+        
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <a class="footer__button" href="#page-top"><i class="fa fa-chevron-up" aria-hidden="true"></i></a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-7 offset-md-2">
+                <h5>Laminas</h5>
+                <ul>
+                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
+                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row">
+
+            
+            <div class="col-md-4 offset-md-2">
+                <h4 class="footer__headline">Support</h4>
+                <ul class="support__list">
+                    <li class="support__list-item">
+                        <a href="https://discourse.laminas.dev" class="support__link" title="Forum"><i class="fa fa-comments"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://laminas.dev/chat" class="support__link" title="Chat"><i class="fa fa-slack"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://github.com/laminas" class="support__link" title="Github"><i class="fa fa-github"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://twitter.com/getlaminas" class="support__link" title="Twitter"><i class="fa fa-twitter"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://getlaminas.org/blog/feed-rss.xml" class="support__link" title="Blog feed"><i class="fa fa-rss"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://getlaminas.org/security/feed" class="support__link" title="Security feed"><i class="fa fa-rss-square"></i></a>
+                    </li>
+                </ul>
+            </div>
+
+            
+            <div class="col-md-3">
+                <h4 class="footer__headline">License</h4>
+                <p>
+                    Code licensed under <a
+                        href="https://github.com/laminas/laminas-soap//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                </p>
+            </div>
+
+            
+            <div class="col-md-3">
+                <h4 class="footer__headline">Copyright</h4>
+                <p>
+                    <!--Built with love by the Laminas team with the help of our
+                    <a href="https://github.com/laminas/laminas-soap//graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script>
+        let base_url = '..',
+            project  = "components",
+            siteName = 'laminas-soap';
+    </script>
+    <script src="/js/scripts.js"></script>
+        <script src="../search/main.js"></script>
+
+    
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Search</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search in laminas-soap" id="mkdocs-search-query">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+
+</html>

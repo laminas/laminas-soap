@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="laminas-soap">  
+    <link rel="canonical" href="https://docs.laminas.dev/server/">
+    <link rel="shortcut icon" href="/img/trademark-laminas-foundation-rgb.svg">
+
+    <title>Servers - laminas-soap - Laminas Docs</title>
+
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body id="page-top" class="components">
+
+    
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        
+        <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
+            <img src="../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+        </a>
+        <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
+            Documentation
+        </a>
+
+        
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
+                </li>
+            </ul>
+
+            
+            
+                <div class="d-block d-sm-none">
+                    
+    <div class="subnavigation hidden-print">
+        <h4 class="subnavigation__title">
+            <a href="..">laminas-soap</a>
+        </h4>
+
+        <h5 class="subnavigation__subtitle">Table of Contents</h5>
+
+        <ul class="subnavigation__list">
+            
+
+                
+                
+
+                    
+                    
+                        
+                            <li class="subnavigation__list-item ">
+                                <a href=".." class="subnavigation__link">laminas-soap</a>
+                            </li>
+                        
+                    
+                
+            
+
+                
+                
+
+                    
+                    
+                        
+                            <li class="subnavigation__list-item">
+                                <span class="subnavigation__headline">Reference</span>
+                                <ul class="subnavigation__list">
+                                    
+                                        
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Servers</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../client/" class="subnavigation__link">Clients</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../wsdl/" class="subnavigation__link">WSDL Parsing and Generation</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../auto-discovery/" class="subnavigation__link">WSDL AutoDiscovery</a>
+    </li>
+
+                                    
+                                </ul>
+                            </li>
+                        
+                    
+                
+            
+        </ul>
+    </div>
+
+                </div>
+            
+
+            
+            <div class="d-block d-sm-none">
+                <div class="component-selector">
+    
+    <h5 class="component-selector__subtitle">Find documentation…</h5>
+    <select class="form-control component-selector__control">
+        <option value="/">Overview</option>
+        <optgroup label="Components"></optgroup>
+    </select>
+</div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <header class="header">
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="col-6 offset-md-2">
+                <h1 class="header__title">
+                    Components
+
+                    
+                        <small class="header__subtitle">laminas-soap</small>
+                    
+                </h1>
+            </div>
+
+            
+            <div class="col-4 text-sm-right">
+                
+                    
+
+                    <a href="#" class="header__link header__link--search" data-toggle="modal" data-target="#mkdocs_search_modal" title="Open search">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                    <a href="https://github.com/laminas/laminas-soap/" class="header__link header__link--github" title="Go to repository of laminas-soap">
+                        <i class="fa fa-github"></i> GitHub
+                    </a>
+                
+            </div>
+        </div>
+    </div>
+</header>
+
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2 col-sm-12">
+                
+    
+
+    
+    
+        <div class="toc">
+            <h6 class="toc__headline">On this page</h6>
+            <ul class="toc__list">
+                
+                    <li class="toc__entry">
+                        <a href="#laminassoapserver-instantiation" class="toc__link">Laminas\Soap\Server instantiation</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#defining-your-soap-api" class="toc__link">Defining your SOAP API</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#request-and-response-handling" class="toc__link">Request and response handling</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#documentliteral-wsdl-handling" class="toc__link">Document/Literal WSDL Handling</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
+
+            </div>
+            <div class="col-md-7 col-sm-12 content" role="main" data-spy="scroll" data-target=".toc">
+                
+                    <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        
+            <li class="breadcrumb-item"><a href="">Overview</a></li>
+
+            
+                <li class="breadcrumb-item"><a href="..">laminas-soap</a></li>
+
+                
+                    
+                        
+                        
+                            <li class="breadcrumb-item">Reference</li>
+                        
+                    
+                
+
+                <li class="breadcrumb-item active" aria-current="page">Servers</li>
+            
+        
+    </ol>
+</nav>
+
+
+
+
+
+
+    
+    
+        <h2 class="chapter__headline">Reference</h2>
+    
+
+    <h1 id="laminas92soap92server">Laminas\Soap\Server</h1>
+<p><code>Laminas\Soap\Server</code> provides a wrapper around PHP's
+<a href="http://php.net/SoapServer">SoapServer</a> implementation with convenience
+functionality for generating WSDL and registering internal handlers.</p>
+<p>It may be used in WSDL or non-WSDL mode, and can map functionality to either PHP
+classes or functions in order to define your web service API.</p>
+<p>When in WSDL mode, it uses a prepared WSDL document to define server object
+behavior and transport layer options.</p>
+<p>WSDL documents may be auto-generated with functionality provided by the
+<a href="../auto-discovery/">Laminas\Soap\AutoDiscover</a> component, or constructed manually
+using the <a href="../wsdl/">Laminas\Soap\Wsdl</a> class or any other XML generation tool.</p>
+<p>If the non-WSDL mode is used, then all protocol options must be provided via the
+options mechanism.</p>
+<h2 id="laminassoapserver-instantiation">Laminas\Soap\Server instantiation</h2>
+<p>Instantiation of <code>Server</code> instances varies based on whether or not you are using
+WSDL mode.</p>
+<h3>Options available in either mode</h3>
+<ul>
+<li><code>parse_huge</code> (since 2.7.0): when set to a boolean true, ensures the
+  <code>LIBXML_PARSEHUGE</code> flag is passed to <code>DOMDocument::loadXML()</code> when handling an
+  incoming request. This can resolve issues with receiving large payloads.</li>
+</ul>
+<h3>Instantiation for WSDL mode</h3>
+<p>When in WSDL mode, the constructor expects two optional parameters:</p>
+<ul>
+<li><code>$wsdl</code>: the URI of a WSDL file. This may be set after-the-fact using
+  <code>$server-&gt;setWsdl($wsdl)</code>.</li>
+<li><code>$options</code>: options to use when creating the instance. These may be set later
+  using <code>$server-&gt;setOptions($options)</code>.</li>
+</ul>
+<p>The following options are recognized in the WSDL mode:</p>
+<ul>
+<li><code>soap_version</code> (<code>soapVersion</code>) - soap version to use (<code>SOAP_1_1</code> or <code>SOAP_1_2</code>).</li>
+<li><code>actor</code> - the actor URI for the server.</li>
+<li><code>classmap</code> (<code>classMap</code>) which can be used to map some WSDL types to PHP
+  classes. The option must be an array with WSDL types as keys, and names of PHP
+  classes as values.</li>
+<li><code>encoding</code> - internal character encoding (UTF-8 is always used as an external encoding).</li>
+<li><code>wsdl</code> - equivalent to calling <code>setWsdl($wsdlValue)</code>.</li>
+</ul>
+<h3>Instantiation for non-WSDL mode</h3>
+<p>The first constructor parameter <strong>must</strong> be set to <code>NULL</code> if you plan to use
+<code>Laminas\Soap\Server</code> functionality in non-WSDL mode.</p>
+<p>You also have to set the <code>uri</code> option in this case (see below).</p>
+<p>The second constructor parameter, <code>$options</code>, is an array of options for
+configuring the behavior of the server; these may also be provided later using
+<code>$server-&gt;setOptions($options)</code>. Options recognized in non-WSDL mode include:</p>
+<ul>
+<li><code>soap_version</code> (<code>soapVersion</code>) - soap version to use (<code>SOAP_1_1</code> or <code>SOAP_1_2</code>).</li>
+<li><code>actor</code> - the actor URI for the server.</li>
+<li><code>classmap</code> (<code>classMap</code>) - an associative array used to map WSDL types to PHP
+  classes. The option must be an associative array using WSDL types as the
+  keys, and PHP class names as values.</li>
+<li><code>encoding</code> - internal character encoding (UTF-8 is always used as an external
+  encoding).</li>
+<li><code>uri</code> (required) - URI namespace for SOAP server.</li>
+</ul>
+<h2 id="defining-your-soap-api">Defining your SOAP API</h2>
+<p>There are two ways to define your SOAP API in order to expose PHP functionality.</p>
+<p>The first one is to attach a class to the <code>Laminas\Soap\Server</code> object that
+completely describes your API:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>class MyClass</span>
+<span class=x>{</span>
+<span class=x>    /**</span>
+<span class=x>     * This method takes ...</span>
+<span class=x>     *</span>
+<span class=x>     * @param integer $inputParam</span>
+<span class=x>     * @return string</span>
+<span class=x>     */</span>
+<span class=x>    public function method1($inputParam)</span>
+<span class=x>    {</span>
+<span class=x>        // ...</span>
+<span class=x>    }</span>
+
+<span class=x>    /**</span>
+<span class=x>     * This method takes ...</span>
+<span class=x>     *</span>
+<span class=x>     * @param integer $inputParam1</span>
+<span class=x>     * @param string  $inputParam2</span>
+<span class=x>     * @return float</span>
+<span class=x>     */</span>
+<span class=x>    public function method2($inputParam1, $inputParam2)</span>
+<span class=x>    {</span>
+<span class=x>        // ...</span>
+<span class=x>    }</span>
+
+<span class=x>    /* ... */</span>
+<span class=x>}</span>
+
+<span class=x>$server = new Laminas\Soap\Server(null, $options);</span>
+
+<span class=x>// Bind class to Soap Server:</span>
+<span class=x>$server-&gt;setClass(MyClass::class);</span>
+
+<span class=x>// Or bind an instance:</span>
+<span class=x>$server-&gt;setObject(new MyClass());</span>
+
+<span class=x>// Handle a request:</span>
+<span class=x>$server-&gt;handle();</span>
+</pre></div></p>
+<blockquote>
+<h3>Docblocks are required</h3>
+<p>You should completely describe each method using a method docblock if you plan
+to use autodiscover functionality to prepare your WSDL.</p>
+</blockquote>
+<p>The second method for defining your API is to use one or more functions, passing
+them to one or more of the <code>addFunction()</code> or <code>loadFunctions()</code> methods:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>/**</span>
+<span class=x> * This function ...</span>
+<span class=x> *</span>
+<span class=x> * @param integer $inputParam</span>
+<span class=x> * @return string</span>
+<span class=x> */</span>
+<span class=x>function function1($inputParam)</span>
+<span class=x>{</span>
+<span class=x>    // ...</span>
+<span class=x>}</span>
+
+<span class=x>/**</span>
+<span class=x> * This function ...</span>
+<span class=x> *</span>
+<span class=x> * @param integer $inputParam1</span>
+<span class=x> * @param string  $inputParam2</span>
+<span class=x> * @return float</span>
+<span class=x> */</span>
+<span class=x>function function2($inputParam1, $inputParam2)</span>
+<span class=x>{</span>
+<span class=x>    // ...</span>
+<span class=x>}</span>
+
+<span class=x>$server = new Laminas\Soap\Server(null, $options);</span>
+<span class=x>$server-&gt;addFunction(&#39;function1&#39;);</span>
+<span class=x>$server-&gt;addFunction(&#39;function2&#39;);</span>
+
+<span class=x>$server-&gt;handle();</span>
+</pre></div></p>
+<h2 id="request-and-response-handling">Request and response handling</h2>
+<p><code>Laminas\Soap\Server</code> component performs request/response processing automatically,
+but allows you to intercept each in order to perform pre- or post-processing.</p>
+<h3>Request pre- and post-processing</h3>
+<p>The <code>Laminas\Soap\Server::handle()</code> method handles a request from the standard
+input stream ('php://input'). It may be overridden either by supplying a request
+instance to the <code>handle()</code> method, or by setting the request via the
+<code>setRequest()</code> method:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>$server = new Laminas\Soap\Server(/* ... */);</span>
+
+<span class=x>// Set request using optional $request parameter to the handle() method:</span>
+<span class=x>$server-&gt;handle($request);</span>
+
+<span class=x>// Set request using setRequest() method:</span>
+<span class=x>$server-&gt;setRequest();</span>
+<span class=x>$server-&gt;handle();</span>
+</pre></div></p>
+<p>A request object may be represented using any of the following, and handled as
+follows:</p>
+<ul>
+<li><code>DOMDocument</code> (casts to XML)</li>
+<li><code>DOMNode</code> (owner document is retrieved and cast to XML)</li>
+<li><code>SimpleXMLElement</code> (casts to XML)</li>
+<li><code>stdClass</code> (<code>__toString()</code> is called and verified to be valid XML)</li>
+<li><code>string</code> (verified to be valid XML)</li>
+</ul>
+<p>The last request processed may be retrieved using the <code>getLastRequest()</code> method,
+which returns the XML string:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>$server = new Laminas\Soap\Server(/* ... */);</span>
+
+<span class=x>$server-&gt;handle();</span>
+<span class=x>$request = $server-&gt;getLastRequest();</span>
+</pre></div></p>
+<h3>Response post-processing</h3>
+<p>The <code>Laminas\Soap\Server::handle()</code> method automatically emits the generated
+response to the output stream. It may be blocked using <code>setReturnResponse()</code>
+with <code>true</code> or <code>false</code> as a parameter. When set to <code>true</code>, <code>handle()</code> will
+return the generated response instead of emitting it.</p>
+<p>The returned response will be either an XML string representing the response, or
+a <code>SoapFault</code> exception instance.</p>
+<blockquote>
+<h4>Do not return SoapFaults</h4>
+<p>SoapFault instances, when cast to a string, will contain the full exception
+stack trace. For security purposes, you do not want to return that
+information. As such, check your return type before emitting the response
+manually.</p>
+</blockquote>
+<p> <div class=codehilite><pre><span></span><span class=x>$server = new Laminas\Soap\Server(/* ... */);</span>
+
+<span class=x>// Get a response as a return value of handle(),</span>
+<span class=x>// instead of emitting it to standard output:</span>
+<span class=x>$server-&gt;setReturnResponse(true);</span>
+
+<span class=x>$response = $server-&gt;handle();</span>
+
+<span class=x>if ($response instanceof SoapFault) {</span>
+<span class=x>    /* ... */</span>
+<span class=x>} else {</span>
+<span class=x>    /* ... */</span>
+<span class=x>}</span>
+</pre></div></p>
+<p>The last response emitted may also be retrieved for post-processing using
+<code>getLastResponse()</code>:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>$server = new Laminas\Soap\Server(/* ... */);</span>
+
+<span class=x>$server-&gt;handle();</span>
+
+<span class=x>$response = $server-&gt;getLastResponse();</span>
+
+<span class=x>if ($response instanceof SoapFault) {</span>
+<span class=x>    /* ... */</span>
+<span class=x>} else {</span>
+<span class=x>    /* ... */</span>
+<span class=x>}</span>
+</pre></div></p>
+<h2 id="documentliteral-wsdl-handling">Document/Literal WSDL Handling</h2>
+<p>The document/literal binding-style/encoding pattern is used to make SOAP
+messages as human-readable as possible and allow abstraction between very
+incompatible languages. The .NET framework uses this pattern for SOAP service
+generation by default. The central concept of this approach to SOAP is the
+introduction of a Request and an Response object for every function/method of
+the SOAP service. The parameters of the function are properties on the request
+object, and the response object contains a single parameter that is built in the
+style <code>&lt;methodName&gt;Result</code></p>
+<p>laminas-soap supports this pattern in both the AutoDiscover and Server
+components. You can write your service object without knowledge of the pattern.
+Use docblock comments to hint the parameter and return types as usual. The
+<code>Laminas\Soap\Server\DocumentLiteralWrapper</code> wraps around your service object and
+converts request and response into normal method calls on your service.</p>
+<p>See the class doc block of the <code>DocumentLiteralWrapper</code> for a detailed example
+and discussion.</p>
+
+
+
+
+    <nav>
+    <ul class="page-nav hidden-print">
+
+        
+        <li class="page-nav__item">
+            
+                <a rel="prev" class="page-nav__link page-nav__link--prev" href="..">
+                    <i class="fa fa-chevron-left"></i> Previous
+                </a>
+            
+        </li>
+
+        
+        <li class="page-nav__item">
+            
+                <a rel="next" class="page-nav__link page-nav__link--next" href="../client/">
+                    Next <i class="fa fa-chevron-right"></i>
+                </a>
+            
+        </li>
+    </ul>
+</nav>
+
+
+
+
+    <div class="help-wanted">
+        <p>
+            Found a mistake or want to contribute to the documentation?
+            <a href="https://github.com/laminas/laminas-soap/edit/master/doc/book/server.md" target="_blank" class="help-wanted__link">
+                Edit this page on GitHub!
+            </a>
+        </p>
+    </div>
+
+                
+            </div>
+            <div class="col-md-3 col-sm-12 sidebar">
+                
+                    <div class="component-selector">
+    
+    <h5 class="component-selector__subtitle">Find documentation…</h5>
+    <select class="form-control component-selector__control">
+        <option value="/">Overview</option>
+        <optgroup label="Components"></optgroup>
+    </select>
+</div>
+                    
+    <div class="subnavigation hidden-print">
+        <h4 class="subnavigation__title">
+            <a href="..">laminas-soap</a>
+        </h4>
+
+        <h5 class="subnavigation__subtitle">Table of Contents</h5>
+
+        <ul class="subnavigation__list">
+            
+
+                
+                
+
+                    
+                    
+                        
+                            <li class="subnavigation__list-item ">
+                                <a href=".." class="subnavigation__link">laminas-soap</a>
+                            </li>
+                        
+                    
+                
+            
+
+                
+                
+
+                    
+                    
+                        
+                            <li class="subnavigation__list-item">
+                                <span class="subnavigation__headline">Reference</span>
+                                <ul class="subnavigation__list">
+                                    
+                                        
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Servers</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../client/" class="subnavigation__link">Clients</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../wsdl/" class="subnavigation__link">WSDL Parsing and Generation</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../auto-discovery/" class="subnavigation__link">WSDL AutoDiscovery</a>
+    </li>
+
+                                    
+                                </ul>
+                            </li>
+                        
+                    
+                
+            
+        </ul>
+    </div>
+
+                
+            </div>
+        </div>
+    </div>
+
+    
+    <footer class="footer">
+    <div class="container">
+
+        
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <a class="footer__button" href="#page-top"><i class="fa fa-chevron-up" aria-hidden="true"></i></a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-7 offset-md-2">
+                <h5>Laminas</h5>
+                <ul>
+                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
+                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row">
+
+            
+            <div class="col-md-4 offset-md-2">
+                <h4 class="footer__headline">Support</h4>
+                <ul class="support__list">
+                    <li class="support__list-item">
+                        <a href="https://discourse.laminas.dev" class="support__link" title="Forum"><i class="fa fa-comments"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://laminas.dev/chat" class="support__link" title="Chat"><i class="fa fa-slack"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://github.com/laminas" class="support__link" title="Github"><i class="fa fa-github"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://twitter.com/getlaminas" class="support__link" title="Twitter"><i class="fa fa-twitter"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://getlaminas.org/blog/feed-rss.xml" class="support__link" title="Blog feed"><i class="fa fa-rss"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://getlaminas.org/security/feed" class="support__link" title="Security feed"><i class="fa fa-rss-square"></i></a>
+                    </li>
+                </ul>
+            </div>
+
+            
+            <div class="col-md-3">
+                <h4 class="footer__headline">License</h4>
+                <p>
+                    Code licensed under <a
+                        href="https://github.com/laminas/laminas-soap//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                </p>
+            </div>
+
+            
+            <div class="col-md-3">
+                <h4 class="footer__headline">Copyright</h4>
+                <p>
+                    <!--Built with love by the Laminas team with the help of our
+                    <a href="https://github.com/laminas/laminas-soap//graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script>
+        let base_url = '..',
+            project  = "components",
+            siteName = 'laminas-soap';
+    </script>
+    <script src="/js/scripts.js"></script>
+        <script src="../search/main.js"></script>
+
+    
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Search</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search in laminas-soap" id="mkdocs-search-query">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+
+</html>
