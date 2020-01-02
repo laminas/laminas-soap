@@ -2,7 +2,11 @@ docs_dir: doc/book
 site_dir: doc/html
 nav:
     - index.md
-    - { Reference: [{ Servers: server.md }, { Clients: client.md }, { 'WSDL Parsing and Generation': wsdl.md }, { 'WSDL AutoDiscovery': auto-discovery.md }] }
+    - Reference:
+        - Servers: server.md
+        - Clients: client.md
+        - "WSDL Parsing and Generation": wsdl.md
+        - "WSDL AutoDiscovery": auto-discovery.md
 site_name: laminas-soap
 site_description: laminas-soap
 repo_url: 'https://github.com/laminas/laminas-soap'
