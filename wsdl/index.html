@@ -20,7 +20,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -36,13 +36,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -61,20 +65,6 @@
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
 
         <ul class="subnavigation__list">
-            
-
-                
-                
-
-                    
-                    
-                        
-                            <li class="subnavigation__list-item ">
-                                <a href=".." class="subnavigation__link">laminas-soap</a>
-                            </li>
-                        
-                    
-                
             
 
                 
@@ -458,16 +448,15 @@ following way:</p>
 <h3>Retrieving type information</h3>
 <p>The <code>getType($type)</code> method may be used to retrieve the mapping for a specified
 PHP type:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$wsdl = new Laminas\Soap\Wsdl(&#39;My_Web_Service&#39;, $myWebServiceUri);</span>
-<span class=x>$soapIntType = $wsdl-&gt;getType(&#39;int&#39;);</span>
+<pre class=codehilite><code class=language-php>$wsdl = new Laminas\Soap\Wsdl('My_Web_Service', $myWebServiceUri);
+$soapIntType = $wsdl-&gt;getType('int');
 
-<span class=x>class MyClass</span>
-<span class=x>{</span>
-<span class=x>    /* ... */</span>
-<span class=x>}</span>
+class MyClass
+{
+    /* ... */
+}
 
-<span class=x>$soapMyClassType = $wsdl-&gt;getType(&#39;MyClass&#39;);</span>
-</pre></div></p>
+$soapMyClassType = $wsdl-&gt;getType('MyClass');</code></pre>
 <h3>Adding complex type information</h3>
 <p>The <code>addComplexType($type)</code> method is used to add complex types (PHP classes) to
 a WSDL document.</p>
@@ -527,10 +516,9 @@ for more details.</p>
 complex type strategy. A <code>ReflectionDocumentation</code> strategy is included, which 
 will parse class and property docblocks and generate documentation based on the
 comments found:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$strategy = new ArrayOfTypeSequence();</span>
-<span class=x>$strategy-&gt;setDocumentationStrategy(new ReflectionDocumentation());</span>
-<span class=x>$wsdl = new Laminas\Soap\Wsdl(&#39;MyService&#39;, $myWebServiceUri, $strategy);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$strategy = new ArrayOfTypeSequence();
+$strategy-&gt;setDocumentationStrategy(new ReflectionDocumentation());
+$wsdl = new Laminas\Soap\Wsdl('MyService', $myWebServiceUri, $strategy);</code></pre>
 <h2 id="retrieve-the-final-wsdl-document">Retrieve the final WSDL document</h2>
 <p>Several methods exist for retrieving the full WSDL definition document:</p>
 <ul>
@@ -607,20 +595,6 @@ comments found:</p>
                     
                     
                         
-                            <li class="subnavigation__list-item ">
-                                <a href=".." class="subnavigation__link">laminas-soap</a>
-                            </li>
-                        
-                    
-                
-            
-
-                
-                
-
-                    
-                    
-                        
                             <li class="subnavigation__list-item">
                                 <span class="subnavigation__headline">Reference</span>
                                 <ul class="subnavigation__list">
@@ -678,9 +652,10 @@ comments found:</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -717,7 +692,7 @@ comments found:</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/laminas/laminas-soap//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/laminas/laminas-soap/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -726,8 +701,8 @@ comments found:</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/laminas/laminas-soap//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/laminas/laminas-soap/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

@@ -2,27 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
      <loc>https://docs.laminas.dev/</loc>
-     <lastmod>2019-12-31</lastmod>
+     <lastmod>2020-01-08</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.laminas.dev/server/</loc>
-     <lastmod>2019-12-31</lastmod>
+     <lastmod>2020-01-08</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.laminas.dev/client/</loc>
-     <lastmod>2019-12-31</lastmod>
+     <lastmod>2020-01-08</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.laminas.dev/wsdl/</loc>
-     <lastmod>2019-12-31</lastmod>
+     <lastmod>2020-01-08</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.laminas.dev/auto-discovery/</loc>
-     <lastmod>2019-12-31</lastmod>
+     <lastmod>2020-01-08</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>

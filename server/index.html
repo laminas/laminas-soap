@@ -20,7 +20,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -36,13 +36,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -61,20 +65,6 @@
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
 
         <ul class="subnavigation__list">
-            
-
-                
-                
-
-                    
-                    
-                        
-                            <li class="subnavigation__list-item ">
-                                <a href=".." class="subnavigation__link">laminas-soap</a>
-                            </li>
-                        
-                    
-                
             
 
                 
@@ -301,45 +291,44 @@ configuring the behavior of the server; these may also be provided later using
 <p>There are two ways to define your SOAP API in order to expose PHP functionality.</p>
 <p>The first one is to attach a class to the <code>Laminas\Soap\Server</code> object that
 completely describes your API:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>class MyClass</span>
-<span class=x>{</span>
-<span class=x>    /**</span>
-<span class=x>     * This method takes ...</span>
-<span class=x>     *</span>
-<span class=x>     * @param integer $inputParam</span>
-<span class=x>     * @return string</span>
-<span class=x>     */</span>
-<span class=x>    public function method1($inputParam)</span>
-<span class=x>    {</span>
-<span class=x>        // ...</span>
-<span class=x>    }</span>
+<pre class=codehilite><code class=language-php>class MyClass
+{
+    /**
+     * This method takes ...
+     *
+     * @param integer $inputParam
+     * @return string
+     */
+    public function method1($inputParam)
+    {
+        // ...
+    }
 
-<span class=x>    /**</span>
-<span class=x>     * This method takes ...</span>
-<span class=x>     *</span>
-<span class=x>     * @param integer $inputParam1</span>
-<span class=x>     * @param string  $inputParam2</span>
-<span class=x>     * @return float</span>
-<span class=x>     */</span>
-<span class=x>    public function method2($inputParam1, $inputParam2)</span>
-<span class=x>    {</span>
-<span class=x>        // ...</span>
-<span class=x>    }</span>
+    /**
+     * This method takes ...
+     *
+     * @param integer $inputParam1
+     * @param string  $inputParam2
+     * @return float
+     */
+    public function method2($inputParam1, $inputParam2)
+    {
+        // ...
+    }
 
-<span class=x>    /* ... */</span>
-<span class=x>}</span>
+    /* ... */
+}
 
-<span class=x>$server = new Laminas\Soap\Server(null, $options);</span>
+$server = new Laminas\Soap\Server(null, $options);
 
-<span class=x>// Bind class to Soap Server:</span>
-<span class=x>$server-&gt;setClass(MyClass::class);</span>
+// Bind class to Soap Server:
+$server-&gt;setClass(MyClass::class);
 
-<span class=x>// Or bind an instance:</span>
-<span class=x>$server-&gt;setObject(new MyClass());</span>
+// Or bind an instance:
+$server-&gt;setObject(new MyClass());
 
-<span class=x>// Handle a request:</span>
-<span class=x>$server-&gt;handle();</span>
-</pre></div></p>
+// Handle a request:
+$server-&gt;handle();</code></pre>
 <blockquote>
 <h3>Docblocks are required</h3>
 <p>You should completely describe each method using a method docblock if you plan
@@ -347,35 +336,34 @@ to use autodiscover functionality to prepare your WSDL.</p>
 </blockquote>
 <p>The second method for defining your API is to use one or more functions, passing
 them to one or more of the <code>addFunction()</code> or <code>loadFunctions()</code> methods:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>/**</span>
-<span class=x> * This function ...</span>
-<span class=x> *</span>
-<span class=x> * @param integer $inputParam</span>
-<span class=x> * @return string</span>
-<span class=x> */</span>
-<span class=x>function function1($inputParam)</span>
-<span class=x>{</span>
-<span class=x>    // ...</span>
-<span class=x>}</span>
+<pre class=codehilite><code class=language-php>/**
+ * This function ...
+ *
+ * @param integer $inputParam
+ * @return string
+ */
+function function1($inputParam)
+{
+    // ...
+}
 
-<span class=x>/**</span>
-<span class=x> * This function ...</span>
-<span class=x> *</span>
-<span class=x> * @param integer $inputParam1</span>
-<span class=x> * @param string  $inputParam2</span>
-<span class=x> * @return float</span>
-<span class=x> */</span>
-<span class=x>function function2($inputParam1, $inputParam2)</span>
-<span class=x>{</span>
-<span class=x>    // ...</span>
-<span class=x>}</span>
+/**
+ * This function ...
+ *
+ * @param integer $inputParam1
+ * @param string  $inputParam2
+ * @return float
+ */
+function function2($inputParam1, $inputParam2)
+{
+    // ...
+}
 
-<span class=x>$server = new Laminas\Soap\Server(null, $options);</span>
-<span class=x>$server-&gt;addFunction(&#39;function1&#39;);</span>
-<span class=x>$server-&gt;addFunction(&#39;function2&#39;);</span>
+$server = new Laminas\Soap\Server(null, $options);
+$server-&gt;addFunction('function1');
+$server-&gt;addFunction('function2');
 
-<span class=x>$server-&gt;handle();</span>
-</pre></div></p>
+$server-&gt;handle();</code></pre>
 <h2 id="request-and-response-handling">Request and response handling</h2>
 <p><code>Laminas\Soap\Server</code> component performs request/response processing automatically,
 but allows you to intercept each in order to perform pre- or post-processing.</p>
@@ -384,15 +372,14 @@ but allows you to intercept each in order to perform pre- or post-processing.</p
 input stream ('php://input'). It may be overridden either by supplying a request
 instance to the <code>handle()</code> method, or by setting the request via the
 <code>setRequest()</code> method:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$server = new Laminas\Soap\Server(/* ... */);</span>
+<pre class=codehilite><code class=language-php>$server = new Laminas\Soap\Server(/* ... */);
 
-<span class=x>// Set request using optional $request parameter to the handle() method:</span>
-<span class=x>$server-&gt;handle($request);</span>
+// Set request using optional $request parameter to the handle() method:
+$server-&gt;handle($request);
 
-<span class=x>// Set request using setRequest() method:</span>
-<span class=x>$server-&gt;setRequest();</span>
-<span class=x>$server-&gt;handle();</span>
-</pre></div></p>
+// Set request using setRequest() method:
+$server-&gt;setRequest();
+$server-&gt;handle();</code></pre>
 <p>A request object may be represented using any of the following, and handled as
 follows:</p>
 <ul>
@@ -404,11 +391,10 @@ follows:</p>
 </ul>
 <p>The last request processed may be retrieved using the <code>getLastRequest()</code> method,
 which returns the XML string:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$server = new Laminas\Soap\Server(/* ... */);</span>
+<pre class=codehilite><code class=language-php>$server = new Laminas\Soap\Server(/* ... */);
 
-<span class=x>$server-&gt;handle();</span>
-<span class=x>$request = $server-&gt;getLastRequest();</span>
-</pre></div></p>
+$server-&gt;handle();
+$request = $server-&gt;getLastRequest();</code></pre>
 <h3>Response post-processing</h3>
 <p>The <code>Laminas\Soap\Server::handle()</code> method automatically emits the generated
 response to the output stream. It may be blocked using <code>setReturnResponse()</code>
@@ -423,34 +409,32 @@ stack trace. For security purposes, you do not want to return that
 information. As such, check your return type before emitting the response
 manually.</p>
 </blockquote>
-<p> <div class=codehilite><pre><span></span><span class=x>$server = new Laminas\Soap\Server(/* ... */);</span>
+<pre class=codehilite><code class=language-php>$server = new Laminas\Soap\Server(/* ... */);
 
-<span class=x>// Get a response as a return value of handle(),</span>
-<span class=x>// instead of emitting it to standard output:</span>
-<span class=x>$server-&gt;setReturnResponse(true);</span>
+// Get a response as a return value of handle(),
+// instead of emitting it to standard output:
+$server-&gt;setReturnResponse(true);
 
-<span class=x>$response = $server-&gt;handle();</span>
+$response = $server-&gt;handle();
 
-<span class=x>if ($response instanceof SoapFault) {</span>
-<span class=x>    /* ... */</span>
-<span class=x>} else {</span>
-<span class=x>    /* ... */</span>
-<span class=x>}</span>
-</pre></div></p>
+if ($response instanceof SoapFault) {
+    /* ... */
+} else {
+    /* ... */
+}</code></pre>
 <p>The last response emitted may also be retrieved for post-processing using
 <code>getLastResponse()</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$server = new Laminas\Soap\Server(/* ... */);</span>
+<pre class=codehilite><code class=language-php>$server = new Laminas\Soap\Server(/* ... */);
 
-<span class=x>$server-&gt;handle();</span>
+$server-&gt;handle();
 
-<span class=x>$response = $server-&gt;getLastResponse();</span>
+$response = $server-&gt;getLastResponse();
 
-<span class=x>if ($response instanceof SoapFault) {</span>
-<span class=x>    /* ... */</span>
-<span class=x>} else {</span>
-<span class=x>    /* ... */</span>
-<span class=x>}</span>
-</pre></div></p>
+if ($response instanceof SoapFault) {
+    /* ... */
+} else {
+    /* ... */
+}</code></pre>
 <h2 id="documentliteral-wsdl-handling">Document/Literal WSDL Handling</h2>
 <p>The document/literal binding-style/encoding pattern is used to make SOAP
 messages as human-readable as possible and allow abstraction between very
@@ -535,20 +519,6 @@ and discussion.</p>
                     
                     
                         
-                            <li class="subnavigation__list-item ">
-                                <a href=".." class="subnavigation__link">laminas-soap</a>
-                            </li>
-                        
-                    
-                
-            
-
-                
-                
-
-                    
-                    
-                        
                             <li class="subnavigation__list-item">
                                 <span class="subnavigation__headline">Reference</span>
                                 <ul class="subnavigation__list">
@@ -606,9 +576,10 @@ and discussion.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -645,7 +616,7 @@ and discussion.</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/laminas/laminas-soap//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/laminas/laminas-soap/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -654,8 +625,8 @@ and discussion.</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/laminas/laminas-soap//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/laminas/laminas-soap/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>
