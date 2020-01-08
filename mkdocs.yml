@@ -12,4 +12,3 @@ site_description: laminas-soap
 repo_url: 'https://github.com/laminas/laminas-soap'
 extra:
     project: Components
-    project_url: 'https://docs.laminas.dev'
