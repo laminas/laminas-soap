@@ -1,7 +1,7 @@
 docs_dir: doc/book
 site_dir: doc/html
 nav:
-    - index.md
+    - Home: index.md
     - Reference:
         - Servers: server.md
         - Clients: client.md
@@ -12,4 +12,3 @@ site_description: laminas-soap
 repo_url: 'https://github.com/laminas/laminas-soap'
 extra:
     project: Components
-    project_url: 'https://docs.laminas.dev'
