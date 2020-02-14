@@ -230,14 +230,14 @@ if ($response instanceof SoapFault) {
 ```
 
 The last response emitted may also be retrieved for post-processing using
-`getLastResponse()`:
+`getResponse()`:
 
 ```php
 $server = new Laminas\Soap\Server(/* ... */);
 
 $server->handle();
 
-$response = $server->getLastResponse();
+$response = $server->getResponse();
 
 if ($response instanceof SoapFault) {
     /* ... */
