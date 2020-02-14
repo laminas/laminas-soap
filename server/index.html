@@ -234,7 +234,7 @@
         <h2 class="chapter__headline">Reference</h2>
     
 
-    <h1 id="laminas92soap92server">Laminas\Soap\Server</h1>
+    <h1 id="laminassoapserver">Laminas\Soap\Server</h1>
 <p><code>Laminas\Soap\Server</code> provides a wrapper around PHP's
 <a href="http://php.net/SoapServer">SoapServer</a> implementation with convenience
 functionality for generating WSDL and registering internal handlers.</p>
@@ -427,12 +427,12 @@ if ($response instanceof SoapFault) {
     /* ... */
 }</code></pre>
 <p>The last response emitted may also be retrieved for post-processing using
-<code>getLastResponse()</code>:</p>
+<code>getResponse()</code>:</p>
 <pre class=codehilite><code class=language-php>$server = new Laminas\Soap\Server(/* ... */);
 
 $server-&gt;handle();
 
-$response = $server-&gt;getLastResponse();
+$response = $server-&gt;getResponse();
 
 if ($response instanceof SoapFault) {
     /* ... */
