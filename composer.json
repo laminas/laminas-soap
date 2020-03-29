@@ -66,6 +66,6 @@
         "test-coverage": "phpunit --coverage-clover clover.xml"
     },
     "replace": {
-        "zendframework/zend-soap": "self.version"
+        "zendframework/zend-soap": "^2.8.0"
     }
 }
