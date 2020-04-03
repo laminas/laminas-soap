@@ -350,7 +350,7 @@ configuring the behavior of the server; these may also be provided later using
 <p>There are two ways to define your SOAP API in order to expose PHP functionality.</p>
 <p>The first one is to attach a class to the <code>Laminas\Soap\Server</code> object that
 completely describes your API:</p>
-<pre class=codehilite><code class=language-php>class MyClass
+<pre class="highlight"><code class="language-php">class MyClass
 {
     /**
      * This method takes ...
@@ -388,6 +388,7 @@ $server-&gt;setObject(new MyClass());
 
 // Handle a request:
 $server-&gt;handle();</code></pre>
+
 <blockquote>
 <h3>Docblocks are required</h3>
 <p>You should completely describe each method using a method docblock if you plan
@@ -395,7 +396,7 @@ to use autodiscover functionality to prepare your WSDL.</p>
 </blockquote>
 <p>The second method for defining your API is to use one or more functions, passing
 them to one or more of the <code>addFunction()</code> or <code>loadFunctions()</code> methods:</p>
-<pre class=codehilite><code class=language-php>/**
+<pre class="highlight"><code class="language-php">/**
  * This function ...
  *
  * @param integer $inputParam
@@ -423,6 +424,7 @@ $server-&gt;addFunction('function1');
 $server-&gt;addFunction('function2');
 
 $server-&gt;handle();</code></pre>
+
 <h2 id="request-and-response-handling">Request and response handling</h2>
 <p><code>Laminas\Soap\Server</code> component performs request/response processing automatically,
 but allows you to intercept each in order to perform pre- or post-processing.</p>
@@ -431,7 +433,7 @@ but allows you to intercept each in order to perform pre- or post-processing.</p
 input stream ('php://input'). It may be overridden either by supplying a request
 instance to the <code>handle()</code> method, or by setting the request via the
 <code>setRequest()</code> method:</p>
-<pre class=codehilite><code class=language-php>$server = new Laminas\Soap\Server(/* ... */);
+<pre class="highlight"><code class="language-php">$server = new Laminas\Soap\Server(/* ... */);
 
 // Set request using optional $request parameter to the handle() method:
 $server-&gt;handle($request);
@@ -439,6 +441,7 @@ $server-&gt;handle($request);
 // Set request using setRequest() method:
 $server-&gt;setRequest();
 $server-&gt;handle();</code></pre>
+
 <p>A request object may be represented using any of the following, and handled as
 follows:</p>
 <ul>
@@ -450,10 +453,11 @@ follows:</p>
 </ul>
 <p>The last request processed may be retrieved using the <code>getLastRequest()</code> method,
 which returns the XML string:</p>
-<pre class=codehilite><code class=language-php>$server = new Laminas\Soap\Server(/* ... */);
+<pre class="highlight"><code class="language-php">$server = new Laminas\Soap\Server(/* ... */);
 
 $server-&gt;handle();
 $request = $server-&gt;getLastRequest();</code></pre>
+
 <h3>Response post-processing</h3>
 <p>The <code>Laminas\Soap\Server::handle()</code> method automatically emits the generated
 response to the output stream. It may be blocked using <code>setReturnResponse()</code>
@@ -468,7 +472,7 @@ stack trace. For security purposes, you do not want to return that
 information. As such, check your return type before emitting the response
 manually.</p>
 </blockquote>
-<pre class=codehilite><code class=language-php>$server = new Laminas\Soap\Server(/* ... */);
+<pre class="highlight"><code class="language-php">$server = new Laminas\Soap\Server(/* ... */);
 
 // Get a response as a return value of handle(),
 // instead of emitting it to standard output:
@@ -481,9 +485,10 @@ if ($response instanceof SoapFault) {
 } else {
     /* ... */
 }</code></pre>
+
 <p>The last response emitted may also be retrieved for post-processing using
 <code>getResponse()</code>:</p>
-<pre class=codehilite><code class=language-php>$server = new Laminas\Soap\Server(/* ... */);
+<pre class="highlight"><code class="language-php">$server = new Laminas\Soap\Server(/* ... */);
 
 $server-&gt;handle();
 
@@ -494,6 +499,7 @@ if ($response instanceof SoapFault) {
 } else {
     /* ... */
 }</code></pre>
+
 <h2 id="documentliteral-wsdl-handling">Document/Literal WSDL Handling</h2>
 <p>The document/literal binding-style/encoding pattern is used to make SOAP
 messages as human-readable as possible and allow abstraction between very

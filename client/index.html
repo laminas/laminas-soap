@@ -332,7 +332,7 @@ have to be set explicitly on the <code>Laminas\Soap\Client</code> class.</p>
   <code>SOAP_COMPRESSION_DEFLATE</code> options.</li>
 </ul>
 <p>The following demonstrate usage of compression options:</p>
-<pre class=codehilite><code class=language-php>// Accept response compression
+<pre class="highlight"><code class="language-php">// Accept response compression
 $client = new Laminas\Soap\Client(
     'some.wsdl',
     ['compression' =&gt; SOAP_COMPRESSION_ACCEPT]
@@ -346,15 +346,16 @@ $client = new Laminas\Soap\Client(
 
 // Compress requests using deflate compression
 $client = new Laminas\Soap\Client(
-    &quot;some.wsdl&quot;,
+    "some.wsdl",
     ['compression' =&gt; SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_DEFLATE]
 );</code></pre>
+
 <h2 id="performing-soap-requests">Performing SOAP Requests</h2>
 <p>After we've created a <code>Laminas\Soap\Client</code> instance, we can perform SOAP requests.</p>
 <p>Each web service method is mapped to a virtual <code>Laminas\Soap\Client</code> instance
 method which takes parameters with common PHP types.</p>
 <p>As an example, given the following server:</p>
-<pre class=codehilite><code class=language-php>class MyClass
+<pre class="highlight"><code class="language-php">class MyClass
 {
     /**
      * This method takes ...
@@ -385,8 +386,9 @@ method which takes parameters with common PHP types.</p>
 $server = new Laminas\Soap\Server(null, $options);
 $server-&gt;setClass('MyClass');
 $server-&gt;handle();</code></pre>
+
 <p>We can write a client as follows:</p>
-<pre class=codehilite><code class=language-php>$client = new Laminas\Soap\Client(&quot;MyService.wsdl&quot;);
+<pre class="highlight"><code class="language-php">$client = new Laminas\Soap\Client("MyService.wsdl");
 
 // $result1 is a string
 $result1 = $client-&gt;method1(10);
