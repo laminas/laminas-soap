@@ -669,7 +669,7 @@ class ServerTest extends TestCase
         $request = '';
         $response = $server->handle($request);
 
-        $this->assertContains('Empty request', $response->getMessage());
+        $this->assertStringContainsString('Empty request', $response->getMessage());
     }
 
     /**
@@ -752,7 +752,7 @@ class ServerTest extends TestCase
         $fault = $server->fault('FaultMessage!');
 
         $this->assertInstanceOf('SoapFault', $fault);
-        $this->assertContains('FaultMessage!', $fault->getMessage());
+        $this->assertStringContainsString('FaultMessage!', $fault->getMessage());
     }
 
     public function testFaultWithUnregisteredException()
@@ -761,8 +761,8 @@ class ServerTest extends TestCase
         $fault = $server->fault(new \Exception('MyException'));
 
         $this->assertInstanceOf('SoapFault', $fault);
-        $this->assertContains('Unknown error', $fault->getMessage());
-        $this->assertNotContains('MyException', $fault->getMessage());
+        $this->assertStringContainsString('Unknown error', $fault->getMessage());
+        $this->assertStringNotContainsString('MyException', $fault->getMessage());
     }
 
     public function testFaultWithRegisteredException()
@@ -772,8 +772,8 @@ class ServerTest extends TestCase
         $server->registerFaultException('\Laminas\Soap\Exception\InvalidArgumentException');
         $fault = $server->fault(new RuntimeException('MyException'));
         $this->assertInstanceOf('SoapFault', $fault);
-        $this->assertNotContains('Unknown error', $fault->getMessage());
-        $this->assertContains('MyException', $fault->getMessage());
+        $this->assertStringNotContainsString('Unknown error', $fault->getMessage());
+        $this->assertStringContainsString('MyException', $fault->getMessage());
     }
 
     public function testFaultWithBogusInput()
@@ -781,7 +781,7 @@ class ServerTest extends TestCase
         $server = new Server();
         $fault = $server->fault(['Here', 'There', 'Bogus']);
 
-        $this->assertContains('Unknown error', $fault->getMessage());
+        $this->assertStringContainsString('Unknown error', $fault->getMessage());
     }
 
     /**
@@ -795,11 +795,9 @@ class ServerTest extends TestCase
         $this->assertInstanceOf('SoapFault', $fault);
     }
 
-    /**
-     * @expectedException \SoapFault
-     */
     public function testHandlePhpErrors()
     {
+        $this->expectException(\SoapFault::class);
         if (headers_sent()) {
             $this->markTestSkipped(sprintf(
                 'Cannot run %s() when headers have already been sent; '
@@ -949,7 +947,7 @@ class ServerTest extends TestCase
     {
         $server = new \LaminasTest\Soap\TestAsset\MockServer();
         $r = $server->handle(new \DOMDocument('1.0', 'UTF-8'));
-        $this->assertInternalType('string', $server->mockSoapServer->handle[0]);
+        $this->assertIsString($server->mockSoapServer->handle[0]);
     }
 
     /**
@@ -979,7 +977,7 @@ class ServerTest extends TestCase
           . '</SOAP-ENV:Envelope>' . "\n";
         $response = $server->handle($request);
 
-        $this->assertContains('Invalid XML', $response->getMessage());
+        $this->assertStringContainsString('Invalid XML', $response->getMessage());
     }
 
     public function testDebugMode()

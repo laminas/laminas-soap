@@ -623,11 +623,11 @@ class ClientTest extends TestCase
     }
 
     /**
-     * @expectedException \Laminas\Soap\Exception\UnexpectedValueException
      * @dataProvider dataProviderForInitSoapClientObjectException
      */
     public function testInitSoapClientObjectException($wsdl, $options)
     {
+        $this->expectException(\Laminas\Soap\Exception\UnexpectedValueException::class);
         $client = new Client($wsdl, $options);
         $client->getSoapClient();
     }

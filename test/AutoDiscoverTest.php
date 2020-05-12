@@ -199,11 +199,9 @@ class AutoDiscoverTest extends TestCase
         );
     }
 
-    /**
-     * @expectedException \Laminas\Soap\Exception\InvalidArgumentException
-     */
     public function testAutoDiscoverConstructorWsdlClassException()
     {
+        $this->expectException(SoapInvalidArgumentException::class);
         $server = new AutoDiscover();
         $server->setWsdlClass(new \stdClass());
     }
@@ -250,11 +248,9 @@ class AutoDiscoverTest extends TestCase
         $this->assertEquals('Test', $server->getServiceName());
     }
 
-    /**
-     * @expectedException \Laminas\Soap\Exception\RuntimeException
-     */
     public function testGetServiceNameException()
     {
+        $this->expectException(\Laminas\Soap\Exception\RuntimeException::class);
         $server = new AutoDiscover();
 
         $server->addFunction('\LaminasTest\Soap\TestAsset\TestFunc');
@@ -262,21 +258,17 @@ class AutoDiscoverTest extends TestCase
         $this->assertEquals('Test', $server->getServiceName());
     }
 
-    /**
-     * @expectedException \Laminas\Soap\Exception\InvalidArgumentException
-     */
     public function testSetUriException()
     {
+        $this->expectException(SoapInvalidArgumentException::class);
         $server = new AutoDiscover();
 
         $server->setUri(' ');
     }
 
-    /**
-     * @expectedException \Laminas\Soap\Exception\RuntimeException
-     */
     public function testGetUriException()
     {
+        $this->expectException(\Laminas\Soap\Exception\RuntimeException::class);
         $server = new AutoDiscover();
         $server->getUri();
     }
@@ -749,11 +741,11 @@ class AutoDiscoverTest extends TestCase
     }
 
     /**
-     * @expectedException \Laminas\Soap\Exception\InvalidArgumentException
      * @dataProvider dataProviderForAddFunctionException
      */
     public function testAddFunctionException($function)
     {
+        $this->expectException(SoapInvalidArgumentException::class);
         $this->server->addFunction($function);
     }
 
@@ -1214,7 +1206,7 @@ class AutoDiscoverTest extends TestCase
             $expectedUri,
             $this->dom->documentElement->getAttribute('targetNamespace')
         );
-        $this->assertNotContains(
+        $this->assertStringNotContainsString(
             $this->defaultServiceUri,
             $this->dom->saveXML()
         );
@@ -1406,7 +1398,7 @@ class AutoDiscoverTest extends TestCase
         );
 
 
-        $this->assertNotContains('tns:string[]', $this->dom->saveXML());
+        $this->assertStringNotContainsString('tns:string[]', $this->dom->saveXML());
 
 
         $this->assertValidWSDL($this->dom);
@@ -1502,7 +1494,7 @@ class AutoDiscoverTest extends TestCase
         $this->server->handle();
         $actualWsdl = ob_get_clean();
         $this->assertNotEmpty($actualWsdl, "WSDL content was not outputted.");
-        $this->assertContains($scriptUri, $actualWsdl, "Script URL was not found in WSDL content.");
+        $this->assertStringContainsString($scriptUri, $actualWsdl, "Script URL was not found in WSDL content.");
     }
 
     /**

@@ -11,6 +11,7 @@ namespace LaminasTest\Soap;
 use Laminas\Soap\Wsdl;
 use Laminas\Uri\Uri;
 use LaminasTest\Soap\TestAsset\WsdlTestClass;
+use RuntimeException;
 
 class WsdlTest extends WsdlTestHelper
 {
@@ -830,11 +831,9 @@ class WsdlTest extends WsdlTestHelper
         $this->assertArrayHasKey('foo', $this->wsdl->getClassMap());
     }
 
-    /**
-     * @expectedException RuntimeException
-     */
     public function testAddElementException()
     {
+        $this->expectException(RuntimeException::class);
         $this->wsdl->addElement(1);
     }
 

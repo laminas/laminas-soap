@@ -36,9 +36,9 @@ class OnlineTest extends TestCase
         $client = new Client($wsdl);
         $ret = $client->request($b);
 
-        $this->assertInternalType('array', $ret);
+        $this->assertIsArray($ret);
         $this->assertEquals(1, count($ret));
-        $this->assertInternalType('array', $ret[0]->baz);
+        $this->assertIsArray($ret[0]->baz);
         $this->assertEquals(3, count($ret[0]->baz));
 
         $baz = $ret[0]->baz;
