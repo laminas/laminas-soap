@@ -130,7 +130,6 @@ class DotNetTest extends TestCase
                 'uri'      => 'http://unit/test'
             ]
         );
-        $this->assertAttributeEquals(false, 'useNtlm', $this->client);
         $this->client->setOptions(['authentication' => 'ntlm',
             'login'          => 'username',
             'password'       => 'testpass']);
