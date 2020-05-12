@@ -42,7 +42,7 @@ class AutoDiscoverTest extends TestCase
      */
     protected $xpath;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->server = new AutoDiscover();
         $this->server->setUri($this->defaultServiceUri);

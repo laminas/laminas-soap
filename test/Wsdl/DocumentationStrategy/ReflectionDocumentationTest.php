@@ -21,7 +21,7 @@ class ReflectionDocumentationTest extends TestCase
      */
     private $documentation;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->documentation = new ReflectionDocumentation();
     }

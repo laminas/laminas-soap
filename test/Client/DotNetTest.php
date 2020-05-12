@@ -40,7 +40,7 @@ class DotNetTest extends TestCase
      *
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         MockCallUserFunc::$mock = false;
         $this->client = new DotNetClient(
@@ -57,7 +57,7 @@ class DotNetTest extends TestCase
      *
      * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         MockCallUserFunc::$mock = false;
     }

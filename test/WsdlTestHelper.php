@@ -49,7 +49,7 @@ class WsdlTestHelper extends TestCase
      */
     protected $defaultServiceUri = 'http://localhost/MyService.php';
 
-    public function setUp()
+    protected function setUp(): void
     {
         if (empty($this->strategy) or ! ($this->strategy instanceof ComplexTypeStrategyInterface)) {
             $this->strategy = new Wsdl\ComplexTypeStrategy\DefaultComplexType();

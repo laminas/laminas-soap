@@ -15,7 +15,7 @@ use LaminasTest\Soap\WsdlTestHelper;
 
 class ArrayOfTypeComplexStrategyTest extends WsdlTestHelper
 {
-    public function setUp()
+    protected function setUp(): void
     {
         $this->strategy = new ArrayOfTypeComplex();
 

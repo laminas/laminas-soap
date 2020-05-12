@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 
 class ServerTest extends TestCase
 {
-    public function setUp()
+    protected function setUp(): void
     {
         if (! extension_loaded('soap')) {
             $this->markTestSkipped('SOAP Extension is not loaded');

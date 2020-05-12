@@ -15,7 +15,7 @@ class OnlineTest extends TestCase
 {
     protected $baseuri;
 
-    public function setUp()
+    protected function setUp(): void
     {
         if (! getenv('TESTS_LAMINAS_SOAP_AUTODISCOVER_ONLINE_SERVER_BASEURI')) {
             $this->markTestSkipped(
