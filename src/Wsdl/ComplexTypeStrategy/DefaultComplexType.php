@@ -84,6 +84,8 @@ class DefaultComplexType extends AbstractComplexTypeStrategy
     }
 
     /**
+     * @param ReflectionProperty $property
+     * @param DOMElement $element
      * @return void
      */
     private function addPropertyDocumentation(ReflectionProperty $property, DOMElement $element)
@@ -97,6 +99,8 @@ class DefaultComplexType extends AbstractComplexTypeStrategy
     }
 
     /**
+     * @param ReflectionClass $class
+     * @param DOMElement $element
      * @return void
      */
     private function addComplexTypeDocumentation(ReflectionClass $class, DOMElement $element)
