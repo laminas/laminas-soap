@@ -1020,7 +1020,7 @@ class ServerTest extends TestCase
         $server->setOptions(['location' => 'test://', 'uri' => 'https://getlaminas.org']);
         $server->setReturnResponse(true);
         $server->setClass('\LaminasTest\Soap\TestAsset\ServerTestClass');
-        $loadEntities = libxml_disable_entity_loader(false);
+        $loadEntities = @libxml_disable_entity_loader(false);
 
         // Doing a request that is guaranteed to cause an exception in Server::_setRequest():
         $invalidRequest = '---';
@@ -1030,9 +1030,9 @@ class ServerTest extends TestCase
         $this->assertInstanceOf('\SoapFault', $response);
 
         // The "disable entity loader" setting should be restored to "false" after the exception is raised:
-        $this->assertFalse(libxml_disable_entity_loader());
+        $this->assertFalse(@libxml_disable_entity_loader());
 
         // Cleanup; restoring original setting:
-        libxml_disable_entity_loader($loadEntities);
+        @libxml_disable_entity_loader($loadEntities);
     }
 }

@@ -609,7 +609,7 @@ class WsdlTest extends WsdlTestHelper
     public function checkXMLContent($content)
     {
         libxml_use_internal_errors(true);
-        libxml_disable_entity_loader(false);
+        @libxml_disable_entity_loader(false);
         $xml = new \DOMDocument();
         $xml->preserveWhiteSpace = false;
         $xml->encoding = 'UTF-8';
