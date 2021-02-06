@@ -819,7 +819,7 @@ class Server implements LaminasServerServer
                 throw new Exception\InvalidArgumentException('Empty request');
             }
 
-            $loadEntities = self::disableEntityLoader(true);
+            $loadEntities = $this->disableEntityLoader(true);
 
             $dom = new DOMDocument();
 
@@ -829,7 +829,7 @@ class Server implements LaminasServerServer
                 $loadStatus = $dom->loadXML($xml);
             }
 
-            self::disableEntityLoader($loadEntities);
+            $this->disableEntityLoader($loadEntities);
 
             // @todo check libxml errors ? validate document ?
             if (! $loadStatus) {
@@ -1203,7 +1203,7 @@ class Server implements LaminasServerServer
      *
      * @return bool
      */
-    public static function disableEntityLoader($flag = true)
+    private function disableEntityLoader($flag = true)
     {
         if (LIBXML_VERSION < 20900) {
             return libxml_disable_entity_loader($flag);
