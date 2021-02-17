@@ -64,6 +64,7 @@ $wsdl->dump("/path/to/file.wsdl");
 $dom = $wsdl->toDomDocument();
 ```
 
+<!-- markdownlint-disable-next-line MD001 -->
 > ### AutoDiscover !== Server
 >
 > `AutoDiscover` *is not a `Server` instance*; it cannot and does not act as a

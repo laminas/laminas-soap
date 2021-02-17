@@ -308,7 +308,7 @@ for more details.
 
 To automatically generate documentation for complex types add a class implementing
 `Laminas\Soap\Wsdl\DocumentationStrategy\DocumentationStrategyInterface` to your
-complex type strategy. A `ReflectionDocumentation` strategy is included, which 
+complex type strategy. A `ReflectionDocumentation` strategy is included, which
 will parse class and property docblocks and generate documentation based on the
 comments found:
 
