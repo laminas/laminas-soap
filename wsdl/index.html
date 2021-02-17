@@ -201,7 +201,7 @@
             </div>
 
             
-            <div class="col-4 text-sm-right">
+            <div class="col-4 text-right">
                 
                     
 
@@ -516,7 +516,6 @@ class MyClass
 }
 
 $soapMyClassType = $wsdl-&gt;getType('MyClass');</code></pre>
-
 <h3>Adding complex type information</h3>
 <p>The <code>addComplexType($type)</code> method is used to add complex types (PHP classes) to
 a WSDL document.</p>
@@ -573,13 +572,12 @@ for more details.</p>
 <h2 id="documenting-complex-types">Documenting complex types</h2>
 <p>To automatically generate documentation for complex types add a class implementing
 <code>Laminas\Soap\Wsdl\DocumentationStrategy\DocumentationStrategyInterface</code> to your
-complex type strategy. A <code>ReflectionDocumentation</code> strategy is included, which 
+complex type strategy. A <code>ReflectionDocumentation</code> strategy is included, which
 will parse class and property docblocks and generate documentation based on the
 comments found:</p>
 <pre class="highlight"><code class="language-php">$strategy = new ArrayOfTypeSequence();
 $strategy-&gt;setDocumentationStrategy(new ReflectionDocumentation());
 $wsdl = new Laminas\Soap\Wsdl('MyService', $myWebServiceUri, $strategy);</code></pre>
-
 <h2 id="retrieve-the-final-wsdl-document">Retrieve the final WSDL document</h2>
 <p>Several methods exist for retrieving the full WSDL definition document:</p>
 <ul>
@@ -701,6 +699,7 @@ $wsdl = new Laminas\Soap\Wsdl('MyService', $myWebServiceUri, $strategy);</code><
         </ul>
     </div>
 
+                    
                 
             </div>
         </div>
@@ -773,7 +772,7 @@ $wsdl = new Laminas\Soap\Wsdl('MyService', $myWebServiceUri, $strategy);</code><
                         <p>
                             <!--Built with love by the Laminas team with the help of our
                             <a href="https://github.com/laminas/laminas-soap/graphs/contributors">contributors</a>.<br>-->
-                            &copy; 2020 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
+                            &copy; 2021 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
                         </p>
                     </div>
                 </div>

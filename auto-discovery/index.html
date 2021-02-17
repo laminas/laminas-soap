@@ -201,7 +201,7 @@
             </div>
 
             
-            <div class="col-4 text-sm-right">
+            <div class="col-4 text-right">
                 
                     
 
@@ -345,7 +345,7 @@ $wsdl-&gt;dump("/path/to/file.wsdl");
 
 // Or create a DOMDocument, which you can then manipulate:
 $dom = $wsdl-&gt;toDomDocument();</code></pre>
-
+<!-- markdownlint-disable-next-line MD001 -->
 <blockquote>
 <h3>AutoDiscover !== Server</h3>
 <p><code>AutoDiscover</code> <em>is not a <code>Server</code> instance</em>; it cannot and does not act as a
@@ -378,7 +378,6 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 $soap = new Laminas\Soap\Server("http://example.com/soap.php?wsdl");
 $soap-&gt;setClass('HelloWorldService');
 $soap-&gt;handle();</code></pre>
-
 </blockquote>
 <h2 id="class-autodiscovery">Class autodiscovery</h2>
 <p>If a class is used to provide SOAP server functionality, then the same class
@@ -389,7 +388,6 @@ $autodiscover
     -&gt;setUri('http://localhost/server.php')
     -&gt;setServiceName('MySoapService');
 $wsdl = $autodiscover-&gt;generate();</code></pre>
-
 <p>The following rules are used during WSDL generation:</p>
 <ul>
 <li>The generated WSDL describes an RPC/Encoded style web service. If you want to
@@ -425,7 +423,6 @@ $autodiscover-&gt;addFunction('function2');
 $autodiscover-&gt;addFunction('function3');
 
 $wsdl = $autodiscover-&gt;generate();</code></pre>
-
 <p>The same rules apply to generation as described in the class autodiscovery section above.</p>
 <h2 id="autodiscovering-datatypes">Autodiscovering Datatypes</h2>
 <p>Input/output datatypes are converted into network service types using the
@@ -596,6 +593,7 @@ $wsdl = $autodiscover-&gt;generate();</code></pre>
         </ul>
     </div>
 
+                    
                 
             </div>
         </div>
@@ -668,7 +666,7 @@ $wsdl = $autodiscover-&gt;generate();</code></pre>
                         <p>
                             <!--Built with love by the Laminas team with the help of our
                             <a href="https://github.com/laminas/laminas-soap/graphs/contributors">contributors</a>.<br>-->
-                            &copy; 2020 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
+                            &copy; 2021 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
                         </p>
                     </div>
                 </div>
