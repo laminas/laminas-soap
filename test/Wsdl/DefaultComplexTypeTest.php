@@ -30,7 +30,7 @@ class DefaultComplexTypeTest extends WsdlTestHelper
      */
     protected $strategy;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->strategy = new DefaultComplexType();
 

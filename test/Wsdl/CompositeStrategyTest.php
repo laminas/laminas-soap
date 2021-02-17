@@ -23,7 +23,7 @@ use LaminasTest\Soap\WsdlTestHelper;
  */
 class CompositeStrategyTest extends WsdlTestHelper
 {
-    public function setUp()
+    public function setUp(): void
     {
         // override parent setup because it is needed only in one method
     }
