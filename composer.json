@@ -19,19 +19,20 @@
         "sort-packages": true
     },
     "require": {
-        "php": "^5.6 || ^7.0",
+        "php": "^7.3 || ~8.0.0",
         "ext-dom": "*",
         "ext-soap": "*",
-        "laminas/laminas-server": "^2.6.1",
-        "laminas/laminas-stdlib": "^2.7 || ^3.0",
-        "laminas/laminas-uri": "^2.5.2",
-        "laminas/laminas-zendframework-bridge": "^1.0"
+        "laminas/laminas-server": "^2.9",
+        "laminas/laminas-stdlib": "^3.3",
+        "laminas/laminas-uri": "^2.8",
+        "laminas/laminas-zendframework-bridge": "^1.1.0"
     },
     "require-dev": {
         "laminas/laminas-coding-standard": "~1.0.0",
-        "laminas/laminas-config": "^2.6",
-        "laminas/laminas-http": "^2.5.4",
-        "phpunit/phpunit": "^5.7.21 || ^6.3"
+        "laminas/laminas-config": "^3.4",
+        "laminas/laminas-http": "^2.14",
+        "phpspec/prophecy-phpunit": "^2.0.1",
+        "phpunit/phpunit": "^9.4.3"
     },
     "suggest": {
         "ext-curl": "Curl is required when .NET compatibility is required",

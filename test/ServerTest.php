@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 
 class ServerTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         if (! extension_loaded('soap')) {
             $this->markTestSkipped('SOAP Extension is not loaded');
@@ -669,7 +669,7 @@ class ServerTest extends TestCase
         $request = '';
         $response = $server->handle($request);
 
-        $this->assertContains('Empty request', $response->getMessage());
+        $this->assertStringContainsString('Empty request', $response->getMessage());
     }
 
     /**
@@ -752,7 +752,7 @@ class ServerTest extends TestCase
         $fault = $server->fault('FaultMessage!');
 
         $this->assertInstanceOf('SoapFault', $fault);
-        $this->assertContains('FaultMessage!', $fault->getMessage());
+        $this->assertStringContainsString('FaultMessage!', $fault->getMessage());
     }
 
     public function testFaultWithUnregisteredException()
@@ -761,8 +761,8 @@ class ServerTest extends TestCase
         $fault = $server->fault(new \Exception('MyException'));
 
         $this->assertInstanceOf('SoapFault', $fault);
-        $this->assertContains('Unknown error', $fault->getMessage());
-        $this->assertNotContains('MyException', $fault->getMessage());
+        $this->assertStringContainsString('Unknown error', $fault->getMessage());
+        $this->assertStringNotContainsString('MyException', $fault->getMessage());
     }
 
     public function testFaultWithRegisteredException()
@@ -772,8 +772,8 @@ class ServerTest extends TestCase
         $server->registerFaultException('\Laminas\Soap\Exception\InvalidArgumentException');
         $fault = $server->fault(new RuntimeException('MyException'));
         $this->assertInstanceOf('SoapFault', $fault);
-        $this->assertNotContains('Unknown error', $fault->getMessage());
-        $this->assertContains('MyException', $fault->getMessage());
+        $this->assertStringNotContainsString('Unknown error', $fault->getMessage());
+        $this->assertStringContainsString('MyException', $fault->getMessage());
     }
 
     public function testFaultWithBogusInput()
@@ -781,7 +781,7 @@ class ServerTest extends TestCase
         $server = new Server();
         $fault = $server->fault(['Here', 'There', 'Bogus']);
 
-        $this->assertContains('Unknown error', $fault->getMessage());
+        $this->assertStringContainsString('Unknown error', $fault->getMessage());
     }
 
     /**
@@ -878,7 +878,7 @@ class ServerTest extends TestCase
         $server->setClass('\LaminasTest\Soap\TestAsset\ServerTestClass');
         $response = $server->handle($request);
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             '<SOAP-ENV:Fault><faultcode>Receiver</faultcode><faultstring>Test Message</faultstring></SOAP-ENV:Fault>',
             $response
         );
@@ -949,7 +949,7 @@ class ServerTest extends TestCase
     {
         $server = new \LaminasTest\Soap\TestAsset\MockServer();
         $r = $server->handle(new \DOMDocument('1.0', 'UTF-8'));
-        $this->assertInternalType('string', $server->mockSoapServer->handle[0]);
+        $this->assertIsString($server->mockSoapServer->handle[0]);
     }
 
     /**
@@ -979,7 +979,7 @@ class ServerTest extends TestCase
           . '</SOAP-ENV:Envelope>' . "\n";
         $response = $server->handle($request);
 
-        $this->assertContains('Invalid XML', $response->getMessage());
+        $this->assertStringContainsString('Invalid XML', $response->getMessage());
     }
 
     public function testDebugMode()
@@ -1020,7 +1020,11 @@ class ServerTest extends TestCase
         $server->setOptions(['location' => 'test://', 'uri' => 'https://getlaminas.org']);
         $server->setReturnResponse(true);
         $server->setClass('\LaminasTest\Soap\TestAsset\ServerTestClass');
-        $loadEntities = libxml_disable_entity_loader(false);
+
+        $loadEntities = true;
+        if (LIBXML_VERSION < 20900) {
+            $loadEntities = libxml_disable_entity_loader(false);
+        }
 
         // Doing a request that is guaranteed to cause an exception in Server::_setRequest():
         $invalidRequest = '---';
@@ -1029,10 +1033,12 @@ class ServerTest extends TestCase
         // Sanity check; making sure that an exception has been triggered:
         $this->assertInstanceOf('\SoapFault', $response);
 
-        // The "disable entity loader" setting should be restored to "false" after the exception is raised:
-        $this->assertFalse(libxml_disable_entity_loader());
+        if (LIBXML_VERSION < 20900) {
+            // The "disable entity loader" setting should be restored to "false" after the exception is raised:
+            $this->assertFalse(libxml_disable_entity_loader());
 
-        // Cleanup; restoring original setting:
-        libxml_disable_entity_loader($loadEntities);
+            // Cleanup; restoring original setting:
+            libxml_disable_entity_loader($loadEntities);
+        }
     }
 }

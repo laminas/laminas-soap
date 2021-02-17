@@ -8,6 +8,7 @@
 
 namespace LaminasTest\Soap;
 
+use Laminas\Soap\Exception\RuntimeException;
 use Laminas\Soap\Wsdl;
 use Laminas\Uri\Uri;
 use LaminasTest\Soap\TestAsset\WsdlTestClass;
@@ -609,7 +610,9 @@ class WsdlTest extends WsdlTestHelper
     public function checkXMLContent($content)
     {
         libxml_use_internal_errors(true);
-        libxml_disable_entity_loader(false);
+        if (LIBXML_VERSION < 20900) {
+            libxml_disable_entity_loader(false);
+        }
         $xml = new \DOMDocument();
         $xml->preserveWhiteSpace = false;
         $xml->encoding = 'UTF-8';
@@ -830,11 +833,9 @@ class WsdlTest extends WsdlTestHelper
         $this->assertArrayHasKey('foo', $this->wsdl->getClassMap());
     }
 
-    /**
-     * @expectedException RuntimeException
-     */
     public function testAddElementException()
     {
+        $this->expectException(RuntimeException::class);
         $this->wsdl->addElement(1);
     }
 

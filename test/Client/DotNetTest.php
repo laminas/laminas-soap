@@ -11,16 +11,17 @@ namespace LaminasTest\Soap\Client;
 use Laminas\Http\Client\Adapter\Curl;
 use Laminas\Soap\Client\Common;
 use Laminas\Soap\Client\DotNet as DotNetClient;
+use LaminasTest\Soap\DeprecatedAssertionsTrait;
 use LaminasTest\Soap\TestAsset\MockCallUserFunc;
 use PHPUnit\Framework\TestCase;
 
 /**
  * .NET SOAP client tester.
- *
- * @group      Laminas_Soap
  */
 class DotNetTest extends TestCase
 {
+    use DeprecatedAssertionsTrait;
+
     /**
      * .NET SOAP client.
      *
@@ -37,10 +38,8 @@ class DotNetTest extends TestCase
 
     /**
      * Sets up the fixture.
-     *
-     * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         MockCallUserFunc::$mock = false;
         $this->client = new DotNetClient(
@@ -54,10 +53,8 @@ class DotNetTest extends TestCase
 
     /**
      * Disables mocking of call_user_func
-     *
-     * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         MockCallUserFunc::$mock = false;
     }

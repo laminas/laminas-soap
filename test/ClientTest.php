@@ -13,10 +13,11 @@ use Laminas\Soap\Client;
 use Laminas\Soap\Server;
 use Laminas\Soap\Wsdl;
 use PHPUnit\Framework\TestCase;
+use UnexpectedValueException;
 
 class ClientTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         if (! extension_loaded('soap')) {
             $this->markTestSkipped('SOAP Extension is not loaded');
@@ -623,12 +624,12 @@ class ClientTest extends TestCase
     }
 
     /**
-     * @expectedException \Laminas\Soap\Exception\UnexpectedValueException
      * @dataProvider dataProviderForInitSoapClientObjectException
      */
     public function testInitSoapClientObjectException($wsdl, $options)
     {
         $client = new Client($wsdl, $options);
+        $this->expectException(UnexpectedValueException::class);
         $client->getSoapClient();
     }
 

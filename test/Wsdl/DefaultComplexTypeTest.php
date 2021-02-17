@@ -14,6 +14,7 @@ use LaminasTest\Soap\TestAsset\PublicPrivateProtected;
 use LaminasTest\Soap\TestAsset\WsdlTestClass;
 use LaminasTest\Soap\WsdlTestHelper;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use ReflectionClass;
 use ReflectionProperty;
 
@@ -22,12 +23,14 @@ use ReflectionProperty;
  */
 class DefaultComplexTypeTest extends WsdlTestHelper
 {
+    use ProphecyTrait;
+
     /**
      * @var DefaultComplexType
      */
     protected $strategy;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->strategy = new DefaultComplexType();
 

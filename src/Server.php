@@ -819,7 +819,7 @@ class Server implements LaminasServerServer
                 throw new Exception\InvalidArgumentException('Empty request');
             }
 
-            $loadEntities = libxml_disable_entity_loader(true);
+            $loadEntities = $this->disableEntityLoader(true);
 
             $dom = new DOMDocument();
 
@@ -829,7 +829,7 @@ class Server implements LaminasServerServer
                 $loadStatus = $dom->loadXML($xml);
             }
 
-            libxml_disable_entity_loader($loadEntities);
+            $this->disableEntityLoader($loadEntities);
 
             // @todo check libxml errors ? validate document ?
             if (! $loadStatus) {
@@ -1191,5 +1191,23 @@ class Server implements LaminasServerServer
     public function handlePhpErrors($errno, $errstr)
     {
         throw $this->fault($errstr, 'Receiver');
+    }
+
+    /**
+     * Disable the ability to load external XML entities based on libxml version
+     *
+     * If we are using libxml < 2.9, unsafe XML entity loading must be
+     * disabled with a flag.
+     *
+     * If we are using libxml >= 2.9, XML entity loading is disabled by default.
+     *
+     * @return bool
+     */
+    private function disableEntityLoader($flag = true)
+    {
+        if (LIBXML_VERSION < 20900) {
+            return libxml_disable_entity_loader($flag);
+        }
+        return $flag;
     }
 }
