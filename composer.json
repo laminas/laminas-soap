@@ -20,6 +20,7 @@
     },
     "require": {
         "php": "^5.6 || ^7.0",
+        "ext-dom": "*",
         "ext-soap": "*",
         "laminas/laminas-server": "^2.6.1",
         "laminas/laminas-stdlib": "^2.7 || ^3.0",
@@ -33,6 +34,7 @@
         "phpunit/phpunit": "^5.7.21 || ^6.3"
     },
     "suggest": {
+        "ext-curl": "Curl is required when .NET compatibility is required",
         "laminas/laminas-http": "Laminas\\Http component"
     },
     "autoload": {
