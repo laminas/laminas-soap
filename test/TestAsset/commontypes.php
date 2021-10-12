@@ -559,8 +559,13 @@ if (extension_loaded('soap')) {
             parent::__construct($wsdl, $options);
         }
 
-        public function __doRequest($request, $location, $action, $version, $one_way = 0)
-        {
+        public function __doRequest(
+            string $request,
+            string $location,
+            string $action,
+            int $version,
+            bool $one_way = false
+        ): ?string {
             ob_start();
             $this->server->handle($request);
             $response = ob_get_clean();

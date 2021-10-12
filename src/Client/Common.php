@@ -8,6 +8,7 @@
 
 namespace Laminas\Soap\Client;
 
+use ReturnTypeWillChange;
 use SoapClient;
 
 class Common extends SoapClient
@@ -44,6 +45,7 @@ class Common extends SoapClient
      * @param  int    $oneWay
      * @return mixed
      */
+    #[ReturnTypeWillChange]
     public function __doRequest($request, $location, $action, $version, $oneWay = null)
     {
         // ltrim is a workaround for https://bugs.php.net/bug.php?id=63780
