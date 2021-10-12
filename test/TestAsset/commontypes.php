@@ -7,6 +7,8 @@
 
 namespace LaminasTest\Soap\TestAsset;
 
+use ReturnTypeWillChange;
+
 /* Test Functions */
 
 /**
@@ -559,13 +561,9 @@ if (extension_loaded('soap')) {
             parent::__construct($wsdl, $options);
         }
 
-        public function __doRequest(
-            string $request,
-            string $location,
-            string $action,
-            int $version,
-            bool $one_way = false
-        ): ?string {
+        #[ReturnTypeWillChange]
+        public function __doRequest($request, $location, $action, $version, $one_way = 0): ?string
+        {
             ob_start();
             $this->server->handle($request);
             $response = ob_get_clean();
