@@ -62,6 +62,7 @@
         "test-coverage": "phpunit --coverage-clover clover.xml"
     },
     "conflict": {
+        "laminas/laminas-code": "<4.4",
         "zendframework/zend-soap": "*"
     }
 }
