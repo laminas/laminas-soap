@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-soap for the canonical source repository
- * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
- */
-
 require_once "Laminas/Soap/AutoDiscover.php";
 require_once "Laminas/Soap/Server.php";
 require_once "Laminas/Soap/Wsdl/Strategy/ArrayOfTypeComplex.php";

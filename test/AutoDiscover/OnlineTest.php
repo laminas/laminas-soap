@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-soap for the canonical source repository
- */
-
 namespace LaminasTest\Soap\AutoDiscover;
 
 use Laminas\Soap\Client;

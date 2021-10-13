@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-soap for the canonical source repository
- */
-
 namespace Laminas\Soap\AutoDiscover\DiscoveryStrategy;
 
 use Laminas\Server\Reflection\AbstractFunction;

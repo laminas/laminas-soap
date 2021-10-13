@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-soap for the canonical source repository
- */
-
 /*
  * Set error reporting to the level to which Laminas code must comply.
  */
