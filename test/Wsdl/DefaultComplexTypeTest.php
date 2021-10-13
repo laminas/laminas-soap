@@ -2,8 +2,6 @@
 
 /**
  * @see       https://github.com/laminas/laminas-soap for the canonical source repository
- * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
 namespace LaminasTest\Soap\Wsdl;
@@ -25,9 +23,7 @@ class DefaultComplexTypeTest extends WsdlTestHelper
 {
     use ProphecyTrait;
 
-    /**
-     * @var DefaultComplexType
-     */
+    /** @var DefaultComplexType */
     protected $strategy;
 
     public function setUp(): void
@@ -42,12 +38,12 @@ class DefaultComplexTypeTest extends WsdlTestHelper
      */
     public function testOnlyPublicPropertiesAreDiscoveredByStrategy()
     {
-        $this->strategy->addComplexType('LaminasTest\Soap\TestAsset\PublicPrivateProtected');
+        $this->strategy->addComplexType(PublicPrivateProtected::class);
 
-        $nodes = $this->xpath->query('//xsd:element[@name="'.(PublicPrivateProtected::PROTECTED_VAR_NAME).'"]');
+        $nodes = $this->xpath->query('//xsd:element[@name="' . PublicPrivateProtected::PROTECTED_VAR_NAME . '"]');
         $this->assertEquals(0, $nodes->length, 'Document should not contain protected fields');
 
-        $nodes = $this->xpath->query('//xsd:element[@name="'.(PublicPrivateProtected::PRIVATE_VAR_NAME).'"]');
+        $nodes = $this->xpath->query('//xsd:element[@name="' . PublicPrivateProtected::PRIVATE_VAR_NAME . '"]');
         $this->assertEquals(0, $nodes->length, 'Document should not contain private fields');
 
         $this->documentNodesTest();
@@ -55,8 +51,8 @@ class DefaultComplexTypeTest extends WsdlTestHelper
 
     public function testDoubleClassesAreDiscoveredByStrategy()
     {
-        $this->strategy->addComplexType('LaminasTest\Soap\TestAsset\WsdlTestClass');
-        $this->strategy->addComplexType('\LaminasTest\Soap\TestAsset\WsdlTestClass');
+        $this->strategy->addComplexType(WsdlTestClass::class);
+        $this->strategy->addComplexType(WsdlTestClass::class);
 
         $nodes = $this->xpath->query('//xsd:complexType[@name="WsdlTestClass"]');
         $this->assertEquals(1, $nodes->length);

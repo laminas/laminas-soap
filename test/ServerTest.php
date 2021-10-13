@@ -2,17 +2,43 @@
 
 /**
  * @see       https://github.com/laminas/laminas-soap for the canonical source repository
- * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
 namespace LaminasTest\Soap;
 
+use DOMDocument;
+use Exception;
+use Laminas\Config\Config;
 use Laminas\Soap\AutoDiscover;
+use Laminas\Soap\Client\Local;
 use Laminas\Soap\Exception\InvalidArgumentException;
 use Laminas\Soap\Exception\RuntimeException;
 use Laminas\Soap\Server;
+use LaminasTest\Soap\TestAsset\errorClass;
+use LaminasTest\Soap\TestAsset\MockServer;
+use LaminasTest\Soap\TestAsset\ServerTestClass;
+use LaminasTest\Soap\TestAsset\TestData1;
+use LaminasTest\Soap\TestAsset\TestData2;
 use PHPUnit\Framework\TestCase;
+use SoapFault;
+use SoapServer;
+
+use function array_merge;
+use function array_shift;
+use function extension_loaded;
+use function headers_sent;
+use function is_array;
+use function libxml_disable_entity_loader;
+use function sprintf;
+use function unlink;
+
+use const LIBXML_VERSION;
+use const SOAP_1_1;
+use const SOAP_1_2;
+use const SOAP_FUNCTIONS_ALL;
+use const SOAP_PERSISTENCE_REQUEST;
+use const SOAP_PERSISTENCE_SESSION;
+use const SOAP_SINGLE_ELEMENT_ARRAYS;
 
 class ServerTest extends TestCase
 {
@@ -29,14 +55,17 @@ class ServerTest extends TestCase
 
         $this->assertEquals(['soap_version' => SOAP_1_2], $server->getOptions());
 
-        $options = ['soap_version' => SOAP_1_1,
-                         'actor' => 'https://getlaminas.org/Laminas_Soap_ServerTest.php',
-                         'classmap' => ['TestData1' => '\LaminasTest\Soap\TestAsset\TestData1',
-                                             'TestData2' => '\LaminasTest\Soap\TestAsset\TestData2',],
-                         'encoding' => 'ISO-8859-1',
-                         'uri' => 'https://getlaminas.org/Laminas_Soap_ServerTest.php',
-                         'parse_huge' => false
-                        ];
+        $options = [
+            'soap_version' => SOAP_1_1,
+            'actor'        => 'https://getlaminas.org/Laminas_Soap_ServerTest.php',
+            'classmap'     => [
+                'TestData1' => TestData1::class,
+                'TestData2' => TestData2::class,
+            ],
+            'encoding'     => 'ISO-8859-1',
+            'uri'          => 'https://getlaminas.org/Laminas_Soap_ServerTest.php',
+            'parse_huge'   => false,
+        ];
         $server->setOptions($options);
 
         $this->assertEquals($options, $server->getOptions());
@@ -46,16 +75,16 @@ class ServerTest extends TestCase
     {
         $options = [
             'soap_version' => SOAP_1_1,
-            'actor' => 'https://getlaminas.org/Laminas_Soap_ServerTest.php',
-            'classmap' => [
-                'TestData1' => '\LaminasTest\Soap\TestAsset\TestData1',
-                'TestData2' => '\LaminasTest\Soap\TestAsset\TestData2',
+            'actor'        => 'https://getlaminas.org/Laminas_Soap_ServerTest.php',
+            'classmap'     => [
+                'TestData1' => TestData1::class,
+                'TestData2' => TestData2::class,
             ],
-            'encoding' => 'ISO-8859-1',
-            'uri' => 'https://getlaminas.org/Laminas_Soap_ServerTest.php',
-            'parse_huge' => false
+            'encoding'     => 'ISO-8859-1',
+            'uri'          => 'https://getlaminas.org/Laminas_Soap_ServerTest.php',
+            'parse_huge'   => false,
         ];
-        $server = new Server(null, $options);
+        $server  = new Server(null, $options);
 
         $this->assertEquals($options, $server->getOptions());
     }
@@ -66,7 +95,7 @@ class ServerTest extends TestCase
     public function testSetOptionsWithFeaturesOption()
     {
         $server = new Server(null, [
-            'features' => SOAP_SINGLE_ELEMENT_ARRAYS
+            'features' => SOAP_SINGLE_ELEMENT_ARRAYS,
         ]);
 
         $this->assertEquals(
@@ -89,9 +118,10 @@ class ServerTest extends TestCase
 
         $this->assertEquals(['soap_version' => SOAP_1_2], $server->getOptions());
 
-        $options = ['soap_version' => SOAP_1_1,
-                         'uri' => 'https://getlaminas.org/Laminas_Soap_ServerTest.php'
-                        ];
+        $options = [
+            'soap_version' => SOAP_1_1,
+            'uri'          => 'https://getlaminas.org/Laminas_Soap_ServerTest.php',
+        ];
         $server->setOptions($options);
 
         $this->assertEquals($options, $server->getOptions());
@@ -182,8 +212,10 @@ class ServerTest extends TestCase
     {
         $server = new Server();
 
-        $classmap = ['TestData1' => '\LaminasTest\Soap\TestAsset\TestData1',
-                          'TestData2' => '\LaminasTest\Soap\TestAsset\TestData2'];
+        $classmap = [
+            'TestData1' => TestData1::class,
+            'TestData2' => TestData2::class,
+        ];
 
         $this->assertNull($server->getClassmap());
         $server->setClassmap($classmap);
@@ -212,8 +244,10 @@ class ServerTest extends TestCase
     {
         $server = new Server();
 
-        $classmap = ['TestData1' => '\LaminasTest\Soap\TestAsset\TestData1',
-                          'TestData2' => '\LaminasTest\Soap\TestAsset\TestData2'];
+        $classmap = [
+            'TestData1' => TestData1::class,
+            'TestData2' => TestData2::class,
+        ];
 
         $this->assertNull($server->getClassmap());
         $server->setClassmap($classmap);
@@ -225,11 +259,11 @@ class ServerTest extends TestCase
         $server = new Server();
 
         $this->assertNull($server->getWSDL());
-        $server->setWSDL(__DIR__.'/_files/wsdl_example.wsdl');
-        $this->assertEquals(__DIR__.'/_files/wsdl_example.wsdl', $server->getWSDL());
+        $server->setWSDL(__DIR__ . '/_files/wsdl_example.wsdl');
+        $this->assertEquals(__DIR__ . '/_files/wsdl_example.wsdl', $server->getWSDL());
 
         //$this->setExpectedException('Laminas\Soap\Exception\InvalidArgumentException', 'foo');
-        $server->setWSDL(__DIR__.'/_files/bogus.wsdl');
+        $server->setWSDL(__DIR__ . '/_files/bogus.wsdl');
     }
 
     public function testGetWsdl()
@@ -237,8 +271,8 @@ class ServerTest extends TestCase
         $server = new Server();
 
         $this->assertNull($server->getWSDL());
-        $server->setWSDL(__DIR__.'/_files/wsdl_example.wsdl');
-        $this->assertEquals(__DIR__.'/_files/wsdl_example.wsdl', $server->getWSDL());
+        $server->setWSDL(__DIR__ . '/_files/wsdl_example.wsdl');
+        $this->assertEquals(__DIR__ . '/_files/wsdl_example.wsdl', $server->getWSDL());
     }
 
     public function testAddFunction()
@@ -249,9 +283,11 @@ class ServerTest extends TestCase
         $server->addFunction('\LaminasTest\Soap\TestAsset\TestFunc');
 
         // Array of correct functions should pass
-        $functions = ['\LaminasTest\Soap\TestAsset\TestFunc2',
-                           '\LaminasTest\Soap\TestAsset\TestFunc3',
-                           '\LaminasTest\Soap\TestAsset\TestFunc4'];
+        $functions = [
+            '\LaminasTest\Soap\TestAsset\TestFunc2',
+            '\LaminasTest\Soap\TestAsset\TestFunc3',
+            '\LaminasTest\Soap\TestAsset\TestFunc4',
+        ];
         $server->addFunction($functions);
 
         $this->assertEquals(
@@ -285,7 +321,7 @@ class ServerTest extends TestCase
         $functions = [
             '\LaminasTest\Soap\TestAsset\TestFunc5',
             'bogus_function',
-            '\LaminasTest\Soap\TestAsset\TestFunc6'
+            '\LaminasTest\Soap\TestAsset\TestFunc6',
         ];
 
         $this->expectException(InvalidArgumentException::class);
@@ -308,7 +344,7 @@ class ServerTest extends TestCase
         $server = new Server();
 
         // Correct class name should pass
-        $r = $server->setClass('\LaminasTest\Soap\TestAsset\ServerTestClass');
+        $r = $server->setClass(ServerTestClass::class);
         $this->assertSame($server, $r);
     }
 
@@ -320,19 +356,19 @@ class ServerTest extends TestCase
         $server = new Server();
 
         // Correct class name should pass
-        $object = new \LaminasTest\Soap\TestAsset\ServerTestClass();
-        $r = $server->setClass($object);
+        $object = new ServerTestClass();
+        $r      = $server->setClass($object);
         $this->assertSame($server, $r);
     }
 
     public function testSetClassTwiceThrowsException()
     {
         $server = new Server();
-        $server->setClass('\LaminasTest\Soap\TestAsset\ServerTestClass');
+        $server->setClass(ServerTestClass::class);
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('A class has already been registered with this soap server instance');
-        $server->setClass('\LaminasTest\Soap\TestAsset\ServerTestClass');
+        $server->setClass(ServerTestClass::class);
     }
 
     public function testSetClassWithArguments()
@@ -340,7 +376,7 @@ class ServerTest extends TestCase
         $server = new Server();
 
         // Correct class name should pass
-        $r = $server->setClass('\LaminasTest\Soap\TestAsset\ServerTestClass', null, 1, 2, 3, 4);
+        $r = $server->setClass(ServerTestClass::class, null, 1, 2, 3, 4);
         $this->assertSame($server, $r);
     }
 
@@ -370,7 +406,7 @@ class ServerTest extends TestCase
         $server = new Server();
 
         // Correct class name should pass
-        $r = $server->setObject(new TestAsset\ServerTestClass());
+        $r = $server->setObject(new ServerTestClass());
         $this->assertSame($server, $r);
     }
 
@@ -405,14 +441,18 @@ class ServerTest extends TestCase
 
         $server->addFunction('\LaminasTest\Soap\TestAsset\TestFunc');
 
-        $functions  = ['\LaminasTest\Soap\TestAsset\TestFunc2',
-                             '\LaminasTest\Soap\TestAsset\TestFunc3',
-                             '\LaminasTest\Soap\TestAsset\TestFunc4'];
+        $functions = [
+            '\LaminasTest\Soap\TestAsset\TestFunc2',
+            '\LaminasTest\Soap\TestAsset\TestFunc3',
+            '\LaminasTest\Soap\TestAsset\TestFunc4',
+        ];
         $server->addFunction($functions);
 
-        $functions  = ['\LaminasTest\Soap\TestAsset\TestFunc3',
-                             '\LaminasTest\Soap\TestAsset\TestFunc5',
-                             '\LaminasTest\Soap\TestAsset\TestFunc6'];
+        $functions = [
+            '\LaminasTest\Soap\TestAsset\TestFunc3',
+            '\LaminasTest\Soap\TestAsset\TestFunc5',
+            '\LaminasTest\Soap\TestAsset\TestFunc6',
+        ];
         $server->addFunction($functions);
 
         $allAddedFunctions = [
@@ -421,7 +461,7 @@ class ServerTest extends TestCase
             '\LaminasTest\Soap\TestAsset\TestFunc3',
             '\LaminasTest\Soap\TestAsset\TestFunc4',
             '\LaminasTest\Soap\TestAsset\TestFunc5',
-            '\LaminasTest\Soap\TestAsset\TestFunc6'
+            '\LaminasTest\Soap\TestAsset\TestFunc6',
         ];
         $this->assertEquals($allAddedFunctions, $server->getFunctions());
     }
@@ -429,7 +469,7 @@ class ServerTest extends TestCase
     public function testGetFunctionsWithClassAttached()
     {
         $server = new Server();
-        $server->setClass(TestAsset\ServerTestClass::class);
+        $server->setClass(ServerTestClass::class);
 
         $this->assertEquals(
             ['testFunc1', 'testFunc2', 'testFunc3', 'testFunc4', 'testFunc5'],
@@ -440,7 +480,7 @@ class ServerTest extends TestCase
     public function testGetFunctionsWithObjectAttached()
     {
         $server = new Server();
-        $server->setObject(new TestAsset\ServerTestClass());
+        $server->setObject(new ServerTestClass());
 
         $this->assertEquals(
             ['testFunc1', 'testFunc2', 'testFunc3', 'testFunc4', 'testFunc5'],
@@ -492,7 +532,7 @@ class ServerTest extends TestCase
         $server->setOptions(['location' => 'test://', 'uri' => 'https://getlaminas.org']);
         $server->setReturnResponse(true);
 
-        $server->setClass('\LaminasTest\Soap\TestAsset\ServerTestClass');
+        $server->setClass(ServerTestClass::class);
 
         $request =
           '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" '
@@ -501,11 +541,11 @@ class ServerTest extends TestCase
                              . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
                              . 'xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" '
                              . 'SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">'
-          .     '<SOAP-ENV:Body>'
-          .         '<ns1:testFunc2>'
-          .             '<param0 xsi:type="xsd:string">World</param0>'
-          .         '</ns1:testFunc2>'
-          .     '</SOAP-ENV:Body>'
+          . '<SOAP-ENV:Body>'
+          . '<ns1:testFunc2>'
+          . '<param0 xsi:type="xsd:string">World</param0>'
+          . '</ns1:testFunc2>'
+          . '</SOAP-ENV:Body>'
           . '</SOAP-ENV:Envelope>';
 
         $response = $server->handle($request);
@@ -550,7 +590,7 @@ class ServerTest extends TestCase
         $server->setOptions(['location' => 'test://', 'uri' => 'https://getlaminas.org']);
         $server->setReturnResponse(true);
 
-        $server->setClass('\LaminasTest\Soap\TestAsset\ServerTestClass');
+        $server->setClass(ServerTestClass::class);
 
         $request =
             '<?xml version="1.0" encoding="UTF-8"?>' . "\n"
@@ -560,11 +600,11 @@ class ServerTest extends TestCase
                              . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
                              . 'xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" '
                              . 'SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">'
-          .     '<SOAP-ENV:Body>'
-          .         '<ns1:testFunc2>'
-          .             '<param0 xsi:type="xsd:string">World</param0>'
-          .         '</ns1:testFunc2>'
-          .     '</SOAP-ENV:Body>'
+          . '<SOAP-ENV:Body>'
+          . '<ns1:testFunc2>'
+          . '<param0 xsi:type="xsd:string">World</param0>'
+          . '</ns1:testFunc2>'
+          . '</SOAP-ENV:Body>'
           . '</SOAP-ENV:Envelope>' . "\n";
 
         $expectedResponse =
@@ -575,11 +615,11 @@ class ServerTest extends TestCase
                              . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
                              . 'xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" '
                              . 'SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">'
-          .     '<SOAP-ENV:Body>'
-          .         '<ns1:testFunc2Response>'
-          .             '<return xsi:type="xsd:string">Hello World!</return>'
-          .         '</ns1:testFunc2Response>'
-          .     '</SOAP-ENV:Body>'
+          . '<SOAP-ENV:Body>'
+          . '<ns1:testFunc2Response>'
+          . '<return xsi:type="xsd:string">Hello World!</return>'
+          . '</ns1:testFunc2Response>'
+          . '</SOAP-ENV:Body>'
           . '</SOAP-ENV:Envelope>' . "\n";
 
         $server->handle($request);
@@ -604,20 +644,19 @@ class ServerTest extends TestCase
         $server = new Server();
         $server->setOptions(['location' => 'test://', 'uri' => 'https://getlaminas.org']);
 
-        $server->setClass('\LaminasTest\Soap\TestAsset\ServerTestClass');
+        $server->setClass(ServerTestClass::class);
 
         $localClient = new TestAsset\TestLocalSoapClient(
             $server,
             null,
             [
                 'location' => 'test://',
-                'uri' => 'https://getlaminas.org'
+                'uri'      => 'https://getlaminas.org',
             ]
         );
 
         // Local SOAP client call automatically invokes handle method of the provided SOAP server
         $this->assertEquals('Hello World!', $localClient->testFunc2('World'));
-
 
         $request =
             '<?xml version="1.0" encoding="UTF-8"?>' . "\n"
@@ -627,11 +666,11 @@ class ServerTest extends TestCase
                              . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
                              . 'xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" '
                              . 'SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">'
-          .     '<SOAP-ENV:Body>'
-          .         '<ns1:testFunc2>'
-          .             '<param0 xsi:type="xsd:string">World</param0>'
-          .         '</ns1:testFunc2>'
-          .     '</SOAP-ENV:Body>'
+          . '<SOAP-ENV:Body>'
+          . '<ns1:testFunc2>'
+          . '<param0 xsi:type="xsd:string">World</param0>'
+          . '</ns1:testFunc2>'
+          . '</SOAP-ENV:Body>'
           . '</SOAP-ENV:Envelope>' . "\n";
 
         $expectedResponse =
@@ -642,17 +681,17 @@ class ServerTest extends TestCase
                              . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
                              . 'xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" '
                              . 'SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">'
-          .     '<SOAP-ENV:Body>'
-          .         '<ns1:testFunc2Response>'
-          .             '<return xsi:type="xsd:string">Hello World!</return>'
-          .         '</ns1:testFunc2Response>'
-          .     '</SOAP-ENV:Body>'
+          . '<SOAP-ENV:Body>'
+          . '<ns1:testFunc2Response>'
+          . '<return xsi:type="xsd:string">Hello World!</return>'
+          . '</ns1:testFunc2Response>'
+          . '</SOAP-ENV:Body>'
           . '</SOAP-ENV:Envelope>' . "\n";
 
         $server1 = new Server();
         $server1->setOptions(['location' => 'test://', 'uri' => 'https://getlaminas.org']);
 
-        $server1->setClass('\LaminasTest\Soap\TestAsset\ServerTestClass');
+        $server1->setClass(ServerTestClass::class);
         $server1->setReturnResponse(true);
 
         $this->assertEquals($expectedResponse, $server1->handle($request));
@@ -664,9 +703,9 @@ class ServerTest extends TestCase
         $server->setOptions(['location' => 'test://', 'uri' => 'https://getlaminas.org']);
         $server->setReturnResponse(true);
 
-        $server->setClass(TestAsset\ServerTestClass::class);
+        $server->setClass(ServerTestClass::class);
 
-        $request = '';
+        $request  = '';
         $response = $server->handle($request);
 
         $this->assertStringContainsString('Empty request', $response->getMessage());
@@ -674,7 +713,6 @@ class ServerTest extends TestCase
 
     /**
      * @dataProvider dataProviderForRegisterFaultException
-     *
      * @param string|array $exception
      */
     public function testRegisterFaultException($exception)
@@ -694,7 +732,6 @@ class ServerTest extends TestCase
 
     /**
      * @dataProvider dataProviderForRegisterFaultException
-     *
      * @param string|array $exception
      */
     public function testDeregisterFaultException($exception)
@@ -713,14 +750,12 @@ class ServerTest extends TestCase
 
     /**
      * @dataProvider dataProviderForRegisterFaultException
-     *
      * @param string|array $exception
      */
     public function testIsRegisteredAsFaultException($exception)
     {
         $server = new Server();
         $server->registerFaultException($exception);
-
 
         if (! is_array($exception)) {
             $this->assertTrue($server->isRegisteredAsFaultException($exception));
@@ -738,18 +773,18 @@ class ServerTest extends TestCase
     {
         return [
             ['Exception'],
-            ['Laminas\Soap\Exception\InvalidArgumentException'],
+            [InvalidArgumentException::class],
             ['InvalidArgumentException'],
-            ['Laminas\Server\Exception\RuntimeException'],
-            [['Laminas\Server\Exception\RuntimeException']],
-            [['Laminas\Server\Exception\RuntimeException', 'InvalidArgumentException']],
+            [\Laminas\Server\Exception\RuntimeException::class],
+            [[\Laminas\Server\Exception\RuntimeException::class]],
+            [[\Laminas\Server\Exception\RuntimeException::class, 'InvalidArgumentException']],
         ];
     }
 
     public function testFaultWithTextMessage()
     {
         $server = new Server();
-        $fault = $server->fault('FaultMessage!');
+        $fault  = $server->fault('FaultMessage!');
 
         $this->assertInstanceOf('SoapFault', $fault);
         $this->assertStringContainsString('FaultMessage!', $fault->getMessage());
@@ -758,7 +793,7 @@ class ServerTest extends TestCase
     public function testFaultWithUnregisteredException()
     {
         $server = new Server();
-        $fault = $server->fault(new \Exception('MyException'));
+        $fault  = $server->fault(new Exception('MyException'));
 
         $this->assertInstanceOf('SoapFault', $fault);
         $this->assertStringContainsString('Unknown error', $fault->getMessage());
@@ -768,8 +803,8 @@ class ServerTest extends TestCase
     public function testFaultWithRegisteredException()
     {
         $server = new Server();
-        $server->registerFaultException('\Laminas\Soap\Exception\RuntimeException');
-        $server->registerFaultException('\Laminas\Soap\Exception\InvalidArgumentException');
+        $server->registerFaultException(RuntimeException::class);
+        $server->registerFaultException(InvalidArgumentException::class);
         $fault = $server->fault(new RuntimeException('MyException'));
         $this->assertInstanceOf('SoapFault', $fault);
         $this->assertStringNotContainsString('Unknown error', $fault->getMessage());
@@ -779,7 +814,7 @@ class ServerTest extends TestCase
     public function testFaultWithBogusInput()
     {
         $server = new Server();
-        $fault = $server->fault(['Here', 'There', 'Bogus']);
+        $fault  = $server->fault(['Here', 'There', 'Bogus']);
 
         $this->assertStringContainsString('Unknown error', $fault->getMessage());
     }
@@ -790,14 +825,11 @@ class ServerTest extends TestCase
     public function testFaultWithIntegerFailureCodeDoesNotBreakClassSoapFault()
     {
         $server = new Server();
-        $fault = $server->fault("FaultMessage!", 5000);
+        $fault  = $server->fault("FaultMessage!", 5000);
 
         $this->assertInstanceOf('SoapFault', $fault);
     }
 
-    /**
-     * @expectedException \SoapFault
-     */
     public function testHandlePhpErrors()
     {
         if (headers_sent()) {
@@ -811,29 +843,27 @@ class ServerTest extends TestCase
         $wsdlFilename = __DIR__ . '/TestAsset/testHandlePhpErrors.wsdl';
         $autodiscover = new AutoDiscover();
         $autodiscover->setOperationBodyStyle([
-            'use'           => 'literal',
+            'use' => 'literal',
         ]);
 
         $autodiscover->setBindingStyle([
-            'style'         => 'document',
-            'transport'     => 'http://schemas.xmlsoap.org/soap/http'
+            'style'     => 'document',
+            'transport' => 'http://schemas.xmlsoap.org/soap/http',
         ]);
-
 
         $autodiscover->setServiceName('ExampleService');
         $autodiscover->setUri('http://example.com');
 
-
-        $autodiscover->setClass('\LaminasTest\Soap\TestAsset\errorClass');
+        $autodiscover->setClass(errorClass::class);
 
         $wsdl = $autodiscover->generate();
         $wsdl->dump($wsdlFilename);
 
         $server = new Server($wsdlFilename);
 
-        $server->setClass('\LaminasTest\Soap\TestAsset\errorClass');
+        $server->setClass(errorClass::class);
 
-        $client = new \Laminas\Soap\Client\Local($server, $wsdlFilename);
+        $client = new Local($server, $wsdlFilename);
         $client->triggerError();
         unlink($wsdlFilename);
     }
@@ -870,12 +900,12 @@ class ServerTest extends TestCase
                              . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
                              . 'xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" '
                              . 'SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">'
-          .     '<SOAP-ENV:Body>'
-          .         '<ns1:testFunc5 />'
-          .     '</SOAP-ENV:Body>'
+          . '<SOAP-ENV:Body>'
+          . '<ns1:testFunc5 />'
+          . '</SOAP-ENV:Body>'
           . '</SOAP-ENV:Envelope>' . "\n";
 
-        $server->setClass('\LaminasTest\Soap\TestAsset\ServerTestClass');
+        $server->setClass(ServerTestClass::class);
         $response = $server->handle($request);
 
         $this->assertStringContainsString(
@@ -889,14 +919,17 @@ class ServerTest extends TestCase
      */
     public function testServerAcceptsLaminasConfigObject()
     {
-        $options = ['soap_version' => SOAP_1_1,
-                         'actor' => 'https://getlaminas.org/Laminas_Soap_ServerTest.php',
-                         'classmap' => ['TestData1' => '\LaminasTest\Soap\TestAsset\TestData1',
-                                             'TestData2' => '\LaminasTest\Soap\TestAsset\TestData2',],
-                         'encoding' => 'ISO-8859-1',
-                         'uri' => 'https://getlaminas.org/Laminas_Soap_ServerTest.php'
-                        ];
-        $config = new \Laminas\Config\Config($options);
+        $options = [
+            'soap_version' => SOAP_1_1,
+            'actor'        => 'https://getlaminas.org/Laminas_Soap_ServerTest.php',
+            'classmap'     => [
+                'TestData1' => TestData1::class,
+                'TestData2' => TestData2::class,
+            ],
+            'encoding'     => 'ISO-8859-1',
+            'uri'          => 'https://getlaminas.org/Laminas_Soap_ServerTest.php',
+        ];
+        $config  = new Config($options);
 
         $server = new Server();
         $server->setOptions($config);
@@ -947,8 +980,8 @@ class ServerTest extends TestCase
      */
     public function testHandleUsesProperRequestParameter()
     {
-        $server = new \LaminasTest\Soap\TestAsset\MockServer();
-        $r = $server->handle(new \DOMDocument('1.0', 'UTF-8'));
+        $server = new MockServer();
+        $r      = $server->handle(new DOMDocument('1.0', 'UTF-8'));
         $this->assertIsString($server->mockSoapServer->handle[0]);
     }
 
@@ -961,9 +994,9 @@ class ServerTest extends TestCase
         $server->setOptions(['location' => 'test://', 'uri' => 'https://getlaminas.org']);
         $server->setReturnResponse(true);
 
-        $server->setClass('\LaminasTest\Soap\TestAsset\ServerTestClass');
+        $server->setClass(ServerTestClass::class);
 
-        $request =
+        $request  =
             '<?xml version="1.0" encoding="UTF-8"?>' . "\n" . '<!DOCTYPE foo>' . "\n"
           . '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" '
                              . 'xmlns:ns1="https://getlaminas.org" '
@@ -971,11 +1004,11 @@ class ServerTest extends TestCase
                              . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
                              . 'xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" '
                              . 'SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">'
-          .     '<SOAP-ENV:Body>'
-          .         '<ns1:testFunc2>'
-          .             '<param0 xsi:type="xsd:string">World</param0>'
-          .         '</ns1:testFunc2>'
-          .     '</SOAP-ENV:Body>'
+          . '<SOAP-ENV:Body>'
+          . '<ns1:testFunc2>'
+          . '<param0 xsi:type="xsd:string">World</param0>'
+          . '</ns1:testFunc2>'
+          . '</SOAP-ENV:Body>'
           . '</SOAP-ENV:Envelope>' . "\n";
         $response = $server->handle($request);
 
@@ -984,10 +1017,10 @@ class ServerTest extends TestCase
 
     public function testDebugMode()
     {
-        $server = new Server();
-        $beforeDebug = $server->fault(new \Exception('test'));
+        $server      = new Server();
+        $beforeDebug = $server->fault(new Exception('test'));
         $server->setDebugMode(true);
-        $afterDebug = $server->fault(new \Exception('test'));
+        $afterDebug = $server->fault(new Exception('test'));
 
         $this->assertEquals('Unknown error', $beforeDebug->getMessage());
         $this->assertEquals('test', $afterDebug->getMessage());
@@ -996,12 +1029,12 @@ class ServerTest extends TestCase
     public function testGetOriginalCaughtException()
     {
         $server = new Server();
-        $fault = $server->fault(new \Exception('test'));
+        $fault  = $server->fault(new Exception('test'));
 
         $exception = $server->getException();
-        $this->assertInstanceOf('\Exception', $exception);
+        $this->assertInstanceOf(Exception::class, $exception);
         $this->assertEquals('test', $exception->getMessage());
-        $this->assertInstanceOf('\SoapFault', $fault);
+        $this->assertInstanceOf(SoapFault::class, $fault);
         $this->assertEquals('Unknown error', $fault->getMessage());
     }
 
@@ -1010,7 +1043,7 @@ class ServerTest extends TestCase
         $server = new Server();
         $server->setOptions(['location' => 'test://', 'uri' => 'https://getlaminas.org']);
         $internalServer = $server->getSoap();
-        $this->assertInstanceOf('\SoapServer', $internalServer);
+        $this->assertInstanceOf(SoapServer::class, $internalServer);
         $this->assertSame($internalServer, $server->getSoap());
     }
 
@@ -1019,7 +1052,7 @@ class ServerTest extends TestCase
         $server = new Server();
         $server->setOptions(['location' => 'test://', 'uri' => 'https://getlaminas.org']);
         $server->setReturnResponse(true);
-        $server->setClass('\LaminasTest\Soap\TestAsset\ServerTestClass');
+        $server->setClass(ServerTestClass::class);
 
         $loadEntities = true;
         if (LIBXML_VERSION < 20900) {
@@ -1028,10 +1061,10 @@ class ServerTest extends TestCase
 
         // Doing a request that is guaranteed to cause an exception in Server::_setRequest():
         $invalidRequest = '---';
-        $response = @$server->handle($invalidRequest);
+        $response       = @$server->handle($invalidRequest);
 
         // Sanity check; making sure that an exception has been triggered:
-        $this->assertInstanceOf('\SoapFault', $response);
+        $this->assertInstanceOf(SoapFault::class, $response);
 
         if (LIBXML_VERSION < 20900) {
             // The "disable entity loader" setting should be restored to "false" after the exception is raised:

@@ -2,14 +2,17 @@
 
 /**
  * @see       https://github.com/laminas/laminas-soap for the canonical source repository
- * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
 namespace Laminas\Soap\Client;
 
+use Laminas\Soap\Exception\InvalidArgumentException;
+// phpcs:ignore SlevomatCodingStandard.Namespaces.UnusedUses.UnusedUse
 use ReturnTypeWillChange;
 use SoapClient;
+
+use function is_callable;
+use function ltrim;
 
 class Common extends SoapClient
 {
@@ -29,6 +32,10 @@ class Common extends SoapClient
      */
     public function __construct($doRequestCallback, $wsdl, $options)
     {
+        if (! is_callable($doRequestCallback)) {
+            throw new InvalidArgumentException('$doRequestCallback argument must be callable');
+        }
+
         $this->doRequestCallback = $doRequestCallback;
         parent::__construct($wsdl, $options);
     }
@@ -50,9 +57,9 @@ class Common extends SoapClient
     {
         // ltrim is a workaround for https://bugs.php.net/bug.php?id=63780
         if ($oneWay === null) {
-            return call_user_func($this->doRequestCallback, $this, ltrim($request), $location, $action, $version);
+            return ($this->doRequestCallback)($this, ltrim($request), $location, $action, $version);
         }
 
-        return call_user_func($this->doRequestCallback, $this, ltrim($request), $location, $action, $version, $oneWay);
+        return ($this->doRequestCallback)($this, ltrim($request), $location, $action, $version, $oneWay);
     }
 }

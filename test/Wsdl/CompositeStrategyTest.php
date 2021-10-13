@@ -2,8 +2,6 @@
 
 /**
  * @see       https://github.com/laminas/laminas-soap for the canonical source repository
- * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
 namespace LaminasTest\Soap\Wsdl;
@@ -15,7 +13,12 @@ use Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplex;
 use Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeSequence;
 use Laminas\Soap\Wsdl\ComplexTypeStrategy\Composite;
 use Laminas\Soap\Wsdl\ComplexTypeStrategy\DefaultComplexType;
+use LaminasTest\Soap\TestAsset\Anything;
+use LaminasTest\Soap\TestAsset\Book;
+use LaminasTest\Soap\TestAsset\Cookie;
 use LaminasTest\Soap\WsdlTestHelper;
+
+use function get_class;
 
 /**
  * @group      Laminas_Soap
@@ -30,30 +33,30 @@ class CompositeStrategyTest extends WsdlTestHelper
 
     public function testCompositeApiAddingStragiesToTypes()
     {
-        $strategy = new Composite([], new ArrayOfTypeSequence);
-        $strategy->connectTypeToStrategy('Book', new ArrayOfTypeComplex);
+        $strategy = new Composite([], new ArrayOfTypeSequence());
+        $strategy->connectTypeToStrategy('Book', new ArrayOfTypeComplex());
 
-        $bookStrategy = $strategy->getStrategyOfType('Book');
+        $bookStrategy   = $strategy->getStrategyOfType('Book');
         $cookieStrategy = $strategy->getStrategyOfType('Cookie');
 
-        $this->assertInstanceOf('Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplex', $bookStrategy);
-        $this->assertInstanceOf('Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeSequence', $cookieStrategy);
+        $this->assertInstanceOf(ArrayOfTypeComplex::class, $bookStrategy);
+        $this->assertInstanceOf(ArrayOfTypeSequence::class, $cookieStrategy);
     }
 
     public function testConstructorTypeMapSyntax()
     {
-        $typeMap = ['Book' => '\Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplex'];
+        $typeMap = ['Book' => ArrayOfTypeComplex::class];
 
         $strategy = new ComplexTypeStrategy\Composite(
             $typeMap,
-            new ArrayOfTypeSequence
+            new ArrayOfTypeSequence()
         );
 
-        $bookStrategy = $strategy->getStrategyOfType('Book');
+        $bookStrategy   = $strategy->getStrategyOfType('Book');
         $cookieStrategy = $strategy->getStrategyOfType('Cookie');
 
-        $this->assertInstanceOf('Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplex', $bookStrategy);
-        $this->assertInstanceOf('Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeSequence', $cookieStrategy);
+        $this->assertInstanceOf(ArrayOfTypeComplex::class, $bookStrategy);
+        $this->assertInstanceOf(ArrayOfTypeSequence::class, $cookieStrategy);
     }
 
     public function testCompositeThrowsExceptionOnInvalidType()
@@ -87,21 +90,21 @@ class CompositeStrategyTest extends WsdlTestHelper
 
     public function testCompositeDelegatesAddingComplexTypesToSubStrategies()
     {
-        $this->strategy = new ComplexTypeStrategy\Composite([], new AnyType);
+        $this->strategy = new ComplexTypeStrategy\Composite([], new AnyType());
         $this->strategy->connectTypeToStrategy(
-            '\LaminasTest\Soap\TestAsset\Book',
-            new ArrayOfTypeComplex
+            Book::class,
+            new ArrayOfTypeComplex()
         );
         $this->strategy->connectTypeToStrategy(
-            '\LaminasTest\Soap\TestAsset\Cookie',
-            new DefaultComplexType
+            Cookie::class,
+            new DefaultComplexType()
         );
 
         parent::setUp();
 
-        $this->assertEquals('tns:Book', $this->strategy->addComplexType('\LaminasTest\Soap\TestAsset\Book'));
-        $this->assertEquals('tns:Cookie', $this->strategy->addComplexType('\LaminasTest\Soap\TestAsset\Cookie'));
-        $this->assertEquals('xsd:anyType', $this->strategy->addComplexType('\LaminasTest\Soap\TestAsset\Anything'));
+        $this->assertEquals('tns:Book', $this->strategy->addComplexType(Book::class));
+        $this->assertEquals('tns:Cookie', $this->strategy->addComplexType(Cookie::class));
+        $this->assertEquals('xsd:anyType', $this->strategy->addComplexType(Anything::class));
 
         $this->documentNodesTest();
     }
@@ -117,7 +120,7 @@ class CompositeStrategyTest extends WsdlTestHelper
 
     public function testGetDefaultStrategy()
     {
-        $strategyClass = 'Laminas\Soap\Wsdl\ComplexTypeStrategy\AnyType';
+        $strategyClass = AnyType::class;
 
         $strategy = new Composite([], $strategyClass);
 

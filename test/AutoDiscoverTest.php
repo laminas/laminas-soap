@@ -2,45 +2,61 @@
 
 /**
  * @see       https://github.com/laminas/laminas-soap for the canonical source repository
- * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
 namespace LaminasTest\Soap;
 
-use \Laminas\Soap\Exception\InvalidArgumentException as SoapInvalidArgumentException;
+use DOMDocument;
+use DOMElement;
+use DOMNodeList;
+use DOMXPath;
 use InvalidArgumentException;
 use Laminas\Soap\AutoDiscover;
+use Laminas\Soap\AutoDiscover\DiscoveryStrategy\ReflectionDiscovery;
+use Laminas\Soap\Exception\InvalidArgumentException as SoapInvalidArgumentException;
 use Laminas\Soap\Exception\RuntimeException;
 use Laminas\Soap\Wsdl;
+use Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplex;
+use Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeSequence;
+use Laminas\Soap\Wsdl\ComplexTypeStrategy\ComplexTypeStrategyInterface;
 use Laminas\Uri\Uri;
+use LaminasTest\Soap\TestAsset\AutoDiscoverTestClass2;
+use LaminasTest\Soap\TestAsset\MyService;
+use LaminasTest\Soap\TestAsset\MyServiceSequence;
+use LaminasTest\Soap\TestAsset\NoReturnType;
+use LaminasTest\Soap\TestAsset\Recursion;
+use LaminasTest\Soap\TestAsset\Test;
+use LaminasTest\Soap\TestAsset\TestFixingMultiplePrototypes;
 use PHPUnit\Framework\TestCase;
+use stdClass;
+
+use function array_keys;
+use function count;
+use function file_exists;
+use function get_class;
+use function in_array;
+use function ob_get_clean;
+use function ob_start;
+use function trim;
+use function unlink;
+
+use const XML_ELEMENT_NODE;
 
 class AutoDiscoverTest extends TestCase
 {
-    /**
-     * @var AutoDiscover
-     */
+    /** @var AutoDiscover */
     protected $server;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $defaultServiceName = 'MyService';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $defaultServiceUri = 'http://localhost/MyService.php';
 
-    /**
-     * @var \DOMDocument
-     */
+    /** @var DOMDocument */
     protected $dom;
 
-    /**
-     * @var \DOMXPath
-     */
+    /** @var DOMXPath */
     protected $xpath;
 
     public function setUp(): void
@@ -51,14 +67,11 @@ class AutoDiscoverTest extends TestCase
     }
 
     /**
-     *
-     *
-     * @param \Laminas\Soap\Wsdl $wsdl
      * @param null            $documentNamespace
      */
     public function bindWsdl(Wsdl $wsdl, $documentNamespace = null)
     {
-        $this->dom                     = new \DOMDocument();
+        $this->dom                     = new DOMDocument();
         $this->dom->formatOutput       = true;
         $this->dom->preserveWhiteSpace = false;
 
@@ -68,7 +81,7 @@ class AutoDiscoverTest extends TestCase
             $documentNamespace = $this->defaultServiceUri;
         }
 
-        $this->xpath = new \DOMXPath($this->dom);
+        $this->xpath = new DOMXPath($this->dom);
 
         $this->xpath->registerNamespace('unittest', Wsdl::WSDL_NS_URI);
 
@@ -82,10 +95,8 @@ class AutoDiscoverTest extends TestCase
 
     /**
      * Assertion to validate DOMDocument is a valid WSDL file.
-     *
-     * @param \DOMDocument $dom
      */
-    protected function assertValidWSDL(\DOMDocument $dom)
+    protected function assertValidWSDL(DOMDocument $dom)
     {
         // this code is necessary to support some libxml stupidities.
         // @todo memory streams ?
@@ -95,7 +106,7 @@ class AutoDiscoverTest extends TestCase
         }
 
         $dom->save($file);
-        $dom = new \DOMDocument();
+        $dom = new DOMDocument();
         $dom->load($file);
 
         $this->assertTrue(
@@ -106,11 +117,11 @@ class AutoDiscoverTest extends TestCase
     }
 
     /**
-     * @param \DOMElement $element
+     * @param DOMElement $element
      */
     public function documentNodesTest($element = null)
     {
-        if (! ($this->dom instanceof \DOMDocument)) {
+        if (! $this->dom instanceof DOMDocument) {
             return;
         }
 
@@ -118,7 +129,7 @@ class AutoDiscoverTest extends TestCase
             $element = $this->dom->documentElement;
         }
 
-        /** @var $node \DOMElement */
+        /** @var DOMElement $node */
         foreach ($element->childNodes as $node) {
             if (in_array($node->nodeType, [XML_ELEMENT_NODE])) {
                 $this->assertNotEmpty(
@@ -134,8 +145,9 @@ class AutoDiscoverTest extends TestCase
 
     /**
      * @dataProvider dataProviderValidUris
+     * @param string|Uri $uri
      */
-    public function testAutoDiscoverConstructorUri($uri, $expectedUri)
+    public function testAutoDiscoverConstructorUri($uri, string $expectedUri)
     {
         $server = new AutoDiscover(null, $uri);
 
@@ -145,7 +157,7 @@ class AutoDiscoverTest extends TestCase
     /**
      * @dataProvider dataProviderForAutoDiscoverConstructorStrategy
      */
-    public function testAutoDiscoverConstructorStrategy($strategy)
+    public function testAutoDiscoverConstructorStrategy(ComplexTypeStrategyInterface $strategy)
     {
         $server = new AutoDiscover($strategy);
 
@@ -160,10 +172,8 @@ class AutoDiscoverTest extends TestCase
         );
     }
 
-    /**
-     * @return array
-     */
-    public function dataProviderForAutoDiscoverConstructorStrategy()
+    /** @psalm-return array<array-key, array{0: ComplexTypeStrategyInterface}> */
+    public function dataProviderForAutoDiscoverConstructorStrategy(): array
     {
         return [
             [new Wsdl\ComplexTypeStrategy\AnyType()],
@@ -179,23 +189,23 @@ class AutoDiscoverTest extends TestCase
         $server = new AutoDiscover();
 
         $this->assertEquals(
-            'Laminas\Soap\AutoDiscover\DiscoveryStrategy\ReflectionDiscovery',
+            ReflectionDiscovery::class,
             get_class($server->getDiscoveryStrategy())
         );
     }
 
     public function testAutoDiscoverConstructorWsdlClass()
     {
-        $server = new AutoDiscover(null, null, '\Laminas\Soap\Wsdl');
+        $server = new AutoDiscover(null, null, Wsdl::class);
 
         $server->addFunction('\LaminasTest\Soap\TestAsset\TestFunc');
         $server->setServiceName('TestService');
         $server->setUri('http://example.com');
         $wsdl = $server->generate();
 
-        $this->assertEquals('Laminas\Soap\Wsdl', trim(get_class($wsdl), '\\'));
+        $this->assertEquals(Wsdl::class, trim(get_class($wsdl), '\\'));
         $this->assertEquals(
-            'Laminas\Soap\Wsdl',
+            Wsdl::class,
             trim($server->getWsdlClass(), '\\')
         );
     }
@@ -204,15 +214,15 @@ class AutoDiscoverTest extends TestCase
     {
         $server = new AutoDiscover();
         $this->expectException(SoapInvalidArgumentException::class);
-        $server->setWsdlClass(new \stdClass());
+        $server->setWsdlClass(new stdClass());
     }
 
     /**
      * @dataProvider dataProviderForSetServiceName
      */
-    public function testSetServiceName($newName, $shouldBeValid)
+    public function testSetServiceName(string $newName, bool $shouldBeValid)
     {
-        if ($shouldBeValid == false) {
+        if ($shouldBeValid === false) {
             $this->expectException(InvalidArgumentException::class);
         }
 
@@ -244,7 +254,7 @@ class AutoDiscoverTest extends TestCase
     {
         $server = new AutoDiscover();
 
-        $server->setClass('\LaminasTest\Soap\TestAsset\Test');
+        $server->setClass(Test::class);
 
         $this->assertEquals('Test', $server->getServiceName());
     }
@@ -276,7 +286,7 @@ class AutoDiscoverTest extends TestCase
     public function testClassMap()
     {
         $classMap = [
-            'TestClass' => 'test_class'
+            'TestClass' => 'test_class',
         ];
 
         $this->server->setClassMap($classMap);
@@ -286,7 +296,7 @@ class AutoDiscoverTest extends TestCase
 
     public function testSetClass()
     {
-        $this->server->setClass('\LaminasTest\Soap\TestAsset\Test');
+        $this->server->setClass(Test::class);
 
         $this->bindWsdl($this->server->generate());
 
@@ -354,14 +364,14 @@ class AutoDiscoverTest extends TestCase
         for ($i = 1; $i <= 4; $i++) {
             $this->assertSpecificNodeNumberInXPath(
                 1,
-                '//wsdl:binding[@name="MyServiceBinding"]/wsdl:operation[@name="testFunc'. $i . '"]',
+                '//wsdl:binding[@name="MyServiceBinding"]/wsdl:operation[@name="testFunc' . $i . '"]',
                 'Invalid func' . $i . ' operation binding definition'
             );
             $this->assertSpecificNodeNumberInXPath(
                 1,
                 '//wsdl:binding[@name="MyServiceBinding"]/wsdl:operation[@name="testFunc'
-                    . $i . '"]/soap:operation[@soapAction="' . $this->defaultServiceUri .
-                    '#testFunc' . $i . '"]',
+                    . $i . '"]/soap:operation[@soapAction="' . $this->defaultServiceUri
+                    . '#testFunc' . $i . '"]',
                 'Invalid func' . $i . ' operation action binding definition'
             );
         }
@@ -372,9 +382,9 @@ class AutoDiscoverTest extends TestCase
         $nodes = $this->xpath->query($xpath);
         $this->assertAttributesOfNodes(
             [
-                 "use"           => "encoded",
-                 "encodingStyle" => "http://schemas.xmlsoap.org/soap/encoding/",
-                 "namespace"     => "http://localhost/MyService.php"
+                "use"           => "encoded",
+                "encodingStyle" => "http://schemas.xmlsoap.org/soap/encoding/",
+                "namespace"     => "http://localhost/MyService.php",
             ],
             $nodes
         );
@@ -397,7 +407,6 @@ class AutoDiscoverTest extends TestCase
                 . $this->defaultServiceUri . '"]',
             'Invalid service address definition'
         );
-
 
         $nodes = $this->assertSpecificNodeNumberInXPath(
             1,
@@ -428,7 +437,6 @@ class AutoDiscoverTest extends TestCase
             'Invalid message definition'
         );
 
-
         $this->assertSpecificNodeNumberInXPath(
             1,
             '//wsdl:message[@name="testFunc3In"]',
@@ -454,7 +462,6 @@ class AutoDiscoverTest extends TestCase
             'Invalid message definition'
         );
 
-
         $nodes = $this->assertSpecificNodeNumberInXPath(
             1,
             '//wsdl:message[@name="testFunc4In"]',
@@ -467,7 +474,6 @@ class AutoDiscoverTest extends TestCase
             'Invalid message definition'
         );
 
-
         $this->assertValidWSDL($this->dom);
         $this->documentNodesTest();
     }
@@ -475,13 +481,15 @@ class AutoDiscoverTest extends TestCase
     public function testSetClassWithDifferentStyles()
     {
         $this->server->setBindingStyle(
-            ['style'     => 'document',
-                  'transport' => $this->defaultServiceUri]
+            [
+                'style'     => 'document',
+                'transport' => $this->defaultServiceUri,
+            ]
         );
         $this->server->setOperationBodyStyle(
             ['use' => 'literal', 'namespace' => $this->defaultServiceUri]
         );
-        $this->server->setClass('\LaminasTest\Soap\TestAsset\Test');
+        $this->server->setClass(Test::class);
 
         $this->bindWsdl($this->server->generate());
 
@@ -504,17 +512,16 @@ class AutoDiscoverTest extends TestCase
         $nodes = $this->assertSpecificNodeNumberInXPath(
             1,
             '//wsdl:types/xsd:schema/xsd:element[@name="testFunc1Response"]/'
-                .'xsd:complexType/xsd:sequence/xsd:element',
+                . 'xsd:complexType/xsd:sequence/xsd:element',
             'Test func1 return element is invalid'
         );
         $this->assertAttributesOfNodes(
             [
-                 'name' => "testFunc1Result",
-                 'type' => "xsd:string",
+                'name' => "testFunc1Result",
+                'type' => "xsd:string",
             ],
             $nodes
         );
-
 
         $this->assertSpecificNodeNumberInXPath(
             1,
@@ -529,13 +536,13 @@ class AutoDiscoverTest extends TestCase
         $nodes = $this->assertSpecificNodeNumberInXPath(
             1,
             '//wsdl:types/xsd:schema/xsd:element[@name="testFunc2"]/xsd:complexType/'
-                .'xsd:sequence/xsd:element',
+                . 'xsd:sequence/xsd:element',
             'Test func2 does not have children'
         );
         $this->assertAttributesOfNodes(
             [
-                 'name' => "who",
-                 'type' => "xsd:string",
+                'name' => "who",
+                'type' => "xsd:string",
             ],
             $nodes
         );
@@ -543,17 +550,16 @@ class AutoDiscoverTest extends TestCase
         $nodes = $this->assertSpecificNodeNumberInXPath(
             1,
             '//wsdl:types/xsd:schema/xsd:element[@name="testFunc2Response"]/'
-                .'xsd:complexType/xsd:sequence/xsd:element',
+                . 'xsd:complexType/xsd:sequence/xsd:element',
             'Test func2 return element is invalid'
         );
         $this->assertAttributesOfNodes(
             [
-                 'name' => "testFunc2Result",
-                 'type' => "xsd:string",
+                'name' => "testFunc2Result",
+                'type' => "xsd:string",
             ],
             $nodes
         );
-
 
         $this->assertSpecificNodeNumberInXPath(
             1,
@@ -568,36 +574,35 @@ class AutoDiscoverTest extends TestCase
         $this->assertSpecificNodeNumberInXPath(
             2,
             '//wsdl:types/xsd:schema/xsd:element[@name="testFunc3"]/xsd:complexType/'
-                .'xsd:sequence/xsd:element',
+                . 'xsd:sequence/xsd:element',
             'Test func3 does not have children'
         );
         $this->assertSpecificNodeNumberInXPath(
             1,
             '//wsdl:types/xsd:schema/xsd:element[@name="testFunc3"]/xsd:complexType/'
-                .'xsd:sequence/xsd:element[@name="who" and @type="xsd:string"]',
+                . 'xsd:sequence/xsd:element[@name="who" and @type="xsd:string"]',
             'Test func3 does not have children'
         );
         $this->assertSpecificNodeNumberInXPath(
             1,
             '//wsdl:types/xsd:schema/xsd:element[@name="testFunc3"]/xsd:complexType/'
-                .'xsd:sequence/xsd:element[@name="when" and @type="xsd:int"]',
+                . 'xsd:sequence/xsd:element[@name="when" and @type="xsd:int"]',
             'Test func3 does not have children'
         );
 
         $nodes = $this->assertSpecificNodeNumberInXPath(
             1,
             '//wsdl:types/xsd:schema/xsd:element[@name="testFunc3Response"]/'
-                .'xsd:complexType/xsd:sequence/xsd:element',
+                . 'xsd:complexType/xsd:sequence/xsd:element',
             'Test func3 return element is invalid'
         );
         $this->assertAttributesOfNodes(
             [
-                 'name' => "testFunc3Result",
-                 'type' => "xsd:string",
+                'name' => "testFunc3Result",
+                'type' => "xsd:string",
             ],
             $nodes
         );
-
 
         $this->assertSpecificNodeNumberInXPath(
             1,
@@ -618,17 +623,16 @@ class AutoDiscoverTest extends TestCase
         $nodes = $this->assertSpecificNodeNumberInXPath(
             1,
             '//wsdl:types/xsd:schema/xsd:element[@name="testFunc4Response"]/'
-                .'xsd:complexType/xsd:sequence/xsd:element',
+                . 'xsd:complexType/xsd:sequence/xsd:element',
             'Test func1 return element is invalid'
         );
         $this->assertAttributesOfNodes(
             [
-                 'name' => "testFunc4Result",
-                 'type' => "xsd:string",
+                'name' => "testFunc4Result",
+                'type' => "xsd:string",
             ],
             $nodes
         );
-
 
         for ($i = 1; $i <= 4; $i++) {
             $this->assertSpecificNodeNumberInXPath(
@@ -657,7 +661,6 @@ class AutoDiscoverTest extends TestCase
                 'Missing test func' . $i . ' port output message'
             );
         }
-
 
         for ($i = 1; $i <= 4; $i++) {
             $this->assertSpecificNodeNumberInXPath(
@@ -691,14 +694,12 @@ class AutoDiscoverTest extends TestCase
             );
         }
 
-
         $this->assertSpecificNodeNumberInXPath(
             1,
             '//wsdl:service[@name="MyServiceService"]/wsdl:port[@name="MyServicePort"'
                 . ' and @binding="tns:MyServiceBinding"]/soap:address[@location="'
                 . $this->defaultServiceUri . '"]'
         );
-
 
         for ($i = 1; $i <= 4; $i++) {
             $this->assertSpecificNodeNumberInXPath(
@@ -715,7 +716,6 @@ class AutoDiscoverTest extends TestCase
             );
         }
 
-
         $this->assertValidWSDL($this->dom);
         $this->documentNodesTest();
     }
@@ -725,9 +725,8 @@ class AutoDiscoverTest extends TestCase
      */
     public function testSetClassWithResponseReturnPartCompabilityMode()
     {
-        $this->server->setClass('\LaminasTest\Soap\TestAsset\Test');
+        $this->server->setClass(Test::class);
         $this->bindWsdl($this->server->generate());
-
 
         for ($i = 1; $i <= 4; $i++) {
             $this->assertSpecificNodeNumberInXPath(
@@ -736,12 +735,13 @@ class AutoDiscoverTest extends TestCase
             );
         }
 
-
         $this->assertValidWSDL($this->dom);
     }
 
     /**
      * @dataProvider dataProviderForAddFunctionException
+     * @param mixed $function
+     * @return void
      */
     public function testAddFunctionException($function)
     {
@@ -766,7 +766,6 @@ class AutoDiscoverTest extends TestCase
         $this->server->addFunction('\LaminasTest\Soap\TestAsset\TestFunc');
         $this->bindWsdl($this->server->generate());
 
-
         $this->assertSpecificNodeNumberInXPath(
             1,
             '//wsdl:portType[@name="MyServicePort"]/wsdl:operation[@name="TestFunc"]',
@@ -787,7 +786,6 @@ class AutoDiscoverTest extends TestCase
             '//wsdl:portType[@name="MyServicePort"]/wsdl:operation[@name="TestFunc"]/wsdl:output',
             'Missing service port definition input message'
         );
-
 
         $this->assertSpecificNodeNumberInXPath(
             1,
@@ -825,7 +823,6 @@ class AutoDiscoverTest extends TestCase
             'Missing operation input body definition'
         );
 
-
         $this->assertSpecificNodeNumberInXPath(
             1,
             '//wsdl:service[@name="MyServiceService"]/wsdl:port[@name="MyServicePort"'
@@ -833,7 +830,6 @@ class AutoDiscoverTest extends TestCase
                 . $this->defaultServiceUri . '"]',
             'Missing service port definition'
         );
-
 
         $this->assertSpecificNodeNumberInXPath(
             1,
@@ -846,7 +842,6 @@ class AutoDiscoverTest extends TestCase
             'Missing test testFunc input message definition'
         );
 
-
         $this->assertValidWSDL($this->dom);
         $this->documentNodesTest();
     }
@@ -854,15 +849,16 @@ class AutoDiscoverTest extends TestCase
     public function testAddFunctionSimpleWithDifferentStyle()
     {
         $this->server->setBindingStyle(
-            ['style'     => 'document',
-                  'transport' => $this->defaultServiceUri]
+            [
+                'style'     => 'document',
+                'transport' => $this->defaultServiceUri,
+            ]
         );
         $this->server->setOperationBodyStyle(
             ['use' => 'literal', 'namespace' => $this->defaultServiceUri]
         );
         $this->server->addFunction('\LaminasTest\Soap\TestAsset\TestFunc');
         $this->bindWsdl($this->server->generate());
-
 
         $this->assertSpecificNodeNumberInXPath(
             1,
@@ -886,7 +882,6 @@ class AutoDiscoverTest extends TestCase
             'Missing complex type definition'
         );
 
-
         $this->assertSpecificNodeNumberInXPath(
             1,
             '//wsdl:portType[@name="MyServicePort"]/wsdl:operation[@name="TestFunc"]',
@@ -907,7 +902,6 @@ class AutoDiscoverTest extends TestCase
             '//wsdl:portType[@name="MyServicePort"]/wsdl:operation[@name="TestFunc"]/wsdl:output',
             'Missing service port definition input message'
         );
-
 
         $this->assertSpecificNodeNumberInXPath(
             1,
@@ -943,7 +937,6 @@ class AutoDiscoverTest extends TestCase
             'Missing operation input body definition'
         );
 
-
         $this->assertSpecificNodeNumberInXPath(
             1,
             '//wsdl:service[@name="MyServiceService"]/wsdl:port[@name="MyServicePort"'
@@ -951,7 +944,6 @@ class AutoDiscoverTest extends TestCase
                 . $this->defaultServiceUri . '"]',
             'Missing service port definition'
         );
-
 
         $this->assertSpecificNodeNumberInXPath(
             1,
@@ -963,7 +955,6 @@ class AutoDiscoverTest extends TestCase
             '//wsdl:message[@name="TestFuncOut"]/wsdl:part[@name="parameters" and @element="tns:TestFuncResponse"]',
             'Missing test testFunc input message definition'
         );
-
 
         $this->assertValidWSDL($this->dom);
         $this->documentNodesTest();
@@ -983,7 +974,6 @@ class AutoDiscoverTest extends TestCase
             . $this->defaultServiceUri . '"]',
             'Missing service port definition'
         );
-
 
         $this->assertSpecificNodeNumberInXPath(
             1,
@@ -1008,7 +998,6 @@ class AutoDiscoverTest extends TestCase
                 . 'wsdl:output',
             'Missing service port definition input message'
         );
-
 
         $this->assertSpecificNodeNumberInXPath(
             1,
@@ -1046,7 +1035,6 @@ class AutoDiscoverTest extends TestCase
             'Missing operation input body definition'
         );
 
-
         $this->assertSpecificNodeNumberInXPath(
             1,
             '//wsdl:service[@name="MyServiceService"]/wsdl:port[@name="MyServicePort"'
@@ -1054,7 +1042,6 @@ class AutoDiscoverTest extends TestCase
                 . $this->defaultServiceUri . '"]',
             'Missing service port definition'
         );
-
 
         $this->assertSpecificNodeNumberInXPath(
             1,
@@ -1066,7 +1053,6 @@ class AutoDiscoverTest extends TestCase
             '//wsdl:message[@name="TestFuncOut"]/wsdl:part[@name="return" and @type="xsd:string"]',
             'Missing test testFunc input message definition'
         );
-
 
         $this->assertValidWSDL($this->dom);
         $this->documentNodesTest();
@@ -1085,7 +1071,6 @@ class AutoDiscoverTest extends TestCase
 
         $this->bindWsdl($this->server->generate());
 
-
         $this->assertSpecificNodeNumberInXPath(
             1,
             '//wsdl:types/xsd:schema[@targetNamespace="'
@@ -1093,14 +1078,12 @@ class AutoDiscoverTest extends TestCase
             'Missing service port definition'
         );
 
-
         $this->assertSpecificNodeNumberInXPath(
             1,
             '//wsdl:binding[@name="MyServiceBinding" and @type="tns:MyServicePort"]/'
                 . 'soap:binding[@style="rpc" and @transport="http://schemas.xmlsoap.org/soap/http"]',
             'Missing service port definition'
         );
-
 
         $this->assertSpecificNodeNumberInXPath(
             1,
@@ -1132,7 +1115,6 @@ class AutoDiscoverTest extends TestCase
                     . $i . ''
             );
 
-
             $this->assertSpecificNodeNumberInXPath(
                 1,
                 '//wsdl:binding[@name="MyServiceBinding" and @type="tns:MyServicePort"]/'
@@ -1149,8 +1131,7 @@ class AutoDiscoverTest extends TestCase
                 'Missing operation input for TestFunc' . $i . ' body definition'
             );
 
-
-            if ($i != 2) {
+            if ($i !== 2) {
                 $this->assertSpecificNodeNumberInXPath(
                     1,
                     '//wsdl:portType[@name="MyServicePort"]/wsdl:operation[@name="TestFunc'
@@ -1160,17 +1141,15 @@ class AutoDiscoverTest extends TestCase
                         . $i . ''
                 );
 
-
                 $this->assertSpecificNodeNumberInXPath(
                     1,
                     '//wsdl:binding[@name="MyServiceBinding" and @type="tns:MyServicePort"]'
-                        . '/wsdl:operation[@name="TestFunc'. $i . '"]/wsdl:output/soap:body'
+                        . '/wsdl:operation[@name="TestFunc' . $i . '"]/wsdl:output/soap:body'
                         . '[@use="encoded" and @encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"'
                         . ' and @namespace="' . $this->defaultServiceUri . '"]',
                     'Missing operation input for TestFunc' . $i
                         . ' body definition'
                 );
-
 
                 $this->assertSpecificNodeNumberInXPath(
                     1,
@@ -1185,22 +1164,20 @@ class AutoDiscoverTest extends TestCase
             }
         }
 
-
         $this->assertValidWSDL($this->dom);
         $this->documentNodesTest();
     }
 
     /**
      * @group Laminas-4117
-     *
      * @dataProvider dataProviderValidUris
+     * @param string|Uri $uri
      */
-    public function testChangeWsdlUriInConstructor($uri, $expectedUri)
+    public function testChangeWsdlUriInConstructor($uri, string $expectedUri)
     {
         $this->server->addFunction('\LaminasTest\Soap\TestAsset\TestFunc');
         $this->server->setUri($uri);
         $this->bindWsdl($this->server->generate());
-
 
         $this->assertEquals(
             $expectedUri,
@@ -1210,7 +1187,6 @@ class AutoDiscoverTest extends TestCase
             $this->defaultServiceUri,
             $this->dom->saveXML()
         );
-
 
         $this->assertValidWSDL($this->dom);
         $this->documentNodesTest();
@@ -1230,10 +1206,11 @@ class AutoDiscoverTest extends TestCase
     /**
      * @group Laminas-4117
      * @dataProvider dataProviderValidUris
+     * @param string|Uri $uri
      */
     public function testChangingWsdlUriAfterGenerationIsPossible(
         $uri,
-        $expectedUri
+        string $expectedUri
     ) {
         $this->server->addFunction('\LaminasTest\Soap\TestAsset\TestFunc');
         $wsdl = $this->server->generate();
@@ -1250,42 +1227,55 @@ class AutoDiscoverTest extends TestCase
         $this->documentNodesTest();
     }
 
-    /**
-     * @return array
-     */
+    /** @psalm-return array<array-key, array{0: string|Uri, 1: string}> */
     public function dataProviderValidUris()
     {
         return [
-            ['http://example.com/service.php',
-                  'http://example.com/service.php'],
-            ['http://example.com/?a=b&amp;b=c',
-                  'http://example.com/?a=b&amp;b=c'],
-            ['http://example.com/?a=b&b=c',
-                  'http://example.com/?a=b&amp;b=c'],
-            ['urn:uuid:550e8400-e29b-41d4-a716-446655440000',
-                  'urn:uuid:550e8400-e29b-41d4-a716-446655440000'],
-            ['urn:acme:servicenamespace', 'urn:acme:servicenamespace'],
-            [new Uri('http://example.com/service.php'),
-                  'http://example.com/service.php'],
-            [new Uri('http://example.com/?a=b&amp;b=c'),
-                  'http://example.com/?a=b&amp;b=c'],
-            [new Uri('http://example.com/?a=b&b=c'),
-                  'http://example.com/?a=b&amp;b=c'],
+            [
+                'http://example.com/service.php',
+                'http://example.com/service.php',
+            ],
+            [
+                'http://example.com/?a=b&amp;b=c',
+                'http://example.com/?a=b&amp;b=c',
+            ],
+            [
+                'http://example.com/?a=b&b=c',
+                'http://example.com/?a=b&amp;b=c',
+            ],
+            [
+                'urn:uuid:550e8400-e29b-41d4-a716-446655440000',
+                'urn:uuid:550e8400-e29b-41d4-a716-446655440000',
+            ],
+            [
+                'urn:acme:servicenamespace',
+                'urn:acme:servicenamespace',
+            ],
+            [
+                new Uri('http://example.com/service.php'),
+                'http://example.com/service.php',
+            ],
+            [
+                new Uri('http://example.com/?a=b&amp;b=c'),
+                'http://example.com/?a=b&amp;b=c',
+            ],
+            [
+                new Uri('http://example.com/?a=b&b=c'),
+                'http://example.com/?a=b&amp;b=c',
+            ],
         ];
     }
 
     /**
      * @group Laminas-4688
      * @group Laminas-4125
-     *
      */
     public function testUsingClassWithMethodsWithMultipleDefaultParameterValues()
     {
         $this->server->setClass(
-            '\LaminasTest\Soap\TestAsset\TestFixingMultiplePrototypes'
+            TestFixingMultiplePrototypes::class
         );
         $this->bindWsdl($this->server->generate());
-
 
         $this->assertSpecificNodeNumberInXPath(
             1,
@@ -1295,7 +1285,6 @@ class AutoDiscoverTest extends TestCase
             1,
             '//wsdl:message[@name="testFuncOut"]'
         );
-
 
         $this->assertValidWSDL($this->dom);
         $this->documentNodesTest();
@@ -1307,13 +1296,12 @@ class AutoDiscoverTest extends TestCase
     public function testComplexTypesThatAreUsedMultipleTimesAreRecoginzedOnce()
     {
         $this->server->setComplexTypeStrategy(
-            new \Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplex
+            new ArrayOfTypeComplex()
         );
         $this->server->setClass(
-            '\LaminasTest\Soap\TestAsset\AutoDiscoverTestClass2'
+            AutoDiscoverTestClass2::class
         );
         $this->bindWsdl($this->server->generate());
-
 
         $this->assertSpecificNodeNumberInXPath(
             1,
@@ -1341,7 +1329,6 @@ class AutoDiscoverTest extends TestCase
             'AutoDiscoverTestClass1 appears once or more than once in the message parts section.'
         );
 
-
         $this->assertValidWSDL($this->dom);
         $this->documentNodesTest();
     }
@@ -1352,11 +1339,10 @@ class AutoDiscoverTest extends TestCase
     public function testReturnSameArrayOfObjectsResponseOnDifferentMethodsWhenArrayComplex()
     {
         $this->server->setComplexTypeStrategy(
-            new \Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplex
+            new ArrayOfTypeComplex()
         );
-        $this->server->setClass('\LaminasTest\Soap\TestAsset\MyService');
+        $this->server->setClass(MyService::class);
         $this->bindWsdl($this->server->generate());
-
 
         $this->assertSpecificNodeNumberInXPath(
             1,
@@ -1366,7 +1352,6 @@ class AutoDiscoverTest extends TestCase
             0,
             '//wsdl:part[@type="tns:My_Response[]"]'
         );
-
 
         $this->assertValidWSDL($this->dom);
         $this->documentNodesTest();
@@ -1378,11 +1363,10 @@ class AutoDiscoverTest extends TestCase
     public function testReturnSameArrayOfObjectsResponseOnDifferentMethodsWhenArraySequence()
     {
         $this->server->setComplexTypeStrategy(
-            new \Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeSequence
+            new ArrayOfTypeSequence()
         );
-        $this->server->setClass('\LaminasTest\Soap\TestAsset\MyServiceSequence');
+        $this->server->setClass(MyServiceSequence::class);
         $this->bindWsdl($this->server->generate());
-
 
         $this->assertSpecificNodeNumberInXPath(
             1,
@@ -1397,9 +1381,7 @@ class AutoDiscoverTest extends TestCase
             '//xsd:complexType[@name="ArrayOfArrayOfArrayOfString"]'
         );
 
-
         $this->assertStringNotContainsString('tns:string[]', $this->dom->saveXML());
-
 
         $this->assertValidWSDL($this->dom);
         $this->documentNodesTest();
@@ -1410,9 +1392,8 @@ class AutoDiscoverTest extends TestCase
      */
     public function testNoReturnIsOneWayCallInSetClass()
     {
-        $this->server->setClass('\LaminasTest\Soap\TestAsset\NoReturnType');
+        $this->server->setClass(NoReturnType::class);
         $this->bindWsdl($this->server->generate());
-
 
         $this->assertSpecificNodeNumberInXPath(
             1,
@@ -1422,7 +1403,6 @@ class AutoDiscoverTest extends TestCase
             0,
             '//wsdl:portType/wsdl:operation[@name="pushOneWay"]/wsdl:output'
         );
-
 
         $this->assertValidWSDL($this->dom);
         $this->documentNodesTest();
@@ -1436,7 +1416,6 @@ class AutoDiscoverTest extends TestCase
         $this->server->addFunction('\LaminasTest\Soap\TestAsset\OneWay');
         $this->bindWsdl($this->server->generate());
 
-
         $this->assertSpecificNodeNumberInXPath(
             1,
             '//wsdl:portType/wsdl:operation[@name="OneWay"]/wsdl:input'
@@ -1445,7 +1424,6 @@ class AutoDiscoverTest extends TestCase
             0,
             '//wsdl:portType/wsdl:operation[@name="OneWay"]/wsdl:output'
         );
-
 
         $this->assertValidWSDL($this->dom);
         $this->documentNodesTest();
@@ -1458,12 +1436,11 @@ class AutoDiscoverTest extends TestCase
     public function testRecursiveWsdlDependencies()
     {
         $this->server->setComplexTypeStrategy(
-            new \Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeSequence
+            new ArrayOfTypeSequence()
         );
-        $this->server->setClass('\LaminasTest\Soap\TestAsset\Recursion');
+        $this->server->setClass(Recursion::class);
 
         $this->bindWsdl($this->server->generate());
-
 
         //  <types>
         //      <xsd:schema targetNamespace="http://localhost/my_script.php">
@@ -1476,7 +1453,6 @@ class AutoDiscoverTest extends TestCase
                 . 'xsd:element[@name="recursion" and @type="tns:Recursion"]'
         );
 
-
         $this->assertValidWSDL($this->dom);
         $this->documentNodesTest();
     }
@@ -1488,7 +1464,7 @@ class AutoDiscoverTest extends TestCase
     {
         $scriptUri = 'http://localhost/MyService.php';
 
-        $this->server->setClass('\LaminasTest\Soap\TestAsset\Test');
+        $this->server->setClass(Test::class);
 
         ob_start();
         $this->server->handle();
@@ -1501,13 +1477,12 @@ class AutoDiscoverTest extends TestCase
      * @param int    $n
      * @param string $xpath
      * @param string $msg
-     *
-     * @return \DOMNodeList
+     * @return DOMNodeList
      */
     public function assertSpecificNodeNumberInXPath($n, $xpath, $msg = null)
     {
         $nodes = $this->xpath->query($xpath);
-        if (! ($nodes instanceof \DOMNodeList)) {
+        if (! $nodes instanceof DOMNodeList) {
             $this->fail('Nodes not found. Invalid XPath expression ?');
         }
         $this->assertEquals($n, $nodes->length, $msg . "\nXPath: " . $xpath);
@@ -1515,7 +1490,11 @@ class AutoDiscoverTest extends TestCase
         return $nodes;
     }
 
-    public function assertAttributesOfNodes($attributes, $nodeList)
+    /**
+     * @param array<string, string> $attributes
+     * @return void
+     */
+    public function assertAttributesOfNodes(array $attributes, DOMNodeList $nodeList)
     {
         $c = count($attributes);
 

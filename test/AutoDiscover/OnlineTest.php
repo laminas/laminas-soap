@@ -2,17 +2,20 @@
 
 /**
  * @see       https://github.com/laminas/laminas-soap for the canonical source repository
- * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
 namespace LaminasTest\Soap\AutoDiscover;
 
 use Laminas\Soap\Client;
+use LaminasTest_Soap_TestAsset_ComplexTypeB;
 use PHPUnit\Framework\TestCase;
+
+use function count;
+use function getenv;
 
 class OnlineTest extends TestCase
 {
+    /** @var string */
     protected $baseuri;
 
     public function setUp(): void
@@ -27,14 +30,14 @@ class OnlineTest extends TestCase
 
     public function testNestedObjectArrayResponse()
     {
-        $wsdl = $this->baseuri."/server1.php?wsdl";
+        $wsdl = $this->baseuri . "/server1.php?wsdl";
 
-        $b = new \LaminasTest_Soap_TestAsset_ComplexTypeB();
+        $b      = new LaminasTest_Soap_TestAsset_ComplexTypeB();
         $b->bar = "test";
         $b->foo = "test";
 
         $client = new Client($wsdl);
-        $ret = $client->request($b);
+        $ret    = $client->request($b);
 
         $this->assertInternalType('array', $ret);
         $this->assertEquals(1, count($ret));
@@ -52,10 +55,10 @@ class OnlineTest extends TestCase
 
     public function testObjectResponse()
     {
-        $wsdl = $this->baseuri."/server2.php?wsdl";
+        $wsdl = $this->baseuri . "/server2.php?wsdl";
 
         $client = new Client($wsdl);
-        $ret = $client->request("test", "test");
+        $ret    = $client->request("test", "test");
 
         $this->assertInstanceOf('stdClass', $ret);
         $this->assertEquals("test", $ret->foo);

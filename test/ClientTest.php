@@ -2,18 +2,38 @@
 
 /**
  * @see       https://github.com/laminas/laminas-soap for the canonical source repository
- * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
 namespace LaminasTest\Soap;
 
+use Laminas\Config\Config;
 use Laminas\Soap\AutoDiscover;
 use Laminas\Soap\Client;
 use Laminas\Soap\Server;
-use Laminas\Soap\Wsdl;
+use Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplex;
+use LaminasTest\Soap\TestAsset\AutoDiscoverTestClass2;
+use LaminasTest\Soap\TestAsset\TestClass;
+use LaminasTest\Soap\TestAsset\TestData1;
+use LaminasTest\Soap\TestAsset\TestData2;
 use PHPUnit\Framework\TestCase;
+use SoapHeader;
 use UnexpectedValueException;
+
+use function extension_loaded;
+use function headers_sent;
+use function sprintf;
+use function stream_context_create;
+use function strpos;
+use function unlink;
+
+use const SOAP_1_1;
+use const SOAP_1_2;
+use const SOAP_COMPRESSION_ACCEPT;
+use const SOAP_COMPRESSION_GZIP;
+use const SOAP_DOCUMENT;
+use const SOAP_ENCODED;
+use const SOAP_RPC;
+use const WSDL_CACHE_NONE;
 
 class ClientTest extends TestCase
 {
@@ -37,51 +57,51 @@ class ClientTest extends TestCase
 
         $typeMap = [
             [
-                'type_name'     => 'dateTime',
-                'type_ns'       => 'http://www.w3.org/2001/XMLSchema',
-                'from_xml'      => 'strtotime',
-                'to_xml'        => 'strtotime',
+                'type_name' => 'dateTime',
+                'type_ns'   => 'http://www.w3.org/2001/XMLSchema',
+                'from_xml'  => 'strtotime',
+                'to_xml'    => 'strtotime',
             ],
             [
-                'type_name'     => 'date',
-                'type_ns'       => 'http://www.w3.org/2001/XMLSchema',
-                'from_xml'      => 'strtotime',
-                'to_xml'        => 'strtotime',
-            ]
+                'type_name' => 'date',
+                'type_ns'   => 'http://www.w3.org/2001/XMLSchema',
+                'from_xml'  => 'strtotime',
+                'to_xml'    => 'strtotime',
+            ],
         ];
 
-        $nonWSDLOptions = ['soap_version'   => SOAP_1_1,
-                                'classmap'       => ['TestData1' => '\LaminasTest\Soap\TestAsset\TestData1',
-                                                    'TestData2' => '\LaminasTest\Soap\TestAsset\TestData2',],
-                                'encoding'       => 'ISO-8859-1',
-                                'uri'            => 'https://getlaminas.org/Laminas_Soap_ServerTest.php',
-                                'location'       => 'https://getlaminas.org/Laminas_Soap_ServerTest.php',
-                                'use'            => SOAP_ENCODED,
-                                'style'          => SOAP_RPC,
-
-                                'login'          => 'http_login',
-                                'password'       => 'http_password',
-
-                                'proxy_host'     => 'proxy.somehost.com',
-                                'proxy_port'     => 8080,
-                                'proxy_login'    => 'proxy_login',
-                                'proxy_password' => 'proxy_password',
-
-                                'local_cert'     => __DIR__.'/TestAsset/cert_file',
-                                'passphrase'     => 'some pass phrase',
-
-                                'stream_context' => $ctx,
-                                'cache_wsdl'     => 8,
-                                'features'       => 4,
-
-                                'compression'    => SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP | 5,
-                                'typemap'        => $typeMap,
-                                'keep_alive'     => true,
-                                'ssl_method'     => 3,
+        // phpcs:disable WebimpressCodingStandard.NamingConventions.ValidVariableName.NotCamelCaps
+        $nonWSDLOptions = [
+            'soap_version'   => SOAP_1_1,
+            'classmap'       => [
+                'TestData1' => TestData1::class,
+                'TestData2' => TestData2::class,
+            ],
+            'encoding'       => 'ISO-8859-1',
+            'uri'            => 'https://getlaminas.org/Laminas_Soap_ServerTest.php',
+            'location'       => 'https://getlaminas.org/Laminas_Soap_ServerTest.php',
+            'use'            => SOAP_ENCODED,
+            'style'          => SOAP_RPC,
+            'login'          => 'http_login',
+            'password'       => 'http_password',
+            'proxy_host'     => 'proxy.somehost.com',
+            'proxy_port'     => 8080,
+            'proxy_login'    => 'proxy_login',
+            'proxy_password' => 'proxy_password',
+            'local_cert'     => __DIR__ . '/TestAsset/cert_file',
+            'passphrase'     => 'some pass phrase',
+            'stream_context' => $ctx,
+            'cache_wsdl'     => 8,
+            'features'       => 4,
+            'compression'    => SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP | 5,
+            'typemap'        => $typeMap,
+            'keep_alive'     => true,
+            'ssl_method'     => 3,
         ];
 
         $client->setOptions($nonWSDLOptions);
         $this->assertEquals($nonWSDLOptions, $client->getOptions());
+        // phpcs:enable WebimpressCodingStandard.NamingConventions.ValidVariableName.NotCamelCaps
 
         /*************************************************************
          * ------ Test non-WSDL mode options -----------------------------
@@ -90,29 +110,27 @@ class ClientTest extends TestCase
 
         $this->assertEquals(['encoding' => 'UTF-8', 'soap_version' => SOAP_1_2], $client1->getOptions());
 
-        $wsdlOptions = ['soap_version'   => SOAP_1_1,
-                             'wsdl'           => __DIR__.'/TestAsset/wsdl_example.wsdl',
-                             'classmap'       => ['TestData1' => '\LaminasTest\Soap\TestAsset\TestData1',
-                                                 'TestData2' => '\LaminasTest\Soap\TestAsset\TestData2',],
-                             'encoding'       => 'ISO-8859-1',
-
-                             'login'          => 'http_login',
-                             'password'       => 'http_password',
-
-                             'proxy_host'     => 'proxy.somehost.com',
-                             'proxy_port'     => 8080,
-                             'proxy_login'    => 'proxy_login',
-                             'proxy_password' => 'proxy_password',
-
-                             'local_cert'     => __DIR__.'/TestAsset/cert_file',
-                             'passphrase'     => 'some pass phrase',
-
-                             'stream_context' => $ctx,
-
-                             'compression'    => SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP | 5,
-                             'typemap'        => $typeMap,
-                             'keep_alive'     => true,
-                             'ssl_method'     => 3,
+        $wsdlOptions = [
+            'soap_version'   => SOAP_1_1,
+            'wsdl'           => __DIR__ . '/TestAsset/wsdl_example.wsdl',
+            'classmap'       => [
+                'TestData1' => TestData1::class,
+                'TestData2' => TestData2::class,
+            ],
+            'encoding'       => 'ISO-8859-1',
+            'login'          => 'http_login',
+            'password'       => 'http_password',
+            'proxy_host'     => 'proxy.somehost.com',
+            'proxy_port'     => 8080,
+            'proxy_login'    => 'proxy_login',
+            'proxy_password' => 'proxy_password',
+            'local_cert'     => __DIR__ . '/TestAsset/cert_file',
+            'passphrase'     => 'some pass phrase',
+            'stream_context' => $ctx,
+            'compression'    => SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP | 5,
+            'typemap'        => $typeMap,
+            'keep_alive'     => true,
+            'ssl_method'     => 3,
         ];
 
         $client1->setOptions($wsdlOptions);
@@ -127,45 +145,43 @@ class ClientTest extends TestCase
 
         $typeMap = [
             [
-                'type_name'     => 'dateTime',
-                'type_ns'       => 'http://www.w3.org/2001/XMLSchema',
-                'from_xml'      => 'strtotime',
-                'to_xml'        => 'strtotime',
+                'type_name' => 'dateTime',
+                'type_ns'   => 'http://www.w3.org/2001/XMLSchema',
+                'from_xml'  => 'strtotime',
+                'to_xml'    => 'strtotime',
             ],
             [
-                'type_name'     => 'date',
-                'type_ns'       => 'http://www.w3.org/2001/XMLSchema',
-                'from_xml'      => 'strtotime',
-                'to_xml'        => 'strtotime',
-            ]
+                'type_name' => 'date',
+                'type_ns'   => 'http://www.w3.org/2001/XMLSchema',
+                'from_xml'  => 'strtotime',
+                'to_xml'    => 'strtotime',
+            ],
         ];
 
-        $options = ['soap_version'   => SOAP_1_1,
-                         'wsdl'           => __DIR__.'/TestAsset/wsdl_example.wsdl',
-
-                         'classmap'       => ['TestData1' => '\LaminasTest\Soap\TestAsset\TestData1',
-                                             'TestData2' => '\LaminasTest\Soap\TestAsset\TestData2',],
-                         'encoding'       => 'ISO-8859-1',
-                         'uri'            => 'https://getlaminas.org/Laminas_Soap_ServerTest.php',
-                         'location'       => 'https://getlaminas.org/Laminas_Soap_ServerTest.php',
-                         'use'            => SOAP_ENCODED,
-                         'style'          => SOAP_RPC,
-
-                         'login'          => 'http_login',
-                         'password'       => 'http_password',
-
-                         'proxy_host'     => 'proxy.somehost.com',
-                         'proxy_port'     => 8080,
-                         'proxy_login'    => 'proxy_login',
-                         'proxy_password' => 'proxy_password',
-
-                         'local_cert'     => __DIR__.'/TestAsset/cert_file',
-                         'passphrase'     => 'some pass phrase',
-
-                         'compression'    => SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP | 5,
-                         'typemap'        => $typeMap,
-                         'keep_alive'     => true,
-                         'ssl_method'     => 3,
+        $options = [
+            'soap_version'   => SOAP_1_1,
+            'wsdl'           => __DIR__ . '/TestAsset/wsdl_example.wsdl',
+            'classmap'       => [
+                'TestData1' => TestData1::class,
+                'TestData2' => TestData2::class,
+            ],
+            'encoding'       => 'ISO-8859-1',
+            'uri'            => 'https://getlaminas.org/Laminas_Soap_ServerTest.php',
+            'location'       => 'https://getlaminas.org/Laminas_Soap_ServerTest.php',
+            'use'            => SOAP_ENCODED,
+            'style'          => SOAP_RPC,
+            'login'          => 'http_login',
+            'password'       => 'http_password',
+            'proxy_host'     => 'proxy.somehost.com',
+            'proxy_port'     => 8080,
+            'proxy_login'    => 'proxy_login',
+            'proxy_password' => 'proxy_password',
+            'local_cert'     => __DIR__ . '/TestAsset/cert_file',
+            'passphrase'     => 'some pass phrase',
+            'compression'    => SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP | 5,
+            'typemap'        => $typeMap,
+            'keep_alive'     => true,
+            'ssl_method'     => 3,
         ];
 
         $client->setOptions($options);
@@ -184,17 +200,17 @@ class ClientTest extends TestCase
         $this->assertEquals('agent1', $client->getUserAgent());
 
         $client->setOptions([
-            'user_agent' => 'agent2'
+            'user_agent' => 'agent2',
         ]);
         $this->assertEquals('agent2', $client->getUserAgent());
 
         $client->setOptions([
-            'useragent' => 'agent3'
+            'useragent' => 'agent3',
         ]);
         $this->assertEquals('agent3', $client->getUserAgent());
 
         $client->setOptions([
-            'userAgent' => 'agent4'
+            'userAgent' => 'agent4',
         ]);
         $this->assertEquals('agent4', $client->getUserAgent());
 
@@ -268,14 +284,16 @@ class ClientTest extends TestCase
     public function testGetFunctions()
     {
         $server = new Server(__DIR__ . '/TestAsset/wsdl_example.wsdl');
-        $server->setClass('\LaminasTest\Soap\TestAsset\TestClass');
+        $server->setClass(TestClass::class);
 
         $client = new Client\Local($server, __DIR__ . '/TestAsset/wsdl_example.wsdl');
 
-        $expected = ['string testFunc()',
+        $expected = [
+            'string testFunc()',
             'string testFunc2(string $who)',
             'string testFunc3(string $who, int $when)',
-            'string testFunc4()'];
+            'string testFunc4()',
+        ];
         $this->assertEquals($expected, $client->getFunctions());
     }
 
@@ -285,16 +303,16 @@ class ClientTest extends TestCase
 
         $autodiscover = new AutoDiscover();
         $autodiscover->setServiceName('ExampleService');
-        $autodiscover->setComplexTypeStrategy(new \Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplex);
-        $autodiscover->setClass('\LaminasTest\Soap\TestAsset\AutoDiscoverTestClass2');
+        $autodiscover->setComplexTypeStrategy(new ArrayOfTypeComplex());
+        $autodiscover->setClass(AutoDiscoverTestClass2::class);
         $autodiscover->setUri('http://example.com');
         $wsdl = $autodiscover->generate();
         $wsdl->dump($wsdlFilename);
 
         $server = new Server($wsdlFilename);
-        $server->setClass('\LaminasTest\Soap\TestAsset\AutoDiscoverTestClass2');
+        $server->setClass(AutoDiscoverTestClass2::class);
 
-        $client = new Client\Local($server, $wsdlFilename);
+        $client     = new Client\Local($server, $wsdlFilename);
         $soapClient = $client->getSoapClient();
 
         $typesArray = $soapClient->__getTypes();
@@ -303,7 +321,8 @@ class ClientTest extends TestCase
 
         $count = 0;
         foreach ($typesArray as $element) {
-            if (strpos($element, 'struct AutoDiscoverTestClass1') === 0
+            if (
+                strpos($element, 'struct AutoDiscoverTestClass1') === 0
                 || strpos($element, 'AutoDiscoverTestClass1 ArrayOfAutoDiscoverTestClass1') === 0
             ) {
                 $count++;
@@ -329,7 +348,7 @@ class ClientTest extends TestCase
         }
 
         $server = new Server(__DIR__ . '/TestAsset/wsdl_example.wsdl');
-        $server->setClass('\LaminasTest\Soap\TestAsset\TestClass');
+        $server->setClass(TestClass::class);
 
         $client = new Client\Local($server, __DIR__ . '/TestAsset/wsdl_example.wsdl');
 
@@ -338,14 +357,14 @@ class ClientTest extends TestCase
 
         $expectedRequest = '<?xml version="1.0" encoding="UTF-8"?>' . "\n"
                          . '<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope" '
-                         .               'xmlns:xsd="http://www.w3.org/2001/XMLSchema" '
-                         .               'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
-                         .               'xmlns:enc="http://www.w3.org/2003/05/soap-encoding">'
-                         .     '<env:Body>'
-                         .         '<env:testFunc2 env:encodingStyle="http://www.w3.org/2003/05/soap-encoding">'
-                         .             '<who xsi:type="xsd:string">World</who>'
-                         .         '</env:testFunc2>'
-                         .     '</env:Body>'
+                         . 'xmlns:xsd="http://www.w3.org/2001/XMLSchema" '
+                         . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
+                         . 'xmlns:enc="http://www.w3.org/2003/05/soap-encoding">'
+                         . '<env:Body>'
+                         . '<env:testFunc2 env:encodingStyle="http://www.w3.org/2003/05/soap-encoding">'
+                         . '<who xsi:type="xsd:string">World</who>'
+                         . '</env:testFunc2>'
+                         . '</env:Body>'
                          . '</env:Envelope>' . "\n";
 
         $this->assertEquals($client->getLastRequest(), $expectedRequest);
@@ -361,7 +380,7 @@ class ClientTest extends TestCase
         }
 
         $server = new Server(__DIR__ . '/TestAsset/wsdl_example.wsdl');
-        $server->setClass('\LaminasTest\Soap\TestAsset\TestClass');
+        $server->setClass(TestClass::class);
 
         $client = new Client\Local($server, __DIR__ . '/TestAsset/wsdl_example.wsdl');
 
@@ -370,15 +389,15 @@ class ClientTest extends TestCase
 
         $expectedResponse = '<?xml version="1.0" encoding="UTF-8"?>' . "\n"
             . '<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope" '
-            .               'xmlns:xsd="http://www.w3.org/2001/XMLSchema" '
-            .               'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
-            .               'xmlns:enc="http://www.w3.org/2003/05/soap-encoding">'
-            .     '<env:Body xmlns:rpc="http://www.w3.org/2003/05/soap-rpc">'
-            .         '<env:testFunc2Response env:encodingStyle="http://www.w3.org/2003/05/soap-encoding">'
-            .             '<rpc:result>testFunc2Return</rpc:result>'
-            .             '<testFunc2Return xsi:type="xsd:string">Hello World!</testFunc2Return>'
-            .         '</env:testFunc2Response>'
-            .     '</env:Body>'
+            . 'xmlns:xsd="http://www.w3.org/2001/XMLSchema" '
+            . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
+            . 'xmlns:enc="http://www.w3.org/2003/05/soap-encoding">'
+            . '<env:Body xmlns:rpc="http://www.w3.org/2003/05/soap-rpc">'
+            . '<env:testFunc2Response env:encodingStyle="http://www.w3.org/2003/05/soap-encoding">'
+            . '<rpc:result>testFunc2Return</rpc:result>'
+            . '<testFunc2Return xsi:type="xsd:string">Hello World!</testFunc2Return>'
+            . '</env:testFunc2Response>'
+            . '</env:Body>'
             . '</env:Envelope>' . "\n";
 
         $this->assertEquals($client->getLastResponse(), $expectedResponse);
@@ -394,7 +413,7 @@ class ClientTest extends TestCase
         }
 
         $server = new Server(__DIR__ . '/TestAsset/wsdl_example.wsdl');
-        $server->setClass('\LaminasTest\Soap\TestAsset\TestClass');
+        $server->setClass(TestClass::class);
 
         $client = new Client\Local($server, __DIR__ . '/TestAsset/wsdl_example.wsdl');
 
@@ -411,7 +430,7 @@ class ClientTest extends TestCase
         }
 
         $server = new Server(__DIR__ . '/TestAsset/wsdl_example.wsdl');
-        $server->setClass('\LaminasTest\Soap\TestAsset\TestClass');
+        $server->setClass(TestClass::class);
 
         $client = new Client\Local($server, __DIR__ . '/TestAsset/wsdl_example.wsdl');
 
@@ -428,7 +447,7 @@ class ClientTest extends TestCase
         }
 
         $server = new Server(__DIR__ . '/TestAsset/wsdl_example.wsdl');
-        $server->setClass('\LaminasTest\Soap\TestAsset\TestClass');
+        $server->setClass(TestClass::class);
 
         $client = new Client\Local($server, __DIR__ . '/TestAsset/wsdl_example.wsdl');
 
@@ -439,36 +458,36 @@ class ClientTest extends TestCase
     {
         $ctx = stream_context_create();
 
-        $nonWSDLOptions = ['soap_version'   => SOAP_1_1,
-                                'classmap'       => ['TestData1' => '\LaminasTest\Soap\TestAsset\TestData1',
-                                                    'TestData2' => '\LaminasTest\Soap\TestAsset\TestData2',],
-                                'encoding'       => 'ISO-8859-1',
-                                'uri'            => 'https://getlaminas.org/Laminas_Soap_ServerTest.php',
-                                'location'       => 'https://getlaminas.org/Laminas_Soap_ServerTest.php',
-                                'use'            => SOAP_ENCODED,
-                                'style'          => SOAP_RPC,
-
-                                'login'          => 'http_login',
-                                'password'       => 'http_password',
-
-                                'proxy_host'     => 'proxy.somehost.com',
-                                'proxy_port'     => 8080,
-                                'proxy_login'    => 'proxy_login',
-                                'proxy_password' => 'proxy_password',
-
-                                'local_cert'     => __DIR__.'/TestAsset/cert_file',
-                                'passphrase'     => 'some pass phrase',
-
-                                'stream_context' => $ctx,
-
-                                'compression'    => SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP | 5
+        // phpcs:disable WebimpressCodingStandard.NamingConventions.ValidVariableName.NotCamelCaps
+        $nonWSDLOptions = [
+            'soap_version'   => SOAP_1_1,
+            'classmap'       => [
+                'TestData1' => TestData1::class,
+                'TestData2' => TestData2::class,
+            ],
+            'encoding'       => 'ISO-8859-1',
+            'uri'            => 'https://getlaminas.org/Laminas_Soap_ServerTest.php',
+            'location'       => 'https://getlaminas.org/Laminas_Soap_ServerTest.php',
+            'use'            => SOAP_ENCODED,
+            'style'          => SOAP_RPC,
+            'login'          => 'http_login',
+            'password'       => 'http_password',
+            'proxy_host'     => 'proxy.somehost.com',
+            'proxy_port'     => 8080,
+            'proxy_login'    => 'proxy_login',
+            'proxy_password' => 'proxy_password',
+            'local_cert'     => __DIR__ . '/TestAsset/cert_file',
+            'passphrase'     => 'some pass phrase',
+            'stream_context' => $ctx,
+            'compression'    => SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP | 5,
         ];
 
-        $config = new \Laminas\Config\Config($nonWSDLOptions);
+        $config = new Config($nonWSDLOptions);
 
         $client = new Client(null, $config);
 
         $this->assertEquals($nonWSDLOptions, $client->getOptions());
+        // phpcs:enable WebimpressCodingStandard.NamingConventions.ValidVariableName.NotCamelCaps
     }
 
     public function testSetInputHeaders()
@@ -481,19 +500,19 @@ class ClientTest extends TestCase
         }
 
         $server = new Server(__DIR__ . '/TestAsset/wsdl_example.wsdl');
-        $server->setClass('\LaminasTest\Soap\TestAsset\TestClass');
+        $server->setClass(TestClass::class);
 
         $client = new Client\Local($server, __DIR__ . '/TestAsset/wsdl_example.wsdl');
 
         // Add request header
-        $client->addSoapInputHeader(new \SoapHeader(
+        $client->addSoapInputHeader(new SoapHeader(
             'http://www.example.com/namespace',
             'MyHeader1',
             'SOAP header content 1'
         ));
 
         // Add permanent request header
-        $client->addSoapInputHeader(new \SoapHeader(
+        $client->addSoapInputHeader(new SoapHeader(
             'http://www.example.com/namespace',
             'MyHeader2',
             'SOAP header content 2'
@@ -504,26 +523,26 @@ class ClientTest extends TestCase
 
         $expectedRequest = '<?xml version="1.0" encoding="UTF-8"?>' . "\n"
                          . '<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope" '
-                         .               'xmlns:xsd="http://www.w3.org/2001/XMLSchema" '
-                         .               'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
-                         .               'xmlns:ns1="http://www.example.com/namespace" '
-                         .               'xmlns:enc="http://www.w3.org/2003/05/soap-encoding">'
-                         .     '<env:Header>'
-                         .         '<ns1:MyHeader2>SOAP header content 2</ns1:MyHeader2>'
-                         .         '<ns1:MyHeader1>SOAP header content 1</ns1:MyHeader1>'
-                         .     '</env:Header>'
-                         .     '<env:Body>'
-                         .         '<env:testFunc2 env:encodingStyle="http://www.w3.org/2003/05/soap-encoding">'
-                         .             '<who xsi:type="xsd:string">World</who>'
-                         .         '</env:testFunc2>'
-                         .     '</env:Body>'
+                         . 'xmlns:xsd="http://www.w3.org/2001/XMLSchema" '
+                         . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
+                         . 'xmlns:ns1="http://www.example.com/namespace" '
+                         . 'xmlns:enc="http://www.w3.org/2003/05/soap-encoding">'
+                         . '<env:Header>'
+                         . '<ns1:MyHeader2>SOAP header content 2</ns1:MyHeader2>'
+                         . '<ns1:MyHeader1>SOAP header content 1</ns1:MyHeader1>'
+                         . '</env:Header>'
+                         . '<env:Body>'
+                         . '<env:testFunc2 env:encodingStyle="http://www.w3.org/2003/05/soap-encoding">'
+                         . '<who xsi:type="xsd:string">World</who>'
+                         . '</env:testFunc2>'
+                         . '</env:Body>'
                          . '</env:Envelope>' . "\n";
 
         $this->assertEquals($client->getLastRequest(), $expectedRequest);
 
         // Add request header
         $client->addSoapInputHeader(
-            new \SoapHeader('http://www.example.com/namespace', 'MyHeader3', 'SOAP header content 3')
+            new SoapHeader('http://www.example.com/namespace', 'MyHeader3', 'SOAP header content 3')
         );
 
         // Perform request
@@ -531,19 +550,19 @@ class ClientTest extends TestCase
 
         $expectedRequest = '<?xml version="1.0" encoding="UTF-8"?>' . "\n"
                          . '<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope" '
-                         .               'xmlns:xsd="http://www.w3.org/2001/XMLSchema" '
-                         .               'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
-                         .               'xmlns:ns1="http://www.example.com/namespace" '
-                         .               'xmlns:enc="http://www.w3.org/2003/05/soap-encoding">'
-                         .     '<env:Header>'
-                         .         '<ns1:MyHeader2>SOAP header content 2</ns1:MyHeader2>'
-                         .         '<ns1:MyHeader3>SOAP header content 3</ns1:MyHeader3>'
-                         .     '</env:Header>'
-                         .     '<env:Body>'
-                         .         '<env:testFunc2 env:encodingStyle="http://www.w3.org/2003/05/soap-encoding">'
-                         .             '<who xsi:type="xsd:string">World</who>'
-                         .         '</env:testFunc2>'
-                         .     '</env:Body>'
+                         . 'xmlns:xsd="http://www.w3.org/2001/XMLSchema" '
+                         . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
+                         . 'xmlns:ns1="http://www.example.com/namespace" '
+                         . 'xmlns:enc="http://www.w3.org/2003/05/soap-encoding">'
+                         . '<env:Header>'
+                         . '<ns1:MyHeader2>SOAP header content 2</ns1:MyHeader2>'
+                         . '<ns1:MyHeader3>SOAP header content 3</ns1:MyHeader3>'
+                         . '</env:Header>'
+                         . '<env:Body>'
+                         . '<env:testFunc2 env:encodingStyle="http://www.w3.org/2003/05/soap-encoding">'
+                         . '<who xsi:type="xsd:string">World</who>'
+                         . '</env:testFunc2>'
+                         . '</env:Body>'
                          . '</env:Envelope>' . "\n";
 
         $this->assertEquals($client->getLastRequest(), $expectedRequest);
@@ -552,7 +571,7 @@ class ClientTest extends TestCase
 
         // Add request header
         $client->addSoapInputHeader(
-            new \SoapHeader('http://www.example.com/namespace', 'MyHeader4', 'SOAP header content 4')
+            new SoapHeader('http://www.example.com/namespace', 'MyHeader4', 'SOAP header content 4')
         );
 
         // Perform request
@@ -560,18 +579,18 @@ class ClientTest extends TestCase
 
         $expectedRequest = '<?xml version="1.0" encoding="UTF-8"?>' . "\n"
                          . '<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope" '
-                         .               'xmlns:xsd="http://www.w3.org/2001/XMLSchema" '
-                         .               'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
-                         .               'xmlns:ns1="http://www.example.com/namespace" '
-                         .               'xmlns:enc="http://www.w3.org/2003/05/soap-encoding">'
-                         .     '<env:Header>'
-                         .         '<ns1:MyHeader4>SOAP header content 4</ns1:MyHeader4>'
-                         .     '</env:Header>'
-                         .     '<env:Body>'
-                         .         '<env:testFunc2 env:encodingStyle="http://www.w3.org/2003/05/soap-encoding">'
-                         .             '<who xsi:type="xsd:string">World</who>'
-                         .         '</env:testFunc2>'
-                         .     '</env:Body>'
+                         . 'xmlns:xsd="http://www.w3.org/2001/XMLSchema" '
+                         . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
+                         . 'xmlns:ns1="http://www.example.com/namespace" '
+                         . 'xmlns:enc="http://www.w3.org/2003/05/soap-encoding">'
+                         . '<env:Header>'
+                         . '<ns1:MyHeader4>SOAP header content 4</ns1:MyHeader4>'
+                         . '</env:Header>'
+                         . '<env:Body>'
+                         . '<env:testFunc2 env:encodingStyle="http://www.w3.org/2003/05/soap-encoding">'
+                         . '<who xsi:type="xsd:string">World</who>'
+                         . '</env:testFunc2>'
+                         . '</env:Body>'
                          . '</env:Envelope>' . "\n";
 
         $this->assertEquals($client->getLastRequest(), $expectedRequest);
@@ -582,7 +601,7 @@ class ClientTest extends TestCase
      */
     public function testSetCookieIsDelegatedToSoapClient()
     {
-        $fixtureCookieKey = "foo";
+        $fixtureCookieKey   = "foo";
         $fixtureCookieValue = "bar";
 
         $clientMock = $this->getMockBuilder('SoapClient')
@@ -590,7 +609,7 @@ class ClientTest extends TestCase
             ->setConstructorArgs(
                 [
                     null,
-                    ['uri' => 'https://www.zend.com', 'location' => 'https://www.zend.com']
+                    ['uri' => 'https://www.zend.com', 'location' => 'https://www.zend.com'],
                 ]
             )
             ->getMock();
@@ -612,7 +631,7 @@ class ClientTest extends TestCase
             ->setConstructorArgs(
                 [
                     null,
-                    ['uri' => 'https://www.zend.com', 'location' => 'https://www.zend.com']
+                    ['uri' => 'https://www.zend.com', 'location' => 'https://www.zend.com'],
                 ]
             )
             ->getMock();
@@ -626,23 +645,21 @@ class ClientTest extends TestCase
     /**
      * @dataProvider dataProviderForInitSoapClientObjectException
      */
-    public function testInitSoapClientObjectException($wsdl, $options)
+    public function testInitSoapClientObjectException(?string $wsdl, array $options)
     {
         $client = new Client($wsdl, $options);
         $this->expectException(UnexpectedValueException::class);
         $client->getSoapClient();
     }
 
-    /**
-     * @return array
-     */
-    public function dataProviderForInitSoapClientObjectException()
+    /** @psalm-return array<array-key, array{0: null|string, array<string, int|string>}> */
+    public function dataProviderForInitSoapClientObjectException(): array
     {
         return [
-            [null,                             []],
-            [null,                             ['location' => 'http://example.com']],
-            [__DIR__ . './TestAsset/wsdl_example.wsdl',    ['use' => SOAP_ENCODED]],
-            [__DIR__ . './TestAsset/wsdl_example.wsdl',    ['style' => SOAP_DOCUMENT]]
+            [null, []],
+            [null, ['location' => 'http://example.com']],
+            [__DIR__ . './TestAsset/wsdl_example.wsdl', ['use' => SOAP_ENCODED]],
+            [__DIR__ . './TestAsset/wsdl_example.wsdl', ['style' => SOAP_DOCUMENT]],
         ];
     }
 }

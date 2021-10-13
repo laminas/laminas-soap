@@ -2,8 +2,6 @@
 
 /**
  * @see       https://github.com/laminas/laminas-soap for the canonical source repository
- * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
  */
 
 namespace Laminas\Soap\AutoDiscover\DiscoveryStrategy;
@@ -23,7 +21,6 @@ interface DiscoveryStrategyInterface
      *
      * Default implementation assumes the default param doc-block tag.
      *
-     * @param  ReflectionParameter $param
      * @return string
      */
     public function getFunctionParameterType(ReflectionParameter $param);
@@ -33,8 +30,6 @@ interface DiscoveryStrategyInterface
      *
      * Default implementation assumes the value of the return doc-block tag.
      *
-     * @param  AbstractFunction $function
-     * @param  Prototype $prototype
      * @return string
      */
     public function getFunctionReturnType(AbstractFunction $function, Prototype $prototype);
@@ -44,8 +39,6 @@ interface DiscoveryStrategyInterface
      *
      * Default implementation assumes one-way, when return value is "void".
      *
-     * @param  AbstractFunction $function
-     * @param  Prototype $prototype
      * @return bool
      */
     public function isFunctionOneWay(AbstractFunction $function, Prototype $prototype);
@@ -55,7 +48,6 @@ interface DiscoveryStrategyInterface
      *
      * Default implementation uses docblock description.
      *
-     * @param  AbstractFunction $function
      * @return string
      */
     public function getFunctionDocumentation(AbstractFunction $function);
