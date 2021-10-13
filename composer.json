@@ -27,7 +27,7 @@
         "laminas/laminas-uri": "^2.9.1"
     },
     "require-dev": {
-        "laminas/laminas-coding-standard": "~1.0.0",
+        "laminas/laminas-coding-standard": "~2.2.1",
         "laminas/laminas-config": "^3.7",
         "laminas/laminas-http": "^2.15",
         "phpspec/prophecy-phpunit": "^2.0.1",
