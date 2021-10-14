@@ -5,6 +5,7 @@ namespace LaminasTest\Soap\AutoDiscover;
 use Laminas\Soap\Client;
 use LaminasTest_Soap_TestAsset_ComplexTypeB;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 
 use function count;
 use function getenv;
@@ -56,7 +57,7 @@ class OnlineTest extends TestCase
         $client = new Client($wsdl);
         $ret    = $client->request("test", "test");
 
-        $this->assertInstanceOf('stdClass', $ret);
+        $this->assertInstanceOf(stdClass::class, $ret);
         $this->assertEquals("test", $ret->foo);
         $this->assertEquals("test", $ret->bar);
     }

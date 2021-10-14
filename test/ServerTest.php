@@ -770,10 +770,10 @@ class ServerTest extends TestCase
         return [
             ['Exception'],
             [InvalidArgumentException::class],
-            ['InvalidArgumentException'],
+            [\InvalidArgumentException::class],
             [\Laminas\Server\Exception\RuntimeException::class],
             [[\Laminas\Server\Exception\RuntimeException::class]],
-            [[\Laminas\Server\Exception\RuntimeException::class, 'InvalidArgumentException']],
+            [[\Laminas\Server\Exception\RuntimeException::class, \InvalidArgumentException::class]],
         ];
     }
 
@@ -782,7 +782,7 @@ class ServerTest extends TestCase
         $server = new Server();
         $fault  = $server->fault('FaultMessage!');
 
-        $this->assertInstanceOf('SoapFault', $fault);
+        $this->assertInstanceOf(SoapFault::class, $fault);
         $this->assertStringContainsString('FaultMessage!', $fault->getMessage());
     }
 
@@ -791,7 +791,7 @@ class ServerTest extends TestCase
         $server = new Server();
         $fault  = $server->fault(new Exception('MyException'));
 
-        $this->assertInstanceOf('SoapFault', $fault);
+        $this->assertInstanceOf(SoapFault::class, $fault);
         $this->assertStringContainsString('Unknown error', $fault->getMessage());
         $this->assertStringNotContainsString('MyException', $fault->getMessage());
     }
@@ -802,7 +802,7 @@ class ServerTest extends TestCase
         $server->registerFaultException(RuntimeException::class);
         $server->registerFaultException(InvalidArgumentException::class);
         $fault = $server->fault(new RuntimeException('MyException'));
-        $this->assertInstanceOf('SoapFault', $fault);
+        $this->assertInstanceOf(SoapFault::class, $fault);
         $this->assertStringNotContainsString('Unknown error', $fault->getMessage());
         $this->assertStringContainsString('MyException', $fault->getMessage());
     }
@@ -823,7 +823,7 @@ class ServerTest extends TestCase
         $server = new Server();
         $fault  = $server->fault("FaultMessage!", 5000);
 
-        $this->assertInstanceOf('SoapFault', $fault);
+        $this->assertInstanceOf(SoapFault::class, $fault);
     }
 
     public function testHandlePhpErrors()

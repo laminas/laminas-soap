@@ -9,6 +9,7 @@ use Laminas\Uri\Http;
 use LaminasTest\Soap\DeprecatedAssertionsTrait;
 use LaminasTest\Soap\TestAsset\MockCallUserFunc;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 
 /**
  * .NET SOAP client tester.
@@ -19,10 +20,8 @@ class DotNetTest extends TestCase
 
     /**
      * .NET SOAP client.
-     *
-     * @var DotNetClient
      */
-    private $client;
+    private DotNetClient $client;
 
     /**
      * cURL client.
@@ -88,7 +87,7 @@ class DotNetTest extends TestCase
     public function testCurlClientRequestIsDoneWhenUsingNtlmAuthentication()
     {
         $this->mockNtlmRequest();
-        $this->assertInstanceOf('stdClass', $this->client->TestMethod());
+        $this->assertInstanceOf(stdClass::class, $this->client->TestMethod());
     }
 
     /**
@@ -129,7 +128,7 @@ class DotNetTest extends TestCase
             'password'       => 'testpass',
         ]);
         $this->client->setSoapClient($soapClient);
-        $this->assertInstanceOf('stdClass', $this->client->TestMethod());
+        $this->assertInstanceOf(stdClass::class, $this->client->TestMethod());
     }
 
     /**

@@ -12,6 +12,7 @@ use LaminasTest\Soap\TestAsset\TestClass;
 use LaminasTest\Soap\TestAsset\TestData1;
 use LaminasTest\Soap\TestAsset\TestData2;
 use PHPUnit\Framework\TestCase;
+use SoapClient;
 use SoapHeader;
 use UnexpectedValueException;
 
@@ -600,7 +601,7 @@ class ClientTest extends TestCase
         $fixtureCookieKey   = "foo";
         $fixtureCookieValue = "bar";
 
-        $clientMock = $this->getMockBuilder('SoapClient')
+        $clientMock = $this->getMockBuilder(SoapClient::class)
             ->setMethods(['__setCookie'])
             ->setConstructorArgs(
                 [
@@ -622,7 +623,7 @@ class ClientTest extends TestCase
 
     public function testSetSoapClient()
     {
-        $clientMock = $this->getMockBuilder('SoapClient')
+        $clientMock = $this->getMockBuilder(SoapClient::class)
             ->setMethods(['__setCookie'])
             ->setConstructorArgs(
                 [

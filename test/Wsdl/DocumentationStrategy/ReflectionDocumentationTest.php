@@ -10,8 +10,7 @@ use ReflectionClass;
 
 class ReflectionDocumentationTest extends TestCase
 {
-    /** @var ReflectionDocumentation */
-    private $documentation;
+    private ReflectionDocumentation $documentation;
 
     protected function setUp(): void
     {
