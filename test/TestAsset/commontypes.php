@@ -1,11 +1,8 @@
-<?php // @codingStandardsIgnoreFile
-/**
- * @see       https://github.com/laminas/laminas-soap for the canonical source repository
- * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
- */
+<?php // phpcs:disable
 
 namespace LaminasTest\Soap\TestAsset;
+
+use ReturnTypeWillChange;
 
 /* Test Functions */
 
@@ -559,7 +556,8 @@ if (extension_loaded('soap')) {
             parent::__construct($wsdl, $options);
         }
 
-        public function __doRequest($request, $location, $action, $version, $one_way = 0)
+        #[ReturnTypeWillChange]
+        public function __doRequest($request, $location, $action, $version, $one_way = 0): ?string
         {
             ob_start();
             $this->server->handle($request);

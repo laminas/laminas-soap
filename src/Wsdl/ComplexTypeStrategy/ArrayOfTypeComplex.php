@@ -1,15 +1,12 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-soap for the canonical source repository
- * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Soap\Wsdl\ComplexTypeStrategy;
 
 use Laminas\Soap\Exception;
 use Laminas\Soap\Wsdl;
+
+use function str_replace;
+use function substr_count;
 
 class ArrayOfTypeComplex extends DefaultComplexType
 {
@@ -30,11 +27,11 @@ class ArrayOfTypeComplex extends DefaultComplexType
         $singularType = $this->getSingularPhpType($type);
         $nestingLevel = $this->getNestedCount($type);
 
-        if ($nestingLevel == 0) {
+        if ($nestingLevel === 0) {
             return parent::addComplexType($singularType);
         }
 
-        if ($nestingLevel != 1) {
+        if ($nestingLevel !== 1) {
             throw new Exception\InvalidArgumentException(
                 'ArrayOfTypeComplex cannot return nested ArrayOfObject deeper than one level. '
                 . 'Use array object properties to return deep nested data.'

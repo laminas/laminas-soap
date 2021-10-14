@@ -1,57 +1,46 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-soap for the canonical source repository
- * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Soap;
 
+use DOMDocument;
+use DOMElement;
+use DOMXPath;
 use Laminas\Soap\Wsdl;
 use Laminas\Soap\Wsdl\ComplexTypeStrategy;
 use Laminas\Soap\Wsdl\ComplexTypeStrategy\ComplexTypeStrategyInterface;
 use PHPUnit\Framework\TestCase;
 
+use function in_array;
+
+use const XML_ELEMENT_NODE;
+
 /**
-* Laminas_Soap_Server
-*
-* @group      Laminas_Soap
-* @group      Laminas_Soap_Wsdl
-**/
+ * Laminas_Soap_Server
+ *
+ * @group      Laminas_Soap
+ * @group      Laminas_Soap_Wsdl
+ **/
 class WsdlTestHelper extends TestCase
 {
-    /**
-     * @var Wsdl
-     */
+    /** @var Wsdl */
     protected $wsdl;
-    /**
-     * @var \DOMDocument
-     */
+    /** @var DOMDocument */
     protected $dom;
-    /**
-     * @var \DOMXPath
-     */
+    /** @var DOMXPath */
     protected $xpath;
 
-    /**
-     * @var ComplexTypeStrategy\ComplexTypeStrategyInterface
-     */
+    /** @var ComplexTypeStrategy\ComplexTypeStrategyInterface */
     protected $strategy;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $defaultServiceName = 'MyService';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $defaultServiceUri = 'http://localhost/MyService.php';
 
     public function setUp(): void
     {
-        if (empty($this->strategy) or ! ($this->strategy instanceof ComplexTypeStrategyInterface)) {
+        if (empty($this->strategy) || ! $this->strategy instanceof ComplexTypeStrategyInterface) {
             $this->strategy = new Wsdl\ComplexTypeStrategy\DefaultComplexType();
         }
 
@@ -66,9 +55,9 @@ class WsdlTestHelper extends TestCase
     }
 
     /**
-     * @param \DOMDocument $obj
+     * @param DOMDocument $obj
      * @param string $documentNamespace
-     * @return \DOMDocument
+     * @return DOMDocument
      */
     public function registerNamespaces($obj, $documentNamespace = null)
     {
@@ -76,7 +65,7 @@ class WsdlTestHelper extends TestCase
             $documentNamespace = $this->defaultServiceUri;
         }
 
-        $this->xpath = new \DOMXPath($obj);
+        $this->xpath = new DOMXPath($obj);
         $this->xpath->registerNamespace('unittest', Wsdl::WSDL_NS_URI);
 
         $this->xpath->registerNamespace('tns', $documentNamespace);
@@ -90,11 +79,11 @@ class WsdlTestHelper extends TestCase
     }
 
     /**
-     * @param \DOMElement $element
+     * @param DOMElement $element
      */
     public function documentNodesTest($element = null)
     {
-        if (! ($this->wsdl instanceof Wsdl)) {
+        if (! $this->wsdl instanceof Wsdl) {
             return;
         }
 

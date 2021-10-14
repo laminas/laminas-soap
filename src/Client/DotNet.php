@@ -1,19 +1,17 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-soap for the canonical source repository
- * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Soap\Client;
 
+use InvalidArgumentException;
 use Laminas\Http\Client\Adapter\Curl as CurlClient;
 use Laminas\Http\Response as HttpResponse;
 use Laminas\Soap\Client as SOAPClient;
 use Laminas\Soap\Client\Common as CommonClient;
 use Laminas\Soap\Exception;
 use Laminas\Uri\Http as HttpUri;
+use Traversable;
+
+use const SOAP_1_1;
 
 /**
  * .NET SOAP client
@@ -24,30 +22,35 @@ class DotNet extends SOAPClient
 {
     /**
      * Curl HTTP client adapter.
+     *
      * @var CurlClient
      */
-    protected $curlClient = null;
+    protected $curlClient;
 
     /**
      * The last request headers.
+     *
      * @var string
      */
     protected $lastRequestHeaders = '';
 
     /**
      * The last response headers.
+     *
      * @var string
      */
     protected $lastResponseHeaders = '';
 
     /**
      * SOAP client options.
+     *
      * @var array
      */
     protected $options = [];
 
     /**
      * Should NTLM authentication be used?
+     *
      * @var boolean
      */
     protected $useNtlm = false;
@@ -180,8 +183,8 @@ class DotNet extends SOAPClient
      *
      * Allows setting options as an associative array of option => value pairs.
      *
-     * @param  array|\Traversable $options Options.
-     * @throws \InvalidArgumentException If an unsupported option is passed.
+     * @param array|Traversable $options Options.
+     * @throws InvalidArgumentException If an unsupported option is passed.
      * @return self
      */
     public function setOptions($options)

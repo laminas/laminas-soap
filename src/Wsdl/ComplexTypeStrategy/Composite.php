@@ -1,33 +1,35 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-soap for the canonical source repository
- * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Soap\Wsdl\ComplexTypeStrategy;
 
 use Laminas\Soap\Exception;
 use Laminas\Soap\Wsdl;
 use Laminas\Soap\Wsdl\ComplexTypeStrategy\ComplexTypeStrategyInterface as ComplexTypeStrategy;
+use Laminas\Soap\Wsdl\ComplexTypeStrategy\DefaultComplexType;
+
+use function class_exists;
+use function is_string;
+use function sprintf;
 
 class Composite implements ComplexTypeStrategy
 {
     /**
      * Typemap of Complex Type => Strategy pairs.
+     *
      * @var array
      */
     protected $typeMap = [];
 
     /**
      * Default Strategy of this composite
+     *
      * @var string|ComplexTypeStrategy
      */
     protected $defaultStrategy;
 
     /**
      * Context WSDL file that this composite serves
+     *
      * @var Wsdl|null
      */
     protected $context;
@@ -40,7 +42,7 @@ class Composite implements ComplexTypeStrategy
      */
     public function __construct(
         array $typeMap = [],
-        $defaultStrategy = 'Laminas\Soap\Wsdl\ComplexTypeStrategy\DefaultComplexType'
+        $defaultStrategy = DefaultComplexType::class
     ) {
         foreach ($typeMap as $type => $strategy) {
             $this->connectTypeToStrategy($type, $strategy);
@@ -76,9 +78,9 @@ class Composite implements ComplexTypeStrategy
     {
         $strategy = $this->defaultStrategy;
         if (is_string($strategy) && class_exists($strategy)) {
-            $strategy = new $strategy;
+            $strategy = new $strategy();
         }
-        if (! ($strategy instanceof ComplexTypeStrategy)) {
+        if (! $strategy instanceof ComplexTypeStrategy) {
             throw new Exception\InvalidArgumentException(
                 'Default Strategy for Complex Types is not a valid strategy object.'
             );
@@ -103,7 +105,7 @@ class Composite implements ComplexTypeStrategy
                 $strategy = new $strategy();
             }
 
-            if (! ($strategy instanceof ComplexTypeStrategy)) {
+            if (! $strategy instanceof ComplexTypeStrategy) {
                 throw new Exception\InvalidArgumentException(sprintf(
                     'Strategy for Complex Type "%s" is not a valid strategy object.',
                     $type
@@ -120,7 +122,6 @@ class Composite implements ComplexTypeStrategy
     /**
      * Method accepts the current WSDL context file.
      *
-     * @param  Wsdl $context
      * @return Composite
      */
     public function setContext(Wsdl $context)
@@ -138,7 +139,7 @@ class Composite implements ComplexTypeStrategy
      */
     public function addComplexType($type)
     {
-        if (! ($this->context instanceof Wsdl)) {
+        if (! $this->context instanceof Wsdl) {
             throw new Exception\InvalidArgumentException(sprintf(
                 'Cannot add complex type "%s", no context is set for this composite strategy.',
                 $type

@@ -1,15 +1,15 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-soap for the canonical source repository
- * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Soap\Wsdl\DocumentationStrategy;
 
 use ReflectionClass;
 use ReflectionProperty;
+
+use function explode;
+use function implode;
+use function preg_match;
+use function preg_replace;
+use function trim;
 
 final class ReflectionDocumentation implements DocumentationStrategyInterface
 {
@@ -37,7 +37,7 @@ final class ReflectionDocumentation implements DocumentationStrategyInterface
     {
         $documentation = [];
         foreach (explode("\n", $docComment) as $i => $line) {
-            if ($i == 0) {
+            if ($i === 0) {
                 continue;
             }
 
@@ -47,11 +47,11 @@ final class ReflectionDocumentation implements DocumentationStrategyInterface
             }
 
             // only include newlines if we've already got documentation
-            if (! empty($documentation) || $line != '') {
+            if (! empty($documentation) || $line !== '') {
                 $documentation[] = $line;
             }
         }
 
-        return join("\n", $documentation);
+        return implode("\n", $documentation);
     }
 }

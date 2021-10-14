@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-soap for the canonical source repository
- * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Soap\Wsdl\ComplexTypeStrategy;
 
 use Laminas\Soap\Wsdl;
@@ -17,8 +11,6 @@ interface ComplexTypeStrategyInterface
 {
     /**
      * Method accepts the current WSDL context file.
-     *
-     * @param Wsdl $context
      */
     public function setContext(Wsdl $context);
 

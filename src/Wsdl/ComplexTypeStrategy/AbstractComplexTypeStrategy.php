@@ -1,15 +1,11 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-soap for the canonical source repository
- * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Soap\Wsdl\ComplexTypeStrategy;
 
 use Laminas\Soap\Wsdl;
 use Laminas\Soap\Wsdl\DocumentationStrategy\DocumentationStrategyInterface;
+
+use function array_key_exists;
 
 /**
  * Abstract class for Laminas\Soap\Wsdl\Strategy.
@@ -23,15 +19,11 @@ abstract class AbstractComplexTypeStrategy implements ComplexTypeStrategyInterfa
      */
     protected $context;
 
-    /**
-     * @var DocumentationStrategyInterface
-     */
+    /** @var DocumentationStrategyInterface */
     protected $documentationStrategy;
 
     /**
      * Set the WSDL Context object this strategy resides in.
-     *
-     * @param Wsdl $context
      */
     public function setContext(Wsdl $context)
     {
@@ -60,13 +52,12 @@ abstract class AbstractComplexTypeStrategy implements ComplexTypeStrategyInterfa
             $soapTypes = $this->getContext()->getTypes();
             return $soapTypes[$phpType];
         }
-        return;
+        return null;
     }
 
     /**
      * Sets the strategy for generating complex type documentation
      *
-     * @param DocumentationStrategyInterface $documentationStrategy
      * @return void
      */
     public function setDocumentationStrategy(DocumentationStrategyInterface $documentationStrategy)

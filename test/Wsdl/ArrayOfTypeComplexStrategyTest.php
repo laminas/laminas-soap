@@ -1,16 +1,12 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-soap for the canonical source repository
- * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Soap\Wsdl;
 
 use Laminas\Soap\Exception\InvalidArgumentException;
 use Laminas\Soap\Wsdl;
 use Laminas\Soap\Wsdl\ComplexTypeStrategy\ArrayOfTypeComplex;
+use LaminasTest\Soap\TestAsset\ComplexObjectWithObjectStructure;
+use LaminasTest\Soap\TestAsset\ComplexTypeA;
 use LaminasTest\Soap\WsdlTestHelper;
 
 class ArrayOfTypeComplexStrategyTest extends WsdlTestHelper
@@ -100,13 +96,15 @@ class ArrayOfTypeComplexStrategyTest extends WsdlTestHelper
         );
         $this->assertEquals(4, $nodes->item(0)->childNodes->length, 'Invalid complex object definition.');
 
-        foreach ([
-            'boolean'       => 'xsd:boolean',
-            'string'        => 'xsd:string',
-            'int'           => 'xsd:int',
-            'array'         => 'soap-enc:Array'
-                 ] as $name => $type) {
-            $node = $this->xpath->query('xsd:element[@name="'.$name.'"]', $nodes->item(0));
+        foreach (
+            [
+                'boolean' => 'xsd:boolean',
+                'string'  => 'xsd:string',
+                'int'     => 'xsd:int',
+                'array'   => 'soap-enc:Array',
+            ] as $name => $type
+        ) {
+            $node = $this->xpath->query('xsd:element[@name="' . $name . '"]', $nodes->item(0));
             $this->assertEquals(
                 $name,
                 $node->item(0)->getAttribute('name'),
@@ -142,7 +140,6 @@ class ArrayOfTypeComplexStrategyTest extends WsdlTestHelper
             $nodes->item(0)->getAttributeNS(Wsdl::WSDL_NS_URI, 'arrayType'),
             'Invalid array type reference.'
         );
-
 
         $this->documentNodesTest();
     }
@@ -184,7 +181,7 @@ class ArrayOfTypeComplexStrategyTest extends WsdlTestHelper
         // array of elements
         $nodes = $this->xpath->query(
             '//wsdl:types/*/xsd:complexType[@name="ArrayOfComplexObjectWithObjectStructure"]/'
-            .'xsd:complexContent/xsd:restriction'
+            . 'xsd:complexContent/xsd:restriction'
         );
         $this->assertEquals(1, $nodes->length, 'Unable to find complex type array definition in wsdl.');
         $this->assertEquals(
@@ -220,8 +217,8 @@ class ArrayOfTypeComplexStrategyTest extends WsdlTestHelper
         // this xpath is proper version of simpler:
         //     //*[wsdl:arrayType="tns:ComplexObjectWithObjectStructure[]"]
         // (namespaces in attributes and xpath)
-        $nodes = $this->xpath->query('//*[@*[namespace-uri()="'.Wsdl::WSDL_NS_URI
-            .'" and local-name()="arrayType"]="tns:ComplexObjectWithObjectStructure[]"]');
+        $nodes = $this->xpath->query('//*[@*[namespace-uri()="' . Wsdl::WSDL_NS_URI
+            . '" and local-name()="arrayType"]="tns:ComplexObjectWithObjectStructure[]"]');
         $this->assertEquals(
             1,
             $nodes->length,
@@ -244,14 +241,14 @@ class ArrayOfTypeComplexStrategyTest extends WsdlTestHelper
      */
     public function testAddingSingularThenArrayTypeIsRecognizedCorretly()
     {
-        $this->wsdl->addComplexType('\LaminasTest\Soap\TestAsset\ComplexObjectWithObjectStructure');
+        $this->wsdl->addComplexType(ComplexObjectWithObjectStructure::class);
         $this->wsdl->addComplexType('\LaminasTest\Soap\TestAsset\ComplexObjectWithObjectStructure[]');
 
         // this xpath is proper version of simpler:
         //     //*[wsdl:arrayType="tns:ComplexObjectWithObjectStructure[]"]
         // (namespaces in attributes and xpath)
-        $nodes = $this->xpath->query('//*[@*[namespace-uri()="'.Wsdl::WSDL_NS_URI.
-            '" and local-name()="arrayType"]="tns:ComplexObjectWithObjectStructure[]"]');
+        $nodes = $this->xpath->query('//*[@*[namespace-uri()="' . Wsdl::WSDL_NS_URI
+            . '" and local-name()="arrayType"]="tns:ComplexObjectWithObjectStructure[]"]');
         $this->assertEquals(
             1,
             $nodes->length,
@@ -274,18 +271,19 @@ class ArrayOfTypeComplexStrategyTest extends WsdlTestHelper
      */
     public function testArrayOfComplexNestedObjectsIsCoveredByStrategyAndAddsAllTypesRecursivly()
     {
-        $return = $this->wsdl->addComplexType('\LaminasTest\Soap\TestAsset\ComplexTypeA');
+        $return = $this->wsdl->addComplexType(ComplexTypeA::class);
         $this->assertEquals("tns:ComplexTypeA", $return);
-
 
         $nodes = $this->xpath->query('//wsdl:types/xsd:schema/xsd:complexType[@name="ComplexTypeB"]/xsd:all');
         $this->assertEquals(2, $nodes->item(0)->childNodes->length, 'Invalid complex object definition.');
 
-        foreach ([
-                     'bar'  => 'xsd:string',
-                     'foo'  => 'xsd:string',
-                 ] as $name => $type) {
-            $node = $this->xpath->query('xsd:element[@name="'.$name.'"]', $nodes->item(0));
+        foreach (
+            [
+                'bar' => 'xsd:string',
+                'foo' => 'xsd:string',
+            ] as $name => $type
+        ) {
+            $node = $this->xpath->query('xsd:element[@name="' . $name . '"]', $nodes->item(0));
             $this->assertEquals(
                 $name,
                 $node->item(0)->getAttribute('name'),

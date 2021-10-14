@@ -1,14 +1,15 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-soap for the canonical source repository
- * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Soap\Wsdl\ComplexTypeStrategy;
 
 use Laminas\Soap\Wsdl;
+
+use function str_repeat;
+use function str_replace;
+use function strpos;
+use function substr;
+use function substr_count;
+use function ucfirst;
 
 class ArrayOfTypeSequence extends DefaultComplexType
 {
@@ -25,7 +26,7 @@ class ArrayOfTypeSequence extends DefaultComplexType
 
         if ($nestedCounter > 0) {
             $singularType = $this->getSingularType($type);
-            $complexType = '';
+            $complexType  = '';
 
             for ($i = 1; $i <= $nestedCounter; $i++) {
                 $complexType    = $this->getTypeBasedOnNestingLevel($singularType, $i);
@@ -57,7 +58,7 @@ class ArrayOfTypeSequence extends DefaultComplexType
      */
     protected function getTypeBasedOnNestingLevel($singularType, $level)
     {
-        if ($level == 0) {
+        if ($level === 0) {
             // This is not an Array anymore, return the xsd simple type
             return $this->getContext()->getType($singularType);
         }

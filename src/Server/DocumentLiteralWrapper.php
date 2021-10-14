@@ -1,15 +1,15 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-soap for the canonical source repository
- * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Soap\Server;
 
 use Laminas\Soap\Exception;
 use ReflectionObject;
+
+use function call_user_func_array;
+use function count;
+use function get_class;
+use function get_object_vars;
+use function sprintf;
 
 /**
  * Wraps WSDL Document/Literal Style service objects to hide SOAP request
@@ -23,7 +23,7 @@ use ReflectionObject;
  * Example:
  *
  * <code>
- * class MyCalculatorService
+ *
  * {
  *     /**
  *      * @param int $x
@@ -75,14 +75,10 @@ use ReflectionObject;
  */
 class DocumentLiteralWrapper
 {
-    /**
-     * @var object
-     */
+    /** @var object */
     protected $object;
 
-    /**
-     * @var ReflectionObject
-     */
+    /** @var ReflectionObject */
     protected $reflection;
 
     /**
@@ -92,7 +88,7 @@ class DocumentLiteralWrapper
      */
     public function __construct($object)
     {
-        $this->object = $object;
+        $this->object     = $object;
         $this->reflection = new ReflectionObject($this->object);
     }
 
@@ -125,7 +121,7 @@ class DocumentLiteralWrapper
     protected function parseArguments($method, $document)
     {
         $reflMethod = $this->reflection->getMethod($method);
-        $params = [];
+        $params     = [];
         foreach ($reflMethod->getParameters() as $param) {
             $params[$param->getName()] = $param;
         }
@@ -179,7 +175,7 @@ class DocumentLiteralWrapper
      */
     protected function assertOnlyOneArgument(array $args)
     {
-        if (count($args) != 1) {
+        if (count($args) !== 1) {
             throw new Exception\UnexpectedValueException(sprintf(
                 "Expecting exactly one argument that is the document/literal wrapper, got %d",
                 count($args)

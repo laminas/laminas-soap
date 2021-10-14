@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-soap for the canonical source repository
- * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Soap\Wsdl\ComplexTypeStrategy;
 
 use DOMElement;
@@ -15,6 +9,11 @@ use Laminas\Soap\Wsdl\DocumentationStrategy\DocumentationStrategyInterface;
 use ReflectionClass;
 use ReflectionProperty;
 
+use function class_exists;
+use function preg_match_all;
+use function sprintf;
+use function trim;
+
 class DefaultComplexType extends AbstractComplexTypeStrategy
 {
     /**
@@ -22,7 +21,7 @@ class DefaultComplexType extends AbstractComplexTypeStrategy
      *
      * @param string $type Name of the class to be specified
      * @return string XSD Type for the given PHP type
-     * @throws Exception\InvalidArgumentException if class does not exist
+     * @throws Exception\InvalidArgumentException If class does not exist.
      */
     public function addComplexType($type)
     {
@@ -41,7 +40,7 @@ class DefaultComplexType extends AbstractComplexTypeStrategy
             return $soapType;
         }
 
-        $dom = $this->getContext()->toDomDocument();
+        $dom          = $this->getContext()->toDomDocument();
         $soapTypeName = $this->getContext()->translateType($phpType);
         $soapType     = Wsdl::TYPES_NS . ':' . $soapTypeName;
 

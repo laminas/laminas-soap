@@ -1,86 +1,102 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-soap for the canonical source repository
- * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Soap;
 
+use DOMElement;
 use Laminas\Server\Reflection;
 use Laminas\Soap\AutoDiscover\DiscoveryStrategy\DiscoveryStrategyInterface as DiscoveryStrategy;
 use Laminas\Soap\AutoDiscover\DiscoveryStrategy\ReflectionDiscovery;
+use Laminas\Soap\Wsdl;
 use Laminas\Soap\Wsdl\ComplexTypeStrategy\ComplexTypeStrategyInterface as ComplexTypeStrategy;
 use Laminas\Uri;
 
+use function array_unique;
+use function count;
+use function function_exists;
+use function get_class;
+use function gettype;
+use function header;
+use function htmlspecialchars;
+use function is_array;
+use function is_object;
+use function is_string;
+use function is_subclass_of;
+use function preg_match;
+use function sprintf;
+use function strlen;
+use function trim;
+
+use const ENT_QUOTES;
+
 class AutoDiscover
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $serviceName;
 
-    /**
-     * @var Reflection
-     */
-    protected $reflection = null;
+    /** @var Reflection */
+    protected $reflection;
 
     /**
      * Service function names
+     *
      * @var array
      */
     protected $functions = [];
 
     /**
      * Service class name
+     *
      * @var string
      */
     protected $class;
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $strategy;
 
     /**
      * Url where the WSDL file will be available at.
-     * @var WSDL Uri
+     *
+     * @var Wsdl Uri
      */
     protected $uri;
 
     /**
      * soap:body operation style options
+     *
      * @var array
      */
     protected $operationBodyStyle = [
-        'use' => 'encoded',
-        'encodingStyle' => "http://schemas.xmlsoap.org/soap/encoding/"
+        'use'           => 'encoded',
+        'encodingStyle' => "http://schemas.xmlsoap.org/soap/encoding/",
     ];
 
     /**
      * soap:operation style
+     *
      * @var array
      */
     protected $bindingStyle = [
-        'style' => 'rpc',
-        'transport' => 'http://schemas.xmlsoap.org/soap/http'
+        'style'     => 'rpc',
+        'transport' => 'http://schemas.xmlsoap.org/soap/http',
     ];
 
     /**
      * Name of the class to handle the WSDL creation.
+     *
      * @var string
      */
-    protected $wsdlClass = 'Laminas\Soap\Wsdl';
+    protected $wsdlClass = Wsdl::class;
 
     /**
      * Class Map of PHP to WSDL types.
+     *
      * @var array
      */
     protected $classMap = [];
 
     /**
      * Discovery strategy for types and other method details.
+     *
      * @var DiscoveryStrategy
      */
     protected $discoveryStrategy;
@@ -88,13 +104,12 @@ class AutoDiscover
     /**
      * Constructor
      *
-     * @param null|ComplexTypeStrategy $strategy
      * @param null|string|Uri\Uri $endpointUri
      * @param null|string $wsdlClass
      * @param null|array $classMap
      */
     public function __construct(
-        ComplexTypeStrategy $strategy = null,
+        ?ComplexTypeStrategy $strategy = null,
         $endpointUri = null,
         $wsdlClass = null,
         array $classMap = []
@@ -117,7 +132,6 @@ class AutoDiscover
     /**
      * Set the discovery strategy for method type and other information.
      *
-     * @param  DiscoveryStrategy $discoveryStrategy
      * @return self
      */
     public function setDiscoveryStrategy(DiscoveryStrategy $discoveryStrategy)
@@ -159,7 +173,7 @@ class AutoDiscover
             throw new Exception\InvalidArgumentException(sprintf(
                 '%s expects an array; received "%s"',
                 __METHOD__,
-                (is_object($classMap) ? get_class($classMap) : gettype($classMap))
+                is_object($classMap) ? get_class($classMap) : gettype($classMap)
             ));
         }
 
@@ -180,7 +194,7 @@ class AutoDiscover
 
         // first character must be letter or underscore {@see http://www.w3.org/TR/wsdl#_document-n}
         $i = preg_match('/^[a-z\_]/ims', $serviceName, $matches);
-        if ($i != 1) {
+        if ($i !== 1) {
             throw new Exception\InvalidArgumentException('Service Name must start with letter or _');
         }
 
@@ -215,7 +229,7 @@ class AutoDiscover
      */
     public function setUri($uri)
     {
-        if (! is_string($uri) && ! ($uri instanceof Uri\Uri)) {
+        if (! is_string($uri) && ! $uri instanceof Uri\Uri) {
             throw new Exception\InvalidArgumentException(
                 'Argument to \Laminas\Soap\AutoDiscover::setUri should be string or \Laminas\Uri\Uri instance.'
             );
@@ -260,7 +274,7 @@ class AutoDiscover
      */
     public function setWsdlClass($wsdlClass)
     {
-        if (! is_string($wsdlClass) && ! is_subclass_of($wsdlClass, '\Laminas\Soap\Wsdl')) {
+        if (! is_string($wsdlClass) && ! is_subclass_of($wsdlClass, Wsdl::class)) {
             throw new Exception\InvalidArgumentException(
                 'No \Laminas\Soap\Wsdl subclass given to Laminas\Soap\AutoDiscover::setWsdlClass as string.'
             );
@@ -321,7 +335,6 @@ class AutoDiscover
     /**
      * Set the strategy that handles functions and classes that are added AFTER this call.
      *
-     * @param  ComplexTypeStrategy $strategy
      * @return self
      */
     public function setComplexTypeStrategy(ComplexTypeStrategy $strategy)
@@ -412,7 +425,7 @@ class AutoDiscover
         // The wsdl:types element must precede all other elements (WS-I Basic Profile 1.1 R2023)
         $wsdl->addSchemaTypeSection();
 
-        $port = $wsdl->addPortType($serviceName . 'Port');
+        $port    = $wsdl->addPortType($serviceName . 'Port');
         $binding = $wsdl->addBinding($serviceName . 'Binding', Wsdl::TYPES_NS . ':' . $serviceName . 'Port');
 
         $wsdl->addSoapBinding($binding, $this->bindingStyle['style'], $this->bindingStyle['transport']);
@@ -433,10 +446,10 @@ class AutoDiscover
     /**
      * Add a function to the WSDL document.
      *
-     * @param  $function Reflection\AbstractFunction function to add
-     * @param  $wsdl     Wsdl WSDL document
-     * @param  $port     \DOMElement wsdl:portType
-     * @param  $binding  \DOMElement wsdl:binding
+     * @param  Reflection\AbstractFunction $function function to add
+     * @param  Wsdl $wsdl WSDL document
+     * @param  DOMElement $port wsdl:portType
+     * @param  DOMElement $binding wsdl:binding
      * @throws Exception\InvalidArgumentException
      */
     protected function addFunctionToWsdl($function, $wsdl, $port, $binding)
@@ -444,13 +457,13 @@ class AutoDiscover
         $uri = $this->getUri();
 
         // We only support one prototype: the one with the maximum number of arguments
-        $prototype = null;
+        $prototype                  = null;
         $maxNumArgumentsOfPrototype = -1;
         foreach ($function->getPrototypes() as $tmpPrototype) {
             $numParams = count($tmpPrototype->getParameters());
             if ($numParams > $maxNumArgumentsOfPrototype) {
                 $maxNumArgumentsOfPrototype = $numParams;
-                $prototype = $tmpPrototype;
+                $prototype                  = $tmpPrototype;
             }
         }
         if ($prototype === null) {
@@ -464,13 +477,13 @@ class AutoDiscover
 
         // Add the input message (parameters)
         $args = [];
-        if ($this->bindingStyle['style'] == 'document') {
+        if ($this->bindingStyle['style'] === 'document') {
             // Document style: wrap all parameters in a sequence element
             $sequence = [];
             foreach ($prototype->getParameters() as $param) {
                 $sequenceElement = [
                     'name' => $param->getName(),
-                    'type' => $wsdl->getType($this->discoveryStrategy->getFunctionParameterType($param))
+                    'type' => $wsdl->getType($this->discoveryStrategy->getFunctionParameterType($param)),
                 ];
                 if ($param->isOptional()) {
                     $sequenceElement['nillable'] = 'true';
@@ -479,8 +492,8 @@ class AutoDiscover
             }
 
             $element = [
-                'name'      => $functionName,
-                'sequence'  => $sequence
+                'name'     => $functionName,
+                'sequence' => $sequence,
             ];
 
             // Add the wrapper element part, which must be named 'parameters'
@@ -489,7 +502,7 @@ class AutoDiscover
             // RPC style: add each parameter as a typed part
             foreach ($prototype->getParameters() as $param) {
                 $args[$param->getName()] = [
-                    'type' => $wsdl->getType($this->discoveryStrategy->getFunctionParameterType($param))
+                    'type' => $wsdl->getType($this->discoveryStrategy->getFunctionParameterType($param)),
                 ];
             }
         }
@@ -497,30 +510,32 @@ class AutoDiscover
 
         $isOneWayMessage = $this->discoveryStrategy->isFunctionOneWay($function, $prototype);
 
-        if ($isOneWayMessage == false) {
+        if ($isOneWayMessage === false) {
             // Add the output message (return value)
             $args = [];
-            if ($this->bindingStyle['style'] == 'document') {
+            if ($this->bindingStyle['style'] === 'document') {
                 // Document style: wrap the return value in a sequence element
                 $sequence = [];
-                if ($prototype->getReturnType() != "void") {
+                if ($prototype->getReturnType() !== "void") {
                     $sequence[] = [
                         'name' => $functionName . 'Result',
-                        'type' => $wsdl->getType($this->discoveryStrategy->getFunctionReturnType($function, $prototype))
+                        'type' => $wsdl->getType(
+                            $this->discoveryStrategy->getFunctionReturnType($function, $prototype)
+                        ),
                     ];
                 }
 
                 $element = [
-                    'name'      => $functionName . 'Response',
-                    'sequence'  => $sequence
+                    'name'     => $functionName . 'Response',
+                    'sequence' => $sequence,
                 ];
 
                 // Add the wrapper element part, which must be named 'parameters'
                 $args['parameters'] = ['element' => $wsdl->addElement($element)];
-            } elseif ($prototype->getReturnType() != "void") {
+            } elseif ($prototype->getReturnType() !== "void") {
                 // RPC style: add the return value as a typed part
                 $args['return'] = [
-                    'type' => $wsdl->getType($this->discoveryStrategy->getFunctionReturnType($function, $prototype))
+                    'type' => $wsdl->getType($this->discoveryStrategy->getFunctionReturnType($function, $prototype)),
                 ];
             }
 
@@ -528,7 +543,7 @@ class AutoDiscover
         }
 
         // Add the portType operation
-        if ($isOneWayMessage == false) {
+        if ($isOneWayMessage === false) {
             $portOperation = $wsdl->addPortOperation(
                 $port,
                 $functionName,
@@ -552,12 +567,12 @@ class AutoDiscover
         // When using the RPC style, make sure the operation style includes a 'namespace'
         // attribute (WS-I Basic Profile 1.1 R2717)
         $operationBodyStyle = $this->operationBodyStyle;
-        if ($this->bindingStyle['style'] == 'rpc' && ! isset($operationBodyStyle['namespace'])) {
+        if ($this->bindingStyle['style'] === 'rpc' && ! isset($operationBodyStyle['namespace'])) {
             $operationBodyStyle['namespace'] = '' . $uri;
         }
 
         // Add the binding operation
-        if ($isOneWayMessage == false) {
+        if ($isOneWayMessage === false) {
             $operation = $wsdl->addBindingOperation($binding, $functionName, $operationBodyStyle, $operationBodyStyle);
         } else {
             $operation = $wsdl->addBindingOperation($binding, $functionName, $operationBodyStyle);

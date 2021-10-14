@@ -1,16 +1,11 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-soap for the canonical source repository
- * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Soap\Client;
 
 use Laminas\Http\Client\Adapter\Curl;
 use Laminas\Soap\Client\Common;
 use Laminas\Soap\Client\DotNet as DotNetClient;
+use Laminas\Uri\Http;
 use LaminasTest\Soap\DeprecatedAssertionsTrait;
 use LaminasTest\Soap\TestAsset\MockCallUserFunc;
 use PHPUnit\Framework\TestCase;
@@ -25,16 +20,16 @@ class DotNetTest extends TestCase
     /**
      * .NET SOAP client.
      *
-     * @var \Laminas\Soap\Client\DotNet
+     * @var DotNetClient
      */
-    private $client = null;
+    private $client;
 
     /**
      * cURL client.
      *
      * @var Curl
      */
-    private $curlClient = null;
+    private $curlClient;
 
     /**
      * Sets up the fixture.
@@ -42,11 +37,11 @@ class DotNetTest extends TestCase
     protected function setUp(): void
     {
         MockCallUserFunc::$mock = false;
-        $this->client = new DotNetClient(
+        $this->client           = new DotNetClient(
             null,
             [
                 'location' => 'http://unithost/test',
-                'uri'      => 'http://unithost/test'
+                'uri'      => 'http://unithost/test',
             ]
         );
     }
@@ -67,7 +62,7 @@ class DotNetTest extends TestCase
      */
     public function testADefaultCurlClientIsUsedIfNoneIsInjected()
     {
-        $this->assertInstanceOf('Laminas\Http\Client\Adapter\Curl', $this->client->getCurlClient());
+        $this->assertInstanceOf(Curl::class, $this->client->getCurlClient());
     }
 
     /**
@@ -124,13 +119,15 @@ class DotNetTest extends TestCase
             null,
             [
                 'location' => 'http://unit/test',
-                'uri'      => 'http://unit/test'
+                'uri'      => 'http://unit/test',
             ]
         );
         $this->assertAttributeEquals(false, 'useNtlm', $this->client);
-        $this->client->setOptions(['authentication' => 'ntlm',
+        $this->client->setOptions([
+            'authentication' => 'ntlm',
             'login'          => 'username',
-            'password'       => 'testpass']);
+            'password'       => 'testpass',
+        ]);
         $this->client->setSoapClient($soapClient);
         $this->assertInstanceOf('stdClass', $this->client->TestMethod());
     }
@@ -227,17 +224,16 @@ class DotNetTest extends TestCase
             ->method('write')
             ->with(
                 'POST',
-                $this->isInstanceOf('Laminas\Uri\Http'),
+                $this->isInstanceOf(Http::class),
                 1.1,
                 $headers,
                 $this->stringContains('<SOAP-ENV')
             );
 
-
         $this->client->setOptions([
             'authentication' => 'ntlm',
             'login'          => 'username',
-            'password'       => 'testpass'
+            'password'       => 'testpass',
         ]);
     }
 }

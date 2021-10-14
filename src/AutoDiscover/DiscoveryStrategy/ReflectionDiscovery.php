@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-soap for the canonical source repository
- * @copyright https://github.com/laminas/laminas-soap/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-soap/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Soap\AutoDiscover\DiscoveryStrategy;
 
 use Laminas\Server\Reflection\AbstractFunction;
@@ -21,7 +15,6 @@ class ReflectionDiscovery implements DiscoveryStrategyInterface
     /**
      * Returns description from phpdoc block
      *
-     * @param  AbstractFunction $function
      * @return string
      */
     public function getFunctionDocumentation(AbstractFunction $function)
@@ -32,7 +25,6 @@ class ReflectionDiscovery implements DiscoveryStrategyInterface
     /**
      * Return parameter type
      *
-     * @param  ReflectionParameter $param
      * @return string
      */
     public function getFunctionParameterType(ReflectionParameter $param)
@@ -43,8 +35,6 @@ class ReflectionDiscovery implements DiscoveryStrategyInterface
     /**
      * Return function return type
      *
-     * @param  AbstractFunction $function
-     * @param  Prototype        $prototype
      * @return string
      */
     public function getFunctionReturnType(AbstractFunction $function, Prototype $prototype)
@@ -55,12 +45,10 @@ class ReflectionDiscovery implements DiscoveryStrategyInterface
     /**
      * Return true if function is one way (return nothing)
      *
-     * @param  AbstractFunction $function
-     * @param  Prototype        $prototype
      * @return bool
      */
     public function isFunctionOneWay(AbstractFunction $function, Prototype $prototype)
     {
-        return $prototype->getReturnType() == 'void';
+        return $prototype->getReturnType() === 'void';
     }
 }
