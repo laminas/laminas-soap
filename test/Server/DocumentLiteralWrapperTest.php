@@ -7,6 +7,7 @@ use Laminas\Soap\Server;
 use Laminas\Soap\Server\DocumentLiteralWrapper;
 use LaminasTest\Soap\TestAsset\MyCalculatorService;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 
 use function ini_set;
 
@@ -32,7 +33,7 @@ class DocumentLiteralWrapperTest extends TestCase
         $client = new SoapClient($server, __DIR__ . self::WSDL);
         $ret    = $client->add(['x' => 10, 'y' => 20]);
 
-        $this->assertInstanceOf('stdClass', $ret);
+        $this->assertInstanceOf(stdClass::class, $ret);
         $this->assertEquals(30, $ret->addResult);
     }
 }
