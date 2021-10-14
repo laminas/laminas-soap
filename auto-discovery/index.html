@@ -347,7 +347,7 @@ $wsdl-&gt;dump("/path/to/file.wsdl");
 $dom = $wsdl-&gt;toDomDocument();</code></pre>
 <!-- markdownlint-disable-next-line MD001 -->
 <blockquote>
-<h3>AutoDiscover !== Server</h3>
+<h3 id="autodiscover-server">AutoDiscover !== Server</h3>
 <p><code>AutoDiscover</code> <em>is not a <code>Server</code> instance</em>; it cannot and does not act as a
 SOAP server on its own, but instead provides the WSDL used by clients that
 will interact with your SOAP server.</p>
@@ -448,7 +448,7 @@ following mapping:</p>
 <li><code>tns:</code> is the "target namespace" for the service.</li>
 </ul>
 <blockquote>
-<h3>Complex type discovery</h3>
+<h3 id="complex-type-discovery">Complex type discovery</h3>
 <p><code>Laminas\Soap\AutoDiscover</code> will be created with the
 <code>Laminas\Soap\Wsdl\ComplexTypeStrategy\DefaultComplexType</code> class as its detection
 algorithm for complex types. The first parameter of the <code>AutoDiscover</code>
@@ -508,16 +508,6 @@ $wsdl = $autodiscover-&gt;generate();</code></pre>
 </nav>
 
 
-
-
-    <div class="help-wanted">
-        <p>
-            Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/laminas/laminas-soap/edit/master/doc/book/auto-discovery.md" target="_blank" class="help-wanted__link">
-                Edit this page on GitHub!
-            </a>
-        </p>
-    </div>
 
                 
             </div>

@@ -355,7 +355,7 @@ parameter name) =&gt; 'part type' pairs.</p>
 <p>Type mapping management is performed using one of the <code>addTypes()</code> and
 <code>addComplexType()</code> methods (see below).</p>
 <blockquote>
-<h3>Message Typing</h3>
+<h3 id="message-typing">Message Typing</h3>
 <p>Messages parts can use either the <code>element</code> or <code>type</code> attribute for typing (see
 <a href="http://www.w3.org/TR/wsdl#_messages">the W3C WSDL specification</a>).</p>
 <p>The <code>element</code> attribute must refer to a corresponding element in the data type
@@ -386,7 +386,7 @@ function (if the web service is based on a set of methods).</p>
 <p>It also adds corresponding port operation messages depending on the specified
 <code>$input</code>, <code>$output</code> and <code>$fault</code> parameters.</p>
 <blockquote>
-<h3>Generated messages</h3>
+<h3 id="generated-messages">Generated messages</h3>
 <p><code>Laminas\Soap\Server</code> generates two messages for each port operation when
 describing operations it provides:</p>
 <ul>
@@ -490,7 +490,7 @@ and SOAP types:</p>
 <li><code>tns:</code> is the "target namespace" for the service.</li>
 </ul>
 <blockquote>
-<h3>Complex types</h3>
+<h3 id="complex-types">Complex types</h3>
 <p>By default, <code>Laminas\Soap\Wsdl</code> will be created with the
 <code>Laminas\Soap\Wsdl\ComplexTypeStrategy\DefaultComplexType</code> class as its detection
 algorithm for complex types. The first parameter of the <code>AutoDiscover</code>
@@ -504,7 +504,7 @@ following way:</p>
 <li>If <code>FALSE</code>, <code>Laminas\Soap\Wsdl\ComplexTypeStrategy\AnyType</code> is used.</li>
 </ul>
 </blockquote>
-<h3>Retrieving type information</h3>
+<h3 id="retrieving-type-information">Retrieving type information</h3>
 <p>The <code>getType($type)</code> method may be used to retrieve the mapping for a specified
 PHP type:</p>
 <pre class="highlight"><code class="language-php">$wsdl = new Laminas\Soap\Wsdl('My_Web_Service', $myWebServiceUri);
@@ -516,7 +516,7 @@ class MyClass
 }
 
 $soapMyClassType = $wsdl-&gt;getType('MyClass');</code></pre>
-<h3>Adding complex type information</h3>
+<h3 id="adding-complex-type-information">Adding complex type information</h3>
 <p>The <code>addComplexType($type)</code> method is used to add complex types (PHP classes) to
 a WSDL document.</p>
 <p>The method is automatically used by the <code>getType()</code> method to add corresponding
@@ -614,16 +614,6 @@ $wsdl = new Laminas\Soap\Wsdl('MyService', $myWebServiceUri, $strategy);</code><
 </nav>
 
 
-
-
-    <div class="help-wanted">
-        <p>
-            Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/laminas/laminas-soap/edit/master/doc/book/wsdl.md" target="_blank" class="help-wanted__link">
-                Edit this page on GitHub!
-            </a>
-        </p>
-    </div>
 
                 
             </div>
