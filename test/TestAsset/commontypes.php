@@ -599,8 +599,8 @@ class Anything
 
 class PublicPrivateProtected
 {
-    public const PROTECTED_VAR_NAME = 'bar';
-    public const PRIVATE_VAR_NAME = 'baz';
+    const PROTECTED_VAR_NAME = 'bar';
+    const PRIVATE_VAR_NAME = 'baz';
 
     /**
      * @var string
@@ -612,7 +612,10 @@ class PublicPrivateProtected
      */
     protected $bar;
 
-    private string $baz;
+    /**
+     * @var string
+     */
+    private $baz;
 }
 
 class errorClass
