@@ -37,7 +37,9 @@
         "laminas/laminas-config": "^3.7",
         "laminas/laminas-http": "^2.15",
         "phpspec/prophecy-phpunit": "^2.0.1",
-        "phpunit/phpunit": "^9.5.5"
+        "phpunit/phpunit": "^9.5.5",
+        "psalm/plugin-phpunit": "^0.18.3",
+        "vimeo/psalm": "^4.30"
     },
     "suggest": {
         "ext-curl": "Curl is required when .NET compatibility is required",
