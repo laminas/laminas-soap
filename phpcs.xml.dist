@@ -19,5 +19,22 @@
     <exclude-pattern>*/TestAsset/*</exclude-pattern>
 
     <!-- Include all rules from Laminas Coding Standard -->
-    <rule ref="LaminasCodingStandard"/>
+    <rule ref="LaminasCodingStandard">
+        <!--
+        declare(strict_types=1) is too risky for a security-only component,
+        and should only be reconsidered once this package receives new feature work.
+        -->
+        <exclude name="SlevomatCodingStandard.TypeHints.DeclareStrictTypes.DeclareStrictTypesMissing"/>
+
+        <!--
+            Function libxml_disable_entity_loader() has been deprecated
+        -->
+        <exclude name="Generic.PHP.DeprecatedFunctions.Deprecate"/>
+        <exclude name="Generic.PHP.DeprecatedFunctions.Deprecated"/>
+
+        <!--
+            Class name referenced via call of function get_class()
+        -->
+        <exclude name="SlevomatCodingStandard.Classes.ModernClassNameReference.ClassNameReferencedViaFunctionCall"/>
+    </rule>
 </ruleset>
