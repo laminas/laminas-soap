@@ -1,0 +1,1462 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="4.30.0@d0bc6e25d89f649e4f36a534f330f8bb4643dd69">
+  <file src="src/AutoDiscover.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$wsdl</code>
+    </ArgumentTypeCoercion>
+    <DocblockTypeContradiction occurrences="5">
+      <code>! is_string($wsdlClass)</code>
+      <code>$this-&gt;uri === null</code>
+      <code>is_array($classMap)</code>
+      <code>is_array($function)</code>
+      <code>is_string($this-&gt;uri)</code>
+    </DocblockTypeContradiction>
+    <ImplicitToStringCast occurrences="1">
+      <code>$uri</code>
+    </ImplicitToStringCast>
+    <InvalidPropertyAssignmentValue occurrences="3">
+      <code>$strategy</code>
+      <code>$uri</code>
+      <code>Uri\UriFactory::factory($this-&gt;uri)</code>
+    </InvalidPropertyAssignmentValue>
+    <InvalidReturnStatement occurrences="1">
+      <code>$this-&gt;uri</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType occurrences="1">
+      <code>Uri\Uri</code>
+    </InvalidReturnType>
+    <InvalidScalarArgument occurrences="1">
+      <code>$filename</code>
+    </InvalidScalarArgument>
+    <InvalidStringClass occurrences="1">
+      <code>new $this-&gt;wsdlClass($serviceName, $uri, $this-&gt;strategy, $this-&gt;classMap)</code>
+    </InvalidStringClass>
+    <LessSpecificReturnStatement occurrences="1">
+      <code>$wsdl</code>
+    </LessSpecificReturnStatement>
+    <MismatchingDocblockParamType occurrences="1">
+      <code>null|array</code>
+    </MismatchingDocblockParamType>
+    <MissingReturnType occurrences="2">
+      <code>addFunctionToWsdl</code>
+      <code>handle</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="9">
+      <code>$binding</code>
+      <code>$func</code>
+      <code>$function-&gt;getName()</code>
+      <code>$function-&gt;getName()</code>
+      <code>$method</code>
+      <code>$port</code>
+      <code>$row</code>
+      <code>$this-&gt;uri</code>
+      <code>$wsdlClass</code>
+    </MixedArgument>
+    <MixedArrayOffset occurrences="1">
+      <code>$args[$param-&gt;getName()]</code>
+    </MixedArrayOffset>
+    <MixedAssignment occurrences="5">
+      <code>$binding</code>
+      <code>$func</code>
+      <code>$method</code>
+      <code>$port</code>
+      <code>$row</code>
+    </MixedAssignment>
+    <MixedInferredReturnType occurrences="1">
+      <code>string</code>
+    </MixedInferredReturnType>
+    <MixedMethodCall occurrences="5">
+      <code>addBinding</code>
+      <code>addPortType</code>
+      <code>addSchemaTypeSection</code>
+      <code>addService</code>
+      <code>addSoapBinding</code>
+    </MixedMethodCall>
+    <MixedReturnStatement occurrences="1">
+      <code>$this-&gt;reflection-&gt;reflectClass($this-&gt;class)-&gt;getShortName()</code>
+    </MixedReturnStatement>
+    <MoreSpecificReturnType occurrences="1">
+      <code>Wsdl</code>
+    </MoreSpecificReturnType>
+    <PossiblyNullArgument occurrences="1">
+      <code>$classMap</code>
+    </PossiblyNullArgument>
+    <PropertyNotSetInConstructor occurrences="4">
+      <code>$class</code>
+      <code>$serviceName</code>
+      <code>$strategy</code>
+      <code>$uri</code>
+    </PropertyNotSetInConstructor>
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>is_string($function)</code>
+    </RedundantConditionGivenDocblockType>
+  </file>
+  <file src="src/Client.php">
+    <DeprecatedInterface occurrences="1">
+      <code>Client</code>
+    </DeprecatedInterface>
+    <DocblockTypeContradiction occurrences="7">
+      <code>! is_resource($context)</code>
+      <code>$this-&gt;getWSDL() === null</code>
+      <code>$this-&gt;getWSDL() === null</code>
+      <code>$this-&gt;soapClient === null</code>
+      <code>$wsdl === null</code>
+      <code>is_array($arguments)</code>
+      <code>is_string($encoding)</code>
+    </DocblockTypeContradiction>
+    <InvalidNullableReturnType occurrences="6">
+      <code>array</code>
+      <code>array</code>
+      <code>string</code>
+      <code>string</code>
+      <code>string</code>
+      <code>string</code>
+    </InvalidNullableReturnType>
+    <InvalidPropertyAssignmentValue occurrences="4">
+      <code>$context</code>
+      <code>$style</code>
+      <code>$use</code>
+      <code>(int) $proxyPort</code>
+    </InvalidPropertyAssignmentValue>
+    <InvalidReturnStatement occurrences="4">
+      <code>$this-&gt;proxyPort</code>
+      <code>$this-&gt;streamContext</code>
+      <code>$this-&gt;style</code>
+      <code>$this-&gt;use</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType occurrences="4">
+      <code>int</code>
+      <code>int</code>
+      <code>int</code>
+      <code>resource</code>
+    </InvalidReturnType>
+    <InvalidThrow occurrences="1">
+      <code>Exception\ExceptionInterface</code>
+    </InvalidThrow>
+    <MissingReturnType occurrences="1">
+      <code>initSoapClientObject</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="28">
+      <code>$class</code>
+      <code>$result</code>
+      <code>$type['type_name']</code>
+      <code>$type['type_name']</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion occurrences="1">
+      <code>$key</code>
+    </MixedArgumentTypeCoercion>
+    <MixedArrayAccess occurrences="4">
+      <code>$type['from_xml']</code>
+      <code>$type['to_xml']</code>
+      <code>$type['type_name']</code>
+      <code>$type['type_name']</code>
+    </MixedArrayAccess>
+    <MixedAssignment occurrences="6">
+      <code>$options['classmap']</code>
+      <code>$result</code>
+      <code>$this-&gt;connectionTimeout</code>
+      <code>$type</code>
+      <code>$value</code>
+      <code>$value</code>
+    </MixedAssignment>
+    <MixedOperand occurrences="1">
+      <code>$class</code>
+    </MixedOperand>
+    <NullableReturnStatement occurrences="6">
+      <code>$soapClient-&gt;__getFunctions()</code>
+      <code>$soapClient-&gt;__getTypes()</code>
+      <code>$this-&gt;soapClient-&gt;__getLastRequest()</code>
+      <code>$this-&gt;soapClient-&gt;__getLastRequestHeaders()</code>
+      <code>$this-&gt;soapClient-&gt;__getLastResponse()</code>
+      <code>$this-&gt;soapClient-&gt;__getLastResponseHeaders()</code>
+    </NullableReturnStatement>
+    <PossiblyInvalidPropertyAssignmentValue occurrences="1">
+      <code>$feature</code>
+    </PossiblyInvalidPropertyAssignmentValue>
+    <PossiblyNullPropertyAssignmentValue occurrences="23">
+      <code>$this-&gt;soapOutputHeaders</code>
+      <code>null</code>
+      <code>null</code>
+      <code>null</code>
+      <code>null</code>
+      <code>null</code>
+      <code>null</code>
+      <code>null</code>
+      <code>null</code>
+      <code>null</code>
+      <code>null</code>
+      <code>null</code>
+      <code>null</code>
+      <code>null</code>
+      <code>null</code>
+      <code>null</code>
+      <code>null</code>
+      <code>null</code>
+      <code>null</code>
+      <code>null</code>
+      <code>null</code>
+      <code>null</code>
+      <code>null</code>
+    </PossiblyNullPropertyAssignmentValue>
+    <PropertyNotSetInConstructor occurrences="24">
+      <code>$cacheWsdl</code>
+      <code>$classmap</code>
+      <code>$compression</code>
+      <code>$connectionTimeout</code>
+      <code>$features</code>
+      <code>$keepAlive</code>
+      <code>$localCert</code>
+      <code>$location</code>
+      <code>$login</code>
+      <code>$passphrase</code>
+      <code>$password</code>
+      <code>$proxyHost</code>
+      <code>$proxyLogin</code>
+      <code>$proxyPassword</code>
+      <code>$proxyPort</code>
+      <code>$soapClient</code>
+      <code>$sslMethod</code>
+      <code>$streamContext</code>
+      <code>$style</code>
+      <code>$typemap</code>
+      <code>$uri</code>
+      <code>$use</code>
+      <code>$userAgent</code>
+      <code>$wsdl</code>
+    </PropertyNotSetInConstructor>
+    <RedundantCastGivenDocblockType occurrences="4">
+      <code>(bool) $keepAlive</code>
+      <code>(int) $compressionOptions</code>
+      <code>(int) $proxyPort</code>
+      <code>(string) $userAgent</code>
+    </RedundantCastGivenDocblockType>
+    <RedundantConditionGivenDocblockType occurrences="4">
+      <code>$this-&gt;soapClient !== null</code>
+      <code>$this-&gt;soapClient !== null</code>
+      <code>$this-&gt;soapClient !== null</code>
+      <code>$this-&gt;soapClient !== null</code>
+    </RedundantConditionGivenDocblockType>
+  </file>
+  <file src="src/Client/Common.php">
+    <ImplementedParamTypeMismatch occurrences="1">
+      <code>$oneWay</code>
+    </ImplementedParamTypeMismatch>
+  </file>
+  <file src="src/Client/DotNet.php">
+    <DeprecatedInterface occurrences="1">
+      <code>DotNet</code>
+    </DeprecatedInterface>
+    <DocblockTypeContradiction occurrences="1">
+      <code>$this-&gt;curlClient === null</code>
+    </DocblockTypeContradiction>
+    <ImplementedParamTypeMismatch occurrences="1">
+      <code>$result</code>
+    </ImplementedParamTypeMismatch>
+    <InvalidArgument occurrences="1">
+      <code>$options</code>
+    </InvalidArgument>
+    <InvalidPropertyAssignmentValue occurrences="1">
+      <code>$options</code>
+    </InvalidPropertyAssignmentValue>
+    <LessSpecificImplementedReturnType occurrences="1">
+      <code>mixed</code>
+    </LessSpecificImplementedReturnType>
+    <LessSpecificReturnStatement occurrences="1">
+      <code>parent::setOptions($options)</code>
+    </LessSpecificReturnStatement>
+    <MixedArgument occurrences="2">
+      <code>$this-&gt;options['login']</code>
+      <code>$this-&gt;options['password']</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="1">
+      <code>$value</code>
+    </MixedAssignment>
+    <MixedInferredReturnType occurrences="1">
+      <code>string</code>
+    </MixedInferredReturnType>
+    <MixedOperand occurrences="1">
+      <code>$value</code>
+    </MixedOperand>
+    <MixedReturnStatement occurrences="1"/>
+    <MoreSpecificReturnType occurrences="1">
+      <code>self</code>
+    </MoreSpecificReturnType>
+    <PossiblyNullArgument occurrences="1">
+      <code>$uri-&gt;getHost()</code>
+    </PossiblyNullArgument>
+    <PropertyNotSetInConstructor occurrences="25">
+      <code>$curlClient</code>
+      <code>DotNet</code>
+      <code>DotNet</code>
+      <code>DotNet</code>
+      <code>DotNet</code>
+      <code>DotNet</code>
+      <code>DotNet</code>
+      <code>DotNet</code>
+      <code>DotNet</code>
+      <code>DotNet</code>
+      <code>DotNet</code>
+      <code>DotNet</code>
+      <code>DotNet</code>
+      <code>DotNet</code>
+      <code>DotNet</code>
+      <code>DotNet</code>
+      <code>DotNet</code>
+      <code>DotNet</code>
+      <code>DotNet</code>
+      <code>DotNet</code>
+      <code>DotNet</code>
+      <code>DotNet</code>
+      <code>DotNet</code>
+      <code>DotNet</code>
+      <code>DotNet</code>
+    </PropertyNotSetInConstructor>
+    <UndefinedInterfaceMethod occurrences="1">
+      <code>$options</code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="src/Client/Local.php">
+    <DeprecatedInterface occurrences="1">
+      <code>Local</code>
+    </DeprecatedInterface>
+    <PropertyNotSetInConstructor occurrences="24">
+      <code>Local</code>
+      <code>Local</code>
+      <code>Local</code>
+      <code>Local</code>
+      <code>Local</code>
+      <code>Local</code>
+      <code>Local</code>
+      <code>Local</code>
+      <code>Local</code>
+      <code>Local</code>
+      <code>Local</code>
+      <code>Local</code>
+      <code>Local</code>
+      <code>Local</code>
+      <code>Local</code>
+      <code>Local</code>
+      <code>Local</code>
+      <code>Local</code>
+      <code>Local</code>
+      <code>Local</code>
+      <code>Local</code>
+      <code>Local</code>
+      <code>Local</code>
+      <code>Local</code>
+    </PropertyNotSetInConstructor>
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>$serverResponse !== null</code>
+    </RedundantConditionGivenDocblockType>
+    <TypeDoesNotContainNull occurrences="2">
+      <code>$response === null</code>
+      <code>$response === null</code>
+    </TypeDoesNotContainNull>
+  </file>
+  <file src="src/Server.php">
+    <ArgumentTypeCoercion occurrences="6">
+      <code>$class</code>
+      <code>$fault</code>
+      <code>$this-&gt;class</code>
+      <code>$xml</code>
+      <code>$xml</code>
+      <code>'Exception'</code>
+    </ArgumentTypeCoercion>
+    <DeprecatedInterface occurrences="1">
+      <code>Server</code>
+    </DeprecatedInterface>
+    <DocblockTypeContradiction occurrences="7">
+      <code>$function === SOAP_FUNCTIONS_ALL</code>
+      <code>$function === SOAP_FUNCTIONS_ALL</code>
+      <code>is_array($classmap)</code>
+      <code>is_array($typeMap)</code>
+      <code>is_object($object)</code>
+      <code>is_string($class)</code>
+      <code>is_string($encoding)</code>
+    </DocblockTypeContradiction>
+    <ImplementedParamTypeMismatch occurrences="1">
+      <code>$code</code>
+    </ImplementedParamTypeMismatch>
+    <ImplementedReturnTypeMismatch occurrences="4">
+      <code>self</code>
+      <code>self</code>
+      <code>self</code>
+      <code>self</code>
+    </ImplementedReturnTypeMismatch>
+    <ImplicitToStringCast occurrences="2">
+      <code>$fault</code>
+      <code>void|string</code>
+    </ImplicitToStringCast>
+    <InvalidReturnStatement occurrences="1">
+      <code>$displayErrorsOriginalState</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType occurrences="1">
+      <code>bool</code>
+    </InvalidReturnType>
+    <InvalidScalarArgument occurrences="1">
+      <code>$code</code>
+    </InvalidScalarArgument>
+    <MissingReturnType occurrences="1">
+      <code>handlePhpErrors</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="15">
+      <code>$class</code>
+      <code>$row</code>
+      <code>$type['type_name']</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$value</code>
+      <code>$xml</code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion occurrences="2">
+      <code>$key</code>
+      <code>[$this, 'handlePhpErrors']</code>
+    </MixedArgumentTypeCoercion>
+    <MixedArrayAccess occurrences="4">
+      <code>$type['from_xml']</code>
+      <code>$type['to_xml']</code>
+      <code>$type['type_name']</code>
+      <code>$type['type_name']</code>
+    </MixedArrayAccess>
+    <MixedAssignment occurrences="6">
+      <code>$func</code>
+      <code>$options['classmap']</code>
+      <code>$row</code>
+      <code>$type</code>
+      <code>$value</code>
+      <code>$xml</code>
+    </MixedAssignment>
+    <MixedInferredReturnType occurrences="1">
+      <code>null|string|int|bool</code>
+    </MixedInferredReturnType>
+    <MixedOperand occurrences="1">
+      <code>$type['type_name']</code>
+    </MixedOperand>
+    <MixedReturnStatement occurrences="1">
+      <code>$this-&gt;wsdlCache</code>
+    </MixedReturnStatement>
+    <MoreSpecificImplementedParamType occurrences="3">
+      <code>$class</code>
+      <code>$fault</code>
+      <code>$request</code>
+    </MoreSpecificImplementedParamType>
+    <PossiblyInvalidArrayAssignment occurrences="2">
+      <code>$this-&gt;functions[]</code>
+      <code>$this-&gt;functions[]</code>
+    </PossiblyInvalidArrayAssignment>
+    <PossiblyInvalidPropertyAssignmentValue occurrences="1">
+      <code>$feature</code>
+    </PossiblyInvalidPropertyAssignmentValue>
+    <PossiblyNullArgument occurrences="1">
+      <code>$fault-&gt;faultcode</code>
+    </PossiblyNullArgument>
+    <PossiblyNullPropertyAssignmentValue occurrences="2">
+      <code>$xml</code>
+      <code>is_string($fault) ? new Exception($fault) : $fault</code>
+    </PossiblyNullPropertyAssignmentValue>
+    <PossiblyNullReference occurrences="1">
+      <code>saveXML</code>
+    </PossiblyNullReference>
+    <PropertyNotSetInConstructor occurrences="16">
+      <code>$actor</code>
+      <code>$caughtException</code>
+      <code>$class</code>
+      <code>$classmap</code>
+      <code>$encoding</code>
+      <code>$features</code>
+      <code>$object</code>
+      <code>$parseHuge</code>
+      <code>$persistence</code>
+      <code>$request</code>
+      <code>$response</code>
+      <code>$sendErrors</code>
+      <code>$server</code>
+      <code>$typemap</code>
+      <code>$uri</code>
+      <code>$wsdl</code>
+    </PropertyNotSetInConstructor>
+    <RedundantCastGivenDocblockType occurrences="3">
+      <code>(bool) $flag</code>
+      <code>(bool) $parseHuge</code>
+      <code>(bool) $sendErrors</code>
+    </RedundantCastGivenDocblockType>
+    <RedundantConditionGivenDocblockType occurrences="16">
+      <code>$this-&gt;server instanceof SoapServer</code>
+      <code>is_string($class)</code>
+      <code>is_string($function)</code>
+      <code>is_string($request)</code>
+      <code>null !== $this-&gt;actor</code>
+      <code>null !== $this-&gt;class</code>
+      <code>null !== $this-&gt;classmap</code>
+      <code>null !== $this-&gt;encoding</code>
+      <code>null !== $this-&gt;features</code>
+      <code>null !== $this-&gt;object</code>
+      <code>null !== $this-&gt;parseHuge</code>
+      <code>null !== $this-&gt;persistence</code>
+      <code>null !== $this-&gt;sendErrors</code>
+      <code>null !== $this-&gt;soapVersion</code>
+      <code>null !== $this-&gt;typemap</code>
+      <code>null !== $this-&gt;uri</code>
+    </RedundantConditionGivenDocblockType>
+    <RedundantPropertyInitializationCheck occurrences="2">
+      <code>isset($this-&gt;class)</code>
+      <code>isset($this-&gt;object)</code>
+    </RedundantPropertyInitializationCheck>
+    <TypeDoesNotContainType occurrences="1">
+      <code>'Exception' === $class</code>
+    </TypeDoesNotContainType>
+    <UndefinedMethod occurrences="1">
+      <code>__toString</code>
+    </UndefinedMethod>
+  </file>
+  <file src="src/Server/DocumentLiteralWrapper.php">
+    <MissingReturnType occurrences="2">
+      <code>assertOnlyOneArgument</code>
+      <code>assertServiceDelegateHasMethod</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="1">
+      <code>$args[0]</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="3">
+      <code>$argValue</code>
+      <code>$delegateArgs[$params[$argName]-&gt;getPosition()]</code>
+      <code>$ret</code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Wsdl.php">
+    <DocblockTypeContradiction occurrences="5">
+      <code>$inputNode === $this</code>
+      <code>$inputNode === $this</code>
+      <code>$this-&gt;schema === null</code>
+      <code>$this-&gt;schema === null</code>
+      <code>is_array($element)</code>
+    </DocblockTypeContradiction>
+    <InvalidNullableReturnType occurrences="2">
+      <code>ComplexTypeStrategy</code>
+      <code>string</code>
+    </InvalidNullableReturnType>
+    <InvalidScalarArgument occurrences="1">
+      <code>$filename</code>
+    </InvalidScalarArgument>
+    <MismatchingDocblockParamType occurrences="1">
+      <code>null|array</code>
+    </MismatchingDocblockParamType>
+    <MixedArgument occurrences="9">
+      <code>$attributeValue</code>
+      <code>$child</code>
+      <code>$child</code>
+      <code>$doc</code>
+      <code>$docCData</code>
+      <code>$node-&gt;firstChild</code>
+      <code>$subElement</code>
+      <code>$value</code>
+      <code>$value</code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion occurrences="5">
+      <code>$attributeName</code>
+      <code>$attributeName</code>
+      <code>$key</code>
+      <code>$key</code>
+      <code>$name</code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment occurrences="10">
+      <code>$attributeValue</code>
+      <code>$child</code>
+      <code>$child</code>
+      <code>$doc</code>
+      <code>$doc</code>
+      <code>$docCData</code>
+      <code>$node</code>
+      <code>$subElement</code>
+      <code>$type</code>
+      <code>$value</code>
+    </MixedAssignment>
+    <MixedInferredReturnType occurrences="4">
+      <code>DOMElement</code>
+      <code>string</code>
+      <code>string</code>
+      <code>string</code>
+    </MixedInferredReturnType>
+    <MixedMethodCall occurrences="9">
+      <code>appendChild</code>
+      <code>appendChild</code>
+      <code>appendChild</code>
+      <code>createElementNS</code>
+      <code>createElementNS</code>
+      <code>createElementNS</code>
+      <code>createTextNode</code>
+      <code>hasChildNodes</code>
+      <code>insertBefore</code>
+    </MixedMethodCall>
+    <MixedOperand occurrences="1">
+      <code>$element['name']</code>
+    </MixedOperand>
+    <MixedPropertyFetch occurrences="3">
+      <code>$node-&gt;firstChild</code>
+      <code>$node-&gt;namespaceURI</code>
+      <code>$this-&gt;dom-&gt;documentElement</code>
+    </MixedPropertyFetch>
+    <MixedReturnStatement occurrences="4">
+      <code>$doc</code>
+      <code>$this-&gt;classMap[$type]</code>
+      <code>$this-&gt;includedTypes[$type]</code>
+      <code>$value</code>
+    </MixedReturnStatement>
+    <NullableReturnStatement occurrences="2">
+      <code>$targetNamespace</code>
+      <code>$this-&gt;strategy</code>
+    </NullableReturnStatement>
+    <PossiblyNullArgument occurrences="2">
+      <code>$node-&gt;nodeValue</code>
+      <code>$uri</code>
+    </PossiblyNullArgument>
+    <PossiblyNullPropertyAssignmentValue occurrences="1">
+      <code>$classMap</code>
+    </PossiblyNullPropertyAssignmentValue>
+    <PossiblyNullReference occurrences="1">
+      <code>createAttribute</code>
+    </PossiblyNullReference>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>$schema</code>
+    </PropertyNotSetInConstructor>
+    <RedundantConditionGivenDocblockType occurrences="3">
+      <code>$this-&gt;dom instanceof DOMDocument</code>
+      <code>$this-&gt;wsdl !== null</code>
+      <code>$types instanceof DOMNode || $types instanceof DOMElement || $types instanceof DOMDocumentFragment</code>
+    </RedundantConditionGivenDocblockType>
+    <UndefinedThisPropertyFetch occurrences="1">
+      <code>$this-&gt;dom</code>
+    </UndefinedThisPropertyFetch>
+  </file>
+  <file src="src/Wsdl/ComplexTypeStrategy/AbstractComplexTypeStrategy.php">
+    <MissingConstructor occurrences="6">
+      <code>$context</code>
+      <code>$context</code>
+      <code>$context</code>
+      <code>$documentationStrategy</code>
+      <code>$documentationStrategy</code>
+      <code>$documentationStrategy</code>
+    </MissingConstructor>
+    <MissingReturnType occurrences="1">
+      <code>setContext</code>
+    </MissingReturnType>
+    <MixedInferredReturnType occurrences="1">
+      <code>null|string</code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement occurrences="1">
+      <code>$soapTypes[$phpType]</code>
+    </MixedReturnStatement>
+  </file>
+  <file src="src/Wsdl/ComplexTypeStrategy/AnyType.php">
+    <MissingReturnType occurrences="1">
+      <code>setContext</code>
+    </MissingReturnType>
+  </file>
+  <file src="src/Wsdl/ComplexTypeStrategy/ArrayOfTypeSequence.php">
+    <InvalidScalarArgument occurrences="1">
+      <code>0</code>
+    </InvalidScalarArgument>
+    <MissingReturnType occurrences="1">
+      <code>addSequenceType</code>
+    </MissingReturnType>
+    <PossiblyFalseOperand occurrences="1">
+      <code>strpos($arrayType, ':')</code>
+    </PossiblyFalseOperand>
+  </file>
+  <file src="src/Wsdl/ComplexTypeStrategy/ComplexTypeStrategyInterface.php">
+    <MissingReturnType occurrences="1">
+      <code>setContext</code>
+    </MissingReturnType>
+  </file>
+  <file src="src/Wsdl/ComplexTypeStrategy/Composite.php">
+    <DocblockTypeContradiction occurrences="1">
+      <code>is_string($type)</code>
+    </DocblockTypeContradiction>
+    <MixedArgument occurrences="1">
+      <code>$strategy</code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion occurrences="1">
+      <code>$type</code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment occurrences="1">
+      <code>$strategy</code>
+    </MixedAssignment>
+    <MixedMethodCall occurrences="2">
+      <code>new $strategy()</code>
+      <code>new $strategy()</code>
+    </MixedMethodCall>
+  </file>
+  <file src="test/AutoDiscover/OnlineTest.php">
+    <MissingReturnType occurrences="2">
+      <code>testNestedObjectArrayResponse</code>
+      <code>testObjectResponse</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="2">
+      <code>$ret</code>
+      <code>$ret[0]-&gt;baz</code>
+    </MixedArgument>
+    <MixedArrayAccess occurrences="9">
+      <code>$baz[0]</code>
+      <code>$baz[0]</code>
+      <code>$baz[1]</code>
+      <code>$baz[1]</code>
+      <code>$baz[2]</code>
+      <code>$baz[2]</code>
+      <code>$ret[0]</code>
+      <code>$ret[0]</code>
+      <code>$ret[0]</code>
+    </MixedArrayAccess>
+    <MixedAssignment occurrences="3">
+      <code>$b</code>
+      <code>$baz</code>
+      <code>$ret</code>
+    </MixedAssignment>
+    <MixedPropertyAssignment occurrences="2">
+      <code>$b</code>
+      <code>$b</code>
+    </MixedPropertyAssignment>
+    <MixedPropertyFetch occurrences="7">
+      <code>$baz[0]-&gt;bar</code>
+      <code>$baz[0]-&gt;foo</code>
+      <code>$baz[1]-&gt;bar</code>
+      <code>$baz[1]-&gt;foo</code>
+      <code>$baz[2]-&gt;bar</code>
+      <code>$baz[2]-&gt;foo</code>
+      <code>$ret[0]-&gt;baz</code>
+    </MixedPropertyFetch>
+    <PossiblyFalsePropertyAssignmentValue occurrences="1">
+      <code>getenv('TESTS_LAMINAS_SOAP_AUTODISCOVER_ONLINE_SERVER_BASEURI')</code>
+    </PossiblyFalsePropertyAssignmentValue>
+    <UndefinedClass occurrences="1">
+      <code>LaminasTest_Soap_TestAsset_ComplexTypeB</code>
+    </UndefinedClass>
+    <UndefinedMethod occurrences="2">
+      <code>assertInternalType</code>
+      <code>assertInternalType</code>
+    </UndefinedMethod>
+  </file>
+  <file src="test/AutoDiscoverTest.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$wsdl-&gt;toXML()</code>
+    </ArgumentTypeCoercion>
+    <InvalidArgument occurrences="2">
+      <code>["bogus"]</code>
+      <code>new stdClass()</code>
+    </InvalidArgument>
+    <InvalidCast occurrences="1">
+      <code>new stdClass()</code>
+    </InvalidCast>
+    <MissingReturnType occurrences="32">
+      <code>assertValidWSDL</code>
+      <code>bindWsdl</code>
+      <code>documentNodesTest</code>
+      <code>testAddFunctionMultiple</code>
+      <code>testAddFunctionSimple</code>
+      <code>testAddFunctionSimpleInReturnNameCompabilityMode</code>
+      <code>testAddFunctionSimpleWithDifferentStyle</code>
+      <code>testAutoDiscoverConstructorStrategy</code>
+      <code>testAutoDiscoverConstructorUri</code>
+      <code>testAutoDiscoverConstructorWsdlClass</code>
+      <code>testAutoDiscoverConstructorWsdlClassException</code>
+      <code>testChangeWsdlUriInConstructor</code>
+      <code>testChangingWsdlUriAfterGenerationIsPossible</code>
+      <code>testClassMap</code>
+      <code>testComplexTypesThatAreUsedMultipleTimesAreRecoginzedOnce</code>
+      <code>testGetDiscoveryStrategy</code>
+      <code>testGetServiceName</code>
+      <code>testGetServiceNameException</code>
+      <code>testGetUriException</code>
+      <code>testHandle</code>
+      <code>testNoReturnIsOneWayCallInAddFunction</code>
+      <code>testNoReturnIsOneWayCallInSetClass</code>
+      <code>testRecursiveWsdlDependencies</code>
+      <code>testReturnSameArrayOfObjectsResponseOnDifferentMethodsWhenArrayComplex</code>
+      <code>testReturnSameArrayOfObjectsResponseOnDifferentMethodsWhenArraySequence</code>
+      <code>testSetClass</code>
+      <code>testSetClassWithDifferentStyles</code>
+      <code>testSetClassWithResponseReturnPartCompabilityMode</code>
+      <code>testSetNonStringNonLaminasUriUriThrowsException</code>
+      <code>testSetServiceName</code>
+      <code>testSetUriException</code>
+      <code>testUsingClassWithMethodsWithMultipleDefaultParameterValues</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="1">
+      <code>$function</code>
+    </MixedArgument>
+    <MixedInferredReturnType occurrences="2">
+      <code>array</code>
+      <code>array</code>
+    </MixedInferredReturnType>
+    <PossiblyNullOperand occurrences="1">
+      <code>$msg</code>
+    </PossiblyNullOperand>
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>empty($documentNamespace)</code>
+    </RedundantConditionGivenDocblockType>
+    <UndefinedMethod occurrences="4">
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+    </UndefinedMethod>
+  </file>
+  <file src="test/Client/DotNetTest.php">
+    <DeprecatedMethod occurrences="1">
+      <code>setMethods</code>
+    </DeprecatedMethod>
+    <MissingClosureParamType occurrences="5">
+      <code>$action</code>
+      <code>$location</code>
+      <code>$oneWay</code>
+      <code>$request</code>
+      <code>$version</code>
+    </MissingClosureParamType>
+    <MixedMethodCall occurrences="6">
+      <code>method</code>
+      <code>method</code>
+      <code>method</code>
+      <code>will</code>
+      <code>with</code>
+      <code>with</code>
+    </MixedMethodCall>
+    <NullArgument occurrences="1">
+      <code>null</code>
+    </NullArgument>
+    <UndefinedMethod occurrences="3">
+      <code>expects</code>
+      <code>expects</code>
+      <code>expects</code>
+    </UndefinedMethod>
+    <UnusedClosureParam occurrences="5">
+      <code>$client</code>
+      <code>$location</code>
+      <code>$oneWay</code>
+      <code>$request</code>
+      <code>$version</code>
+    </UnusedClosureParam>
+  </file>
+  <file src="test/ClientTest.php">
+    <DeprecatedMethod occurrences="2">
+      <code>setMethods</code>
+      <code>setMethods</code>
+    </DeprecatedMethod>
+    <InvalidArgument occurrences="1">
+      <code>'World'</code>
+    </InvalidArgument>
+    <InvalidScalarArgument occurrences="1">
+      <code>$wsdlFilename</code>
+    </InvalidScalarArgument>
+    <MissingReturnType occurrences="18">
+      <code>testAllowNumericZeroAsValueForCacheWsdlOption</code>
+      <code>testAllowNumericZeroAsValueForCompressionOptions</code>
+      <code>testCallDirect</code>
+      <code>testCallDirectWithArgString</code>
+      <code>testCallInvoke</code>
+      <code>testGetAndSetUserAgentOption</code>
+      <code>testGetFunctions</code>
+      <code>testGetLastRequest</code>
+      <code>testGetLastResponse</code>
+      <code>testGetOptions</code>
+      <code>testGetTypes</code>
+      <code>testInitSoapClientObjectException</code>
+      <code>testSetCookieIsDelegatedToSoapClient</code>
+      <code>testSetInputHeaders</code>
+      <code>testSetOptions</code>
+      <code>testSetOptionsWithLaminasConfig</code>
+      <code>testSetSoapClient</code>
+      <code>testUserAgentAllowsEmptyString</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="2">
+      <code>$element</code>
+      <code>$element</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="1">
+      <code>$element</code>
+    </MixedAssignment>
+    <PossiblyNullArgument occurrences="1">
+      <code>$typesArray</code>
+    </PossiblyNullArgument>
+    <PossiblyNullIterator occurrences="1">
+      <code>$typesArray</code>
+    </PossiblyNullIterator>
+  </file>
+  <file src="test/Server/DocumentLiteralWrapperTest.php">
+    <InvalidScalarArgument occurrences="1">
+      <code>0</code>
+    </InvalidScalarArgument>
+    <MissingReturnType occurrences="1">
+      <code>testDelegate</code>
+    </MissingReturnType>
+  </file>
+  <file src="test/ServerTest.php">
+    <InvalidArgument occurrences="8">
+      <code>"bogus"</code>
+      <code>$int</code>
+      <code>$server</code>
+      <code>'bogus'</code>
+      <code>1</code>
+      <code>465</code>
+      <code>['Here', 'There', 'Bogus']</code>
+      <code>['UTF-8']</code>
+    </InvalidArgument>
+    <InvalidCast occurrences="1">
+      <code>['UTF-8']</code>
+    </InvalidCast>
+    <InvalidMethodCall occurrences="2">
+      <code>getMessage</code>
+      <code>getMessage</code>
+    </InvalidMethodCall>
+    <InvalidScalarArgument occurrences="7">
+      <code>$wsdlFilename</code>
+      <code>'bogus'</code>
+      <code>'bogus'</code>
+      <code>126</code>
+      <code>465</code>
+      <code>5000</code>
+      <code>SOAP_FUNCTIONS_ALL</code>
+    </InvalidScalarArgument>
+    <MissingPropertyType occurrences="1">
+      <code>$server-&gt;mockSoapServer</code>
+    </MissingPropertyType>
+    <MissingReturnType occurrences="65">
+      <code>testAddAllFunctionsSoapConstant</code>
+      <code>testAddBogusFunctionAsInteger</code>
+      <code>testAddBogusFunctionsAsArray</code>
+      <code>testAddBogusFunctionsAsString</code>
+      <code>testAddFunction</code>
+      <code>testDebugMode</code>
+      <code>testDeregisterFaultException</code>
+      <code>testDisableEntityLoaderAfterException</code>
+      <code>testEmptyRequest</code>
+      <code>testEncoding</code>
+      <code>testErrorHandlingOfSoapServerChangesToThrowingSoapFaultWhenInHandleMode</code>
+      <code>testFaultWithBogusInput</code>
+      <code>testFaultWithIntegerFailureCodeDoesNotBreakClassSoapFault</code>
+      <code>testFaultWithRegisteredException</code>
+      <code>testFaultWithTextMessage</code>
+      <code>testFaultWithUnregisteredException</code>
+      <code>testGetActor</code>
+      <code>testGetClassmap</code>
+      <code>testGetFunctions</code>
+      <code>testGetFunctionsWithClassAttached</code>
+      <code>testGetFunctionsWithObjectAttached</code>
+      <code>testGetLastRequest</code>
+      <code>testGetLastResponse</code>
+      <code>testGetOptions</code>
+      <code>testGetOriginalCaughtException</code>
+      <code>testGetPersistence</code>
+      <code>testGetReturnResponse</code>
+      <code>testGetSoapInternalInstance</code>
+      <code>testGetUri</code>
+      <code>testGetWsdl</code>
+      <code>testHandle</code>
+      <code>testHandlePhpErrors</code>
+      <code>testHandleUsesProperRequestParameter</code>
+      <code>testIsRegisteredAsFaultException</code>
+      <code>testLoadFunctionsIsNotImplemented</code>
+      <code>testRegisterFaultException</code>
+      <code>testServerAcceptsLaminasConfigObject</code>
+      <code>testSetActor</code>
+      <code>testSetAndGetFeatures</code>
+      <code>testSetAndGetParseHuge</code>
+      <code>testSetAndGetWSDLCache</code>
+      <code>testSetBogusClassWithIntegerName</code>
+      <code>testSetBogusClassWithUnknownClassName</code>
+      <code>testSetClass</code>
+      <code>testSetClassTwiceThrowsException</code>
+      <code>testSetClassWithArguments</code>
+      <code>testSetClassWithObject</code>
+      <code>testSetClassmap</code>
+      <code>testSetClassmapThrowsExceptionOnBogusArrayParameter</code>
+      <code>testSetClassmapThrowsExceptionOnBogusStringParameter</code>
+      <code>testSetObject</code>
+      <code>testSetObjectThrowsExceptionWithBadInput1</code>
+      <code>testSetObjectThrowsExceptionWithBadInput2</code>
+      <code>testSetOptions</code>
+      <code>testSetOptionsViaSecondConstructorArgument</code>
+      <code>testSetOptionsWithFeaturesOption</code>
+      <code>testSetPersistence</code>
+      <code>testSetReturnResponse</code>
+      <code>testSetUnknownPersistenceStateThrowsException</code>
+      <code>testSetUri</code>
+      <code>testSetWsdl</code>
+      <code>testSetWsdlViaOptionsArrayIsPossible</code>
+      <code>testShouldThrowExceptionIfHandledRequestContainsDoctype</code>
+      <code>testSoapVersion</code>
+      <code>testValidateUrn</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="4">
+      <code>$exception</code>
+      <code>$response-&gt;getMessage()</code>
+      <code>$response-&gt;getMessage()</code>
+      <code>$row</code>
+    </MixedArgument>
+    <MixedArrayAccess occurrences="1">
+      <code>$server-&gt;mockSoapServer-&gt;handle[0]</code>
+    </MixedArrayAccess>
+    <MixedAssignment occurrences="3">
+      <code>$exception</code>
+      <code>$row</code>
+      <code>$row</code>
+    </MixedAssignment>
+    <MixedInferredReturnType occurrences="1">
+      <code>array</code>
+    </MixedInferredReturnType>
+    <MixedPropertyFetch occurrences="1">
+      <code>$server-&gt;mockSoapServer-&gt;handle</code>
+    </MixedPropertyFetch>
+    <NullArgument occurrences="2">
+      <code>null</code>
+      <code>null</code>
+    </NullArgument>
+    <PossiblyNullArgument occurrences="1">
+      <code>$response</code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference occurrences="2">
+      <code>getMessage</code>
+      <code>getMessage</code>
+    </PossiblyNullReference>
+    <UnusedVariable occurrences="2">
+      <code>$r</code>
+      <code>$response</code>
+    </UnusedVariable>
+  </file>
+  <file src="test/TestAsset/PropertyDocumentationTestClass.php">
+    <MissingPropertyType occurrences="3">
+      <code>$noDoc</code>
+      <code>$withType</code>
+      <code>$withoutType</code>
+    </MissingPropertyType>
+  </file>
+  <file src="test/TestAsset/WsdlTestClass.php">
+    <MissingConstructor occurrences="2">
+      <code>$var1</code>
+      <code>$var2</code>
+    </MissingConstructor>
+  </file>
+  <file src="test/TestAsset/commontypes.php">
+    <DeprecatedInterface occurrences="1">
+      <code>MockServer</code>
+    </DeprecatedInterface>
+    <InvalidDocblock occurrences="1">
+      <code>public function addMultiple($test)</code>
+    </InvalidDocblock>
+    <InvalidDocblockParamName occurrences="1">
+      <code>$arg</code>
+    </InvalidDocblockParamName>
+    <InvalidReturnStatement occurrences="1">
+      <code>$this-&gt;mockSoapServer</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType occurrences="10">
+      <code>\LaminasTest\Soap\TestAsset\MyResponse[]</code>
+      <code>\LaminasTest\Soap\TestAsset\MyResponse[]</code>
+      <code>\LaminasTest\Soap\TestAsset\MyResponse[]</code>
+      <code>\LaminasTest\Soap\TestAsset\Recursion</code>
+      <code>getSoap</code>
+      <code>integer</code>
+      <code>string[]</code>
+      <code>string[]</code>
+      <code>string[]</code>
+      <code>string[][][]</code>
+    </InvalidReturnType>
+    <LessSpecificReturnStatement occurrences="1">
+      <code>$return</code>
+    </LessSpecificReturnStatement>
+    <MissingConstructor occurrences="14">
+      <code>$bar</code>
+      <code>$bar</code>
+      <code>$baz</code>
+      <code>$foo</code>
+      <code>$foo</code>
+      <code>$object</code>
+      <code>$othervar</code>
+      <code>$p1</code>
+      <code>$property1</code>
+      <code>$property1</code>
+      <code>$property2</code>
+      <code>$property2</code>
+      <code>$recursion</code>
+      <code>$somevar</code>
+    </MissingConstructor>
+    <MissingParamType occurrences="4">
+      <code>$args</code>
+      <code>$name</code>
+      <code>$test</code>
+      <code>$who</code>
+    </MissingParamType>
+    <MissingPropertyType occurrences="2">
+      <code>$handle</code>
+      <code>$mockSoapServer</code>
+    </MissingPropertyType>
+    <MissingReturnType occurrences="6">
+      <code>OneWay</code>
+      <code>TestFunc2</code>
+      <code>addMultiple</code>
+      <code>handle</code>
+      <code>pushOneWay</code>
+      <code>triggerError</code>
+    </MissingReturnType>
+    <MoreSpecificReturnType occurrences="1">
+      <code>stdClass</code>
+    </MoreSpecificReturnType>
+    <PropertyNotSetInConstructor occurrences="16">
+      <code>MockServer</code>
+      <code>MockServer</code>
+      <code>MockServer</code>
+      <code>MockServer</code>
+      <code>MockServer</code>
+      <code>MockServer</code>
+      <code>MockServer</code>
+      <code>MockServer</code>
+      <code>MockServer</code>
+      <code>MockServer</code>
+      <code>MockServer</code>
+      <code>MockServer</code>
+      <code>MockServer</code>
+      <code>MockServer</code>
+      <code>MockServer</code>
+      <code>MockServer</code>
+    </PropertyNotSetInConstructor>
+    <UndefinedDocblockClass occurrences="1">
+      <code>stdClass</code>
+    </UndefinedDocblockClass>
+    <UnusedParam occurrences="1">
+      <code>$message</code>
+    </UnusedParam>
+  </file>
+  <file src="test/TestAsset/fulltests/server1.php">
+    <DuplicateClass occurrences="1">
+      <code>ComplexTypeB</code>
+    </DuplicateClass>
+    <InvalidDocblock occurrences="1">
+      <code>public function request($request)</code>
+    </InvalidDocblock>
+  </file>
+  <file src="test/TestAsset/fulltests/server2.php">
+    <PossiblyUndefinedArrayOffset occurrences="2">
+      <code>$_SERVER['HTTP_HOST']</code>
+      <code>$_SERVER['PHP_SELF']</code>
+    </PossiblyUndefinedArrayOffset>
+  </file>
+  <file src="test/Wsdl/ArrayOfTypeComplexStrategyTest.php">
+    <MissingReturnType occurrences="9">
+      <code>testAddComplexTypeOfNonExistingClassThrowsException</code>
+      <code>testAddingSingularThenArrayTypeIsRecognizedCorretly</code>
+      <code>testAddingTypesMultipleTimesIsSavedOnlyOnce</code>
+      <code>testArrayOfComplexNestedObjectsIsCoveredByStrategyAndAddsAllTypesRecursivly</code>
+      <code>testArrayOfComplexObjects</code>
+      <code>testArrayOfObjectWithObject</code>
+      <code>testArrayOfSimpleObject</code>
+      <code>testNestingObjectsDeepMakesNoSenseThrowingException</code>
+      <code>testThatOverridingStrategyIsReset</code>
+    </MissingReturnType>
+    <UndefinedMethod occurrences="26">
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttributeNS</code>
+      <code>getAttributeNS</code>
+      <code>getAttributeNS</code>
+      <code>getAttributeNS</code>
+    </UndefinedMethod>
+    <UnusedVariable occurrences="1">
+      <code>$return</code>
+    </UnusedVariable>
+  </file>
+  <file src="test/Wsdl/ArrayOfTypeSequenceStrategyTest.php">
+    <InvalidReturnStatement occurrences="1"/>
+    <InvalidReturnType occurrences="1"/>
+    <MissingReturnType occurrences="5">
+      <code>testAddComplexTypeArrayOfObject</code>
+      <code>testAddComplexTypeObject</code>
+      <code>testAddComplexTypeOfNonExistingClassThrowsException</code>
+      <code>testFunctionReturningSimpleArrayOfBasicTypes</code>
+      <code>testNestedTypesDefinitions</code>
+    </MissingReturnType>
+    <MixedAssignment occurrences="1">
+      <code>$typeName</code>
+    </MixedAssignment>
+    <UndefinedMethod occurrences="19">
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+    </UndefinedMethod>
+  </file>
+  <file src="test/Wsdl/CompositeStrategyTest.php">
+    <InvalidArgument occurrences="1">
+      <code>[]</code>
+    </InvalidArgument>
+    <InvalidCast occurrences="1">
+      <code>[]</code>
+    </InvalidCast>
+    <MissingReturnType occurrences="8">
+      <code>testCompositeApiAddingStragiesToTypes</code>
+      <code>testCompositeDelegatesAddingComplexTypesToSubStrategies</code>
+      <code>testCompositeRequiresContextForAddingComplexTypesOtherwiseThrowsException</code>
+      <code>testCompositeThrowsExceptionOnInvalidStrategy</code>
+      <code>testCompositeThrowsExceptionOnInvalidStrategyPart2</code>
+      <code>testCompositeThrowsExceptionOnInvalidType</code>
+      <code>testConstructorTypeMapSyntax</code>
+      <code>testGetDefaultStrategy</code>
+    </MissingReturnType>
+  </file>
+  <file src="test/Wsdl/DefaultComplexTypeTest.php">
+    <MissingReturnType occurrences="3">
+      <code>testDocumentationStrategyCalled</code>
+      <code>testDoubleClassesAreDiscoveredByStrategy</code>
+      <code>testOnlyPublicPropertiesAreDiscoveredByStrategy</code>
+    </MissingReturnType>
+    <NonInvariantDocblockPropertyType occurrences="1">
+      <code>$strategy</code>
+    </NonInvariantDocblockPropertyType>
+  </file>
+  <file src="test/Wsdl/DocumentationStrategy/ReflectionDocumentationTest.php">
+    <MissingReturnType occurrences="4">
+      <code>getGetComplexTypeDocumentationParsesDocComment</code>
+      <code>testGetPropertyDocumentationParsesDocComment</code>
+      <code>testGetPropertyDocumentationReturnsEmptyString</code>
+      <code>testGetPropertyDocumentationSkipsAnnotations</code>
+    </MissingReturnType>
+  </file>
+  <file src="test/WsdlTest.php">
+    <ArgumentTypeCoercion occurrences="2">
+      <code>$content</code>
+      <code>$nodes-&gt;item(0)</code>
+    </ArgumentTypeCoercion>
+    <ImplicitToStringCast occurrences="3">
+      <code>$operationUrl</code>
+      <code>$serviceUrl</code>
+      <code>$uri</code>
+    </ImplicitToStringCast>
+    <InvalidArgument occurrences="2">
+      <code>$this-&gt;wsdl</code>
+      <code>1</code>
+    </InvalidArgument>
+    <InvalidDocblock occurrences="2">
+      <code>public function ampersandInUrlDataProvider(): array</code>
+      <code>public function dataProviderForAddService(): array</code>
+    </InvalidDocblock>
+    <InvalidScalarArgument occurrences="2">
+      <code>$file</code>
+      <code>1</code>
+    </InvalidScalarArgument>
+    <MissingReturnType occurrences="39">
+      <code>checkXMLContent</code>
+      <code>testAddBinding</code>
+      <code>testAddBindingOperation</code>
+      <code>testAddBindingOperationWithAmpersandInUrl</code>
+      <code>testAddComplexMessage</code>
+      <code>testAddComplexType</code>
+      <code>testAddDocumentation</code>
+      <code>testAddDocumentationToSetInsertsBefore</code>
+      <code>testAddDocumentationToSomeElmenet</code>
+      <code>testAddElement</code>
+      <code>testAddElementException</code>
+      <code>testAddMessage</code>
+      <code>testAddPortOperation</code>
+      <code>testAddPortType</code>
+      <code>testAddService</code>
+      <code>testAddServiceWithAmpersandInUrl</code>
+      <code>testAddSoapBinding</code>
+      <code>testAddSoapOperation</code>
+      <code>testAddSoapOperationWithAmpersandInUrl</code>
+      <code>testAddTypesFromDocument</code>
+      <code>testAddTypesFromNode</code>
+      <code>testAddingSameComplexTypeMoreThanOnceIsIgnored</code>
+      <code>testCaseOfDocBlockParamsDosNotMatterForSoapTypeDetectionLaminas3910</code>
+      <code>testClassMap</code>
+      <code>testComplexTypeDocumentationAddedAsAnnotation</code>
+      <code>testConstructor</code>
+      <code>testDumpToFile</code>
+      <code>testDumpToOutput</code>
+      <code>testGetComplexTypeBasedOnStrategiesBackwardsCompabilityBoolean</code>
+      <code>testGetComplexTypeBasedOnStrategiesStringNames</code>
+      <code>testGetSchema</code>
+      <code>testGetType</code>
+      <code>testMultipleSequenceDefinitionsOfSameTypeWillBeRecognizedOnceBySequenceStrategy</code>
+      <code>testObjectConstructionWithDifferentURI</code>
+      <code>testSetUriChangesDomDocumentWsdlStructureTnsAndTargetNamespaceAttributes</code>
+      <code>testSetUriWithLaminasUriChangesDomDocumentWsdlStructureTnsAndTargetNamespaceAttributes</code>
+      <code>testTranslateType</code>
+      <code>testTranslateTypeFromClassMap</code>
+      <code>testUsingSameComplexTypeTwiceLeadsToReuseOfDefinition</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="2">
+      <code>$parameter</code>
+      <code>$parameter</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="5">
+      <code>$faultNodes</code>
+      <code>$inputNodes</code>
+      <code>$outputNodes</code>
+      <code>$parameter</code>
+      <code>$parameter</code>
+    </MixedAssignment>
+    <MixedInferredReturnType occurrences="3">
+      <code>array</code>
+      <code>array</code>
+      <code>array&lt;array-key, array{0 string|Uri}&gt;</code>
+    </MixedInferredReturnType>
+    <MixedMethodCall occurrences="6">
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>item</code>
+      <code>item</code>
+      <code>item</code>
+    </MixedMethodCall>
+    <NullArgument occurrences="1">
+      <code>null</code>
+    </NullArgument>
+    <PossiblyNullArgument occurrences="3">
+      <code>$fail</code>
+      <code>$inputRequest</code>
+      <code>$outputResponse</code>
+    </PossiblyNullArgument>
+    <PossiblyUndefinedArrayOffset occurrences="1">
+      <code>$ar[$key]</code>
+    </PossiblyUndefinedArrayOffset>
+    <UndefinedMethod occurrences="21">
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getAttribute</code>
+      <code>getElementsByTagName</code>
+      <code>getElementsByTagName</code>
+      <code>getElementsByTagName</code>
+      <code>hasAttribute</code>
+    </UndefinedMethod>
+    <UnusedForeachValue occurrences="1">
+      <code>$val</code>
+    </UnusedForeachValue>
+  </file>
+  <file src="test/WsdlTestHelper.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$node</code>
+    </ArgumentTypeCoercion>
+    <MissingReturnType occurrences="1">
+      <code>documentNodesTest</code>
+    </MissingReturnType>
+  </file>
+  <file src="test/_files/commontypes.php">
+    <DuplicateClass occurrences="2">
+      <code>Laminas_Soap_Wsdl_ComplexTypeA</code>
+      <code>Laminas_Soap_Wsdl_ComplexTypeB</code>
+    </DuplicateClass>
+    <InvalidDocblock occurrences="1">
+      <code>public function addMultiple($test)</code>
+    </InvalidDocblock>
+  </file>
+  <file src="test/_files/fulltests/server1.php">
+    <DuplicateClass occurrences="1">
+      <code>Laminas_Soap_Wsdl_ComplexTypeB</code>
+    </DuplicateClass>
+    <InvalidDocblock occurrences="1">
+      <code>public function request($request)</code>
+    </InvalidDocblock>
+  </file>
+  <file src="test/_files/fulltests/server2.php">
+    <MissingFile occurrences="3">
+      <code>require_once "Laminas/Soap/AutoDiscover.php"</code>
+      <code>require_once "Laminas/Soap/Server.php"</code>
+      <code>require_once "Laminas/Soap/Wsdl/Strategy/ArrayOfTypeComplex.php"</code>
+    </MissingFile>
+    <MixedAssignment occurrences="2">
+      <code>$server</code>
+      <code>$server</code>
+    </MixedAssignment>
+    <MixedMethodCall occurrences="2">
+      <code>handle</code>
+      <code>setClass</code>
+    </MixedMethodCall>
+    <PossiblyUndefinedArrayOffset occurrences="2">
+      <code>$_SERVER['HTTP_HOST']</code>
+      <code>$_SERVER['PHP_SELF']</code>
+    </PossiblyUndefinedArrayOffset>
+    <UndefinedClass occurrences="3">
+      <code>Laminas_Soap_AutoDiscover</code>
+      <code>Laminas_Soap_Server</code>
+      <code>Laminas_Soap_Wsdl_Strategy_ArrayOfTypeComplex</code>
+    </UndefinedClass>
+  </file>
+</files>
