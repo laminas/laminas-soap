@@ -16,10 +16,13 @@
         "forum": "https://discourse.laminas.dev"
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     },
     "require": {
-        "php": "~7.4.0 || ~8.0.0 || ~8.1.0",
+        "php": "~7.4.0 || ~8.0.0 || ~8.1.0 || ~8.2.0",
         "ext-dom": "*",
         "ext-soap": "*",
         "laminas/laminas-server": "^2.11",
@@ -27,7 +30,7 @@
         "laminas/laminas-uri": "^2.9.1"
     },
     "require-dev": {
-        "laminas/laminas-coding-standard": "~2.2.1",
+        "laminas/laminas-coding-standard": "~2.4",
         "laminas/laminas-config": "^3.7",
         "laminas/laminas-http": "^2.15",
         "phpspec/prophecy-phpunit": "^2.0.1",
