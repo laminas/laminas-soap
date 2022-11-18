@@ -1418,45 +1418,4 @@
       <code>documentNodesTest</code>
     </MissingReturnType>
   </file>
-  <file src="test/_files/commontypes.php">
-    <DuplicateClass occurrences="2">
-      <code>Laminas_Soap_Wsdl_ComplexTypeA</code>
-      <code>Laminas_Soap_Wsdl_ComplexTypeB</code>
-    </DuplicateClass>
-    <InvalidDocblock occurrences="1">
-      <code>public function addMultiple($test)</code>
-    </InvalidDocblock>
-  </file>
-  <file src="test/_files/fulltests/server1.php">
-    <DuplicateClass occurrences="1">
-      <code>Laminas_Soap_Wsdl_ComplexTypeB</code>
-    </DuplicateClass>
-    <InvalidDocblock occurrences="1">
-      <code>public function request($request)</code>
-    </InvalidDocblock>
-  </file>
-  <file src="test/_files/fulltests/server2.php">
-    <MissingFile occurrences="3">
-      <code>require_once "Laminas/Soap/AutoDiscover.php"</code>
-      <code>require_once "Laminas/Soap/Server.php"</code>
-      <code>require_once "Laminas/Soap/Wsdl/Strategy/ArrayOfTypeComplex.php"</code>
-    </MissingFile>
-    <MixedAssignment occurrences="2">
-      <code>$server</code>
-      <code>$server</code>
-    </MixedAssignment>
-    <MixedMethodCall occurrences="2">
-      <code>handle</code>
-      <code>setClass</code>
-    </MixedMethodCall>
-    <PossiblyUndefinedArrayOffset occurrences="2">
-      <code>$_SERVER['HTTP_HOST']</code>
-      <code>$_SERVER['PHP_SELF']</code>
-    </PossiblyUndefinedArrayOffset>
-    <UndefinedClass occurrences="3">
-      <code>Laminas_Soap_AutoDiscover</code>
-      <code>Laminas_Soap_Server</code>
-      <code>Laminas_Soap_Wsdl_Strategy_ArrayOfTypeComplex</code>
-    </UndefinedClass>
-  </file>
 </files>
