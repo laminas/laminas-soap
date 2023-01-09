@@ -1073,16 +1073,14 @@ class Client implements ServerClient
     {
         // Perform request as is
         if ($oneWay === null) {
-            return call_user_func(
-                [$client, 'SoapClient::__doRequest'],
+            return $client->parent__doRequest(
                 $request,
                 $location,
                 $action,
                 $version
             );
         }
-        return call_user_func(
-            [$client, 'SoapClient::__doRequest'],
+        return $client->parent__doRequest(
             $request,
             $location,
             $action,
