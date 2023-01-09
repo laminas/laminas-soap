@@ -175,7 +175,8 @@
       <code>$type['type_name']</code>
       <code>$type['type_name']</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="6">
+    <MixedAssignment occurrences="7">
+      <code>$class</code>
       <code>$options['classmap']</code>
       <code>$result</code>
       <code>$this-&gt;connectionTimeout</code>
@@ -265,6 +266,9 @@
     <ImplementedParamTypeMismatch occurrences="1">
       <code>$oneWay</code>
     </ImplementedParamTypeMismatch>
+    <InvalidScalarArgument occurrences="1">
+      <code>$oneWay</code>
+    </InvalidScalarArgument>
   </file>
   <file src="src/Client/DotNet.php">
     <DeprecatedInterface occurrences="1">
@@ -1070,9 +1074,6 @@
     <DeprecatedInterface occurrences="1">
       <code>MockServer</code>
     </DeprecatedInterface>
-    <InvalidDocblock occurrences="1">
-      <code>public function addMultiple($test)</code>
-    </InvalidDocblock>
     <InvalidDocblockParamName occurrences="1">
       <code>$arg</code>
     </InvalidDocblockParamName>
@@ -1299,8 +1300,7 @@
       <code>$this-&gt;wsdl</code>
       <code>1</code>
     </InvalidArgument>
-    <InvalidDocblock occurrences="2">
-      <code>public function ampersandInUrlDataProvider(): array</code>
+    <InvalidDocblock occurrences="1">
       <code>public function dataProviderForAddService(): array</code>
     </InvalidDocblock>
     <InvalidScalarArgument occurrences="2">
