@@ -175,7 +175,8 @@
       <code>$type['type_name']</code>
       <code>$type['type_name']</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="6">
+    <MixedAssignment occurrences="7">
+      <code>$class</code>
       <code>$options['classmap']</code>
       <code>$result</code>
       <code>$this-&gt;connectionTimeout</code>
@@ -265,6 +266,9 @@
     <ImplementedParamTypeMismatch occurrences="1">
       <code>$oneWay</code>
     </ImplementedParamTypeMismatch>
+    <InvalidScalarArgument occurrences="1">
+      <code>$oneWay</code>
+    </InvalidScalarArgument>
   </file>
   <file src="src/Client/DotNet.php">
     <DeprecatedInterface occurrences="1">

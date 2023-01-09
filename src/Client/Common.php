@@ -58,4 +58,26 @@ class Common extends SoapClient
 
         return ($this->doRequestCallback)($this, ltrim($request), $location, $action, $version, $oneWay);
     }
+
+    /**
+     * Performs SOAP request on parent class explicitly.
+     * Required since PHP 8.2 due to a deprecation on call_user_func([$client, 'SoapClient::__doRequest'], ...)
+     *
+     * @internal
+     *
+     * @param  string   $request
+     * @param  string   $location
+     * @param  string   $action
+     * @param  int      $version
+     * @param  null|int $oneWay
+     * @return mixed
+     */
+    public function parentDoRequest($request, $location, $action, $version, $oneWay = null)
+    {
+        if ($oneWay === null) {
+            return parent::__doRequest($request, $location, $action, $version);
+        }
+
+        return parent::__doRequest($request, $location, $action, $version, $oneWay);
+    }
 }
