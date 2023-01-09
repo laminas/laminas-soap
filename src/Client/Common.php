@@ -65,11 +65,11 @@ class Common extends SoapClient
      *
      * @internal
      *
-     * @param  string $request
-     * @param  string $location
-     * @param  string $action
-     * @param  int    $version
-     * @param  int    $oneWay
+     * @param  string   $request
+     * @param  string   $location
+     * @param  string   $action
+     * @param  int      $version
+     * @param  null|int $oneWay
      * @return mixed
      */
     public function parentDoRequest($request, $location, $action, $version, $oneWay = null)
