@@ -1074,6 +1074,9 @@
     <DeprecatedInterface occurrences="1">
       <code>MockServer</code>
     </DeprecatedInterface>
+    <InvalidDocblock occurrences="1">
+      <code>public function addMultiple($test)</code>
+    </InvalidDocblock>
     <InvalidDocblockParamName occurrences="1">
       <code>$arg</code>
     </InvalidDocblockParamName>
@@ -1300,7 +1303,8 @@
       <code>$this-&gt;wsdl</code>
       <code>1</code>
     </InvalidArgument>
-    <InvalidDocblock occurrences="1">
+    <InvalidDocblock occurrences="2">
+      <code>public function ampersandInUrlDataProvider(): array</code>
       <code>public function dataProviderForAddService(): array</code>
     </InvalidDocblock>
     <InvalidScalarArgument occurrences="2">
