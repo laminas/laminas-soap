@@ -72,7 +72,7 @@ class Common extends SoapClient
      * @param  int    $oneWay
      * @return mixed
      */
-    public function parent__doRequest($request, $location, $action, $version, $oneWay = null)
+    public function parentDoRequest($request, $location, $action, $version, $oneWay = null)
     {
         if ($oneWay === null) {
             return parent::__doRequest($request, $location, $action, $version);

@@ -1073,14 +1073,14 @@ class Client implements ServerClient
     {
         // Perform request as is
         if ($oneWay === null) {
-            return $client->parent__doRequest(
+            return $client->parentDoRequest(
                 $request,
                 $location,
                 $action,
                 $version
             );
         }
-        return $client->parent__doRequest(
+        return $client->parentDoRequest(
             $request,
             $location,
             $action,
