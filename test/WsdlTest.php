@@ -590,7 +590,7 @@ class WsdlTest extends WsdlTestHelper
         $this->documentNodesTest();
 
         $nodes = $this->xpath->query('//wsdl:message[@name="myMessage"]/*[1]');
-        $this->assertEquals('documentation', $nodes->item(0)->nodeName);
+        $this->assertEquals('wsdl:documentation', $nodes->item(0)->nodeName);
     }
 
     public function testComplexTypeDocumentationAddedAsAnnotation()
