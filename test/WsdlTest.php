@@ -703,6 +703,7 @@ class WsdlTest extends WsdlTestHelper
     {
         $this->wsdl->addType(WsdlTestClass::class, 'tns:SomeTypeName');
         $this->wsdl->addType(WsdlTestClass::class, 'tns:AnotherTypeName');
+        
         $types = $this->wsdl->getTypes();
         $this->assertEquals(1, count($types));
         $this->assertEquals(
