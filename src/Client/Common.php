@@ -41,27 +41,22 @@ class Common extends SoapClient
      * Overridden to implement different transport layers, perform additional
      * XML processing or other purpose.
      *
+     * @param  string $request
+     * @param  string $location
+     * @param  string $action
+     * @param  int    $version
+     * @param  int    $oneWay
      * @return mixed
      */
     #[ReturnTypeWillChange]
-    public function __doRequest(
-        string $request,
-        string $location,
-        string $action,
-        int $version,
-        bool $oneWay = false,
-        ?string $uriParserClass = null
-    ): ?string {
+    public function __doRequest($request, $location, $action, $version, $oneWay = null, $uriParserClass = null)
+    {
         // ltrim is a workaround for https://bugs.php.net/bug.php?id=63780
-        return ($this->doRequestCallback)(
-            $this,
-            ltrim($request),
-            $location,
-            $action,
-            $version,
-            $oneWay,
-            $uriParserClass
-        );
+        if ($oneWay === null) {
+            return ($this->doRequestCallback)($this, ltrim($request), $location, $action, $version);
+        }
+
+        return ($this->doRequestCallback)($this, ltrim($request), $location, $action, $version, $oneWay, $uriParserClass);
     }
 
     /**
