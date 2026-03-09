@@ -41,11 +41,12 @@ class Common extends SoapClient
      * Overridden to implement different transport layers, perform additional
      * XML processing or other purpose.
      *
-     * @param  string $request
-     * @param  string $location
-     * @param  string $action
-     * @param  int    $version
-     * @param  int    $oneWay
+     * @param  string       $request
+     * @param  string       $location
+     * @param  string       $action
+     * @param  int          $version
+     * @param  bool|null    $oneWay
+     * @param  string|null  $uriParserClass
      * @return mixed
      */
     #[ReturnTypeWillChange]
@@ -56,7 +57,15 @@ class Common extends SoapClient
             return ($this->doRequestCallback)($this, ltrim($request), $location, $action, $version);
         }
 
-        return ($this->doRequestCallback)($this, ltrim($request), $location, $action, $version, $oneWay, $uriParserClass);
+        return ($this->doRequestCallback)(
+            $this,
+            ltrim($request),
+            $location,
+            $action,
+            $version,
+            $oneWay,
+            $uriParserClass
+        );
     }
 
     /**

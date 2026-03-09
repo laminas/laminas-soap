@@ -170,7 +170,6 @@
       <code><![CDATA[initSoapClientObject]]></code>
     </MissingReturnType>
     <MixedArgument>
-      <code><![CDATA[$class]]></code>
       <code><![CDATA[$key]]></code>
       <code><![CDATA[$result]]></code>
       <code><![CDATA[$type['type_name']]]></code>
@@ -215,9 +214,6 @@
       <code><![CDATA[$value]]></code>
       <code><![CDATA[$value]]></code>
     </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$class]]></code>
-    </MixedOperand>
     <NullableReturnStatement>
       <code><![CDATA[$soapClient->__getFunctions()]]></code>
       <code><![CDATA[$soapClient->__getTypes()]]></code>
