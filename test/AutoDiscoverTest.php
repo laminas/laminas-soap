@@ -169,7 +169,7 @@ class AutoDiscoverTest extends TestCase
     }
 
     /** @psalm-return array<array-key, array{0: ComplexTypeStrategyInterface}> */
-    public function dataProviderForAutoDiscoverConstructorStrategy(): array
+    public static function dataProviderForAutoDiscoverConstructorStrategy(): array
     {
         return [
             [new Wsdl\ComplexTypeStrategy\AnyType()],
@@ -233,7 +233,7 @@ class AutoDiscoverTest extends TestCase
     /**
      * @return array
      */
-    public function dataProviderForSetServiceName()
+    public static function dataProviderForSetServiceName()
     {
         return [
             ['MyServiceName123', true],
@@ -748,7 +748,7 @@ class AutoDiscoverTest extends TestCase
     /**
      * @return array
      */
-    public function dataProviderForAddFunctionException()
+    public static function dataProviderForAddFunctionException()
     {
         return [
             ['InvalidFunction'],
@@ -1224,7 +1224,7 @@ class AutoDiscoverTest extends TestCase
     }
 
     /** @psalm-return array<array-key, array{0: string|Uri, 1: string}> */
-    public function dataProviderValidUris()
+    public static function dataProviderValidUris()
     {
         return [
             [

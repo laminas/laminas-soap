@@ -100,7 +100,7 @@ class WsdlTest extends WsdlTestHelper
      *
      * @psalm-return array<array-key, array{0: string|Uri, 1: string}>
      */
-    public function dataProviderForURITesting(): array
+    public static function dataProviderForURITesting(): array
     {
         return [
             ['http://localhost/MyService.php',                 'http://localhost/MyService.php'],
@@ -175,7 +175,7 @@ class WsdlTest extends WsdlTestHelper
     }
 
     /** @psalm-return array<array-key, array{0: array{0: string, 1?: string, 2?: string, 3?: string}}> */
-    public function dataProviderForAddMessage(): array
+    public static function dataProviderForAddMessage(): array
     {
         return [
             [['int', 'int', 'int']],
@@ -256,7 +256,7 @@ class WsdlTest extends WsdlTestHelper
      *     3?: string
      * }>
      */
-    public function dataProviderForAddPortOperation(): array
+    public static function dataProviderForAddPortOperation(): array
     {
         return [
             ['operation'],
@@ -374,7 +374,7 @@ class WsdlTest extends WsdlTestHelper
      *     7?: string
      * }>
      */
-    public function dataProviderForAddBindingOperation(): array
+    public static function dataProviderForAddBindingOperation(): array
     {
         $enc = 'http://schemas.xmlsoap.org/soap/encoding/';
 
@@ -410,7 +410,7 @@ class WsdlTest extends WsdlTestHelper
     }
 
     /** @psalm-return array<array-key, array{0: string}> */
-    public function dataProviderForSoapBindingStyle(): array
+    public static function dataProviderForSoapBindingStyle(): array
     {
         return [
             ['document'],
@@ -437,7 +437,7 @@ class WsdlTest extends WsdlTestHelper
     }
 
     /** @psalm-return array<array-key, array{0: string|Uri}> */
-    public function dataProviderForAddSoapOperation(): array
+    public static function dataProviderForAddSoapOperation(): array
     {
         return [
             ['http://localhost/MyService.php#myOperation'],
@@ -465,7 +465,7 @@ class WsdlTest extends WsdlTestHelper
     }
 
     /** @psalm-return array<array-key, array{0 string|Uri}> */
-    public function dataProviderForAddService(): array
+    public static function dataProviderForAddService(): array
     {
         return [
             ['http://localhost/MyService.php'],
@@ -533,7 +533,7 @@ class WsdlTest extends WsdlTestHelper
     }
 
     /** @psalm-param array<string, array{0: string, 1: string}> */
-    public function ampersandInUrlDataProvider(): array
+    public static function ampersandInUrlDataProvider(): array
     {
         return [
             'Decoded ampersand'             => [
@@ -800,7 +800,7 @@ class WsdlTest extends WsdlTestHelper
     /**
      * @return array
      */
-    public function dataProviderForTranslateType()
+    public static function dataProviderForTranslateType()
     {
         return [
             ['\\SomeType', 'SomeType'],

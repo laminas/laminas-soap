@@ -175,7 +175,7 @@ class DotNetTest extends TestCase
     private function mockCurlClient()
     {
         $this->curlClient = $this->getMockBuilder(Curl::class)
-            ->setMethods(['close', 'connect', 'read', 'write'])
+            ->onlyMethods(['close', 'connect', 'read', 'write'])
             ->getMock();
 
         $this->client->setCurlClient($this->curlClient);

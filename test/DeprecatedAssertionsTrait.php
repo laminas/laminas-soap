@@ -15,7 +15,6 @@ trait DeprecatedAssertionsTrait
         string $message = ''
     ): void {
         $r = new ReflectionProperty($instance, $attribute);
-        $r->setAccessible(true);
         Assert::assertEquals($expected, $r->getValue($instance), $message);
     }
 }

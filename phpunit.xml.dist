@@ -1,37 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
-    bootstrap="./vendor/autoload.php"
-    colors="true">
-    <testsuites>
-        <testsuite name="laminas-soap Test Suite">
-            <directory>./test/</directory>
-        </testsuite>
-    </testsuites>
-
-    <groups>
-        <exclude>
-            <group>disable</group>
-        </exclude>
-    </groups>
-
-    <coverage includeUncoveredFiles="true">
-        <include>
-            <directory suffix=".php">./src</directory>
-        </include>
-    </coverage>
-
-    <php>
-        <ini name="date.timezone" value="UTC"/>
-
-        <!-- OB_ENABLED should be enabled for some tests to check if all
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd" bootstrap="./vendor/autoload.php" colors="true">
+  <testsuites>
+    <testsuite name="laminas-soap Test Suite">
+      <directory>./test/</directory>
+    </testsuite>
+  </testsuites>
+  <groups>
+    <exclude>
+      <group>disable</group>
+    </exclude>
+  </groups>
+  <php>
+    <ini name="date.timezone" value="UTC"/>
+    <!-- OB_ENABLED should be enabled for some tests to check if all
              functionality works as expected. Such tests include those for
              Laminas\Soap and Laminas\Session, which require that headers not be sent
              in order to work. -->
-        <env name="TESTS_LAMINAS_OB_ENABLED" value="false" />
-
-        <!-- Laminas\Soap\AutoDiscover scenario tests for complex objects and wsdl
+    <env name="TESTS_LAMINAS_OB_ENABLED" value="false"/>
+    <!-- Laminas\Soap\AutoDiscover scenario tests for complex objects and wsdl
              generation
 
              Copy all the files of test/_files/fulltests into a directory that
@@ -42,6 +28,11 @@
              NOTE: Make sure the servers are using the correct Laminas
              copy, when having more than one version installed and include
              paths are changing. -->
-        <env name="TESTS_LAMINAS_SOAP_AUTODISCOVER_ONLINE_SERVER_BASEURI" value="false" />
-    </php>
+    <env name="TESTS_LAMINAS_SOAP_AUTODISCOVER_ONLINE_SERVER_BASEURI" value="false"/>
+  </php>
+  <source>
+    <include>
+      <directory suffix=".php">./src</directory>
+    </include>
+  </source>
 </phpunit>

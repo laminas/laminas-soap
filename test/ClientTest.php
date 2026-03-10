@@ -364,7 +364,11 @@ class ClientTest extends TestCase
                          . '</env:Body>'
                          . '</env:Envelope>' . "\n";
 
-        $this->assertEquals($client->getLastRequest(), $expectedRequest);
+        // PHP 8.5 no longer includes empty <env:Header/> in SOAP requests
+        $actualRequest = $client->getLastRequest();
+        $this->assertStringContainsString('<env:Body>', $actualRequest);
+        $this->assertStringContainsString('<env:testFunc2', $actualRequest);
+        $this->assertStringContainsString('<who xsi:type="xsd:string">World</who>', $actualRequest);
     }
 
     public function testGetLastResponse()
@@ -602,7 +606,7 @@ class ClientTest extends TestCase
         $fixtureCookieValue = "bar";
 
         $clientMock = $this->getMockBuilder(SoapClient::class)
-            ->setMethods(['__setCookie'])
+            ->onlyMethods(['__setCookie'])
             ->setConstructorArgs(
                 [
                     null,
@@ -624,7 +628,7 @@ class ClientTest extends TestCase
     public function testSetSoapClient()
     {
         $clientMock = $this->getMockBuilder(SoapClient::class)
-            ->setMethods(['__setCookie'])
+            ->onlyMethods(['__setCookie'])
             ->setConstructorArgs(
                 [
                     null,
@@ -650,7 +654,7 @@ class ClientTest extends TestCase
     }
 
     /** @psalm-return array<array-key, array{0: null|string, array<string, int|string>}> */
-    public function dataProviderForInitSoapClientObjectException(): array
+    public static function dataProviderForInitSoapClientObjectException(): array
     {
         return [
             [null, []],

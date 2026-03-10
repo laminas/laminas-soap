@@ -446,7 +446,7 @@ class Client implements ServerClient
     /**
      * Set classmap
      *
-     * @param  array $classmap
+     * @param  array<string, string> $classmap Map of SOAP type names to PHP class names.
      * @return self
      * @throws Exception\InvalidArgumentException For any invalid class in the class map.
      */

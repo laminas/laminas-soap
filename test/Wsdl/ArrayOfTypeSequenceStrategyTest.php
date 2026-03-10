@@ -56,7 +56,7 @@ class ArrayOfTypeSequenceStrategyTest extends WsdlTestHelper
     }
 
     /** @psalm-return array<array-key, array{0: string, 1: string}> */
-    public function dataProviderForFunctionReturningSimpleArrayOfBasicTypes(): array
+    public static function dataProviderForFunctionReturningSimpleArrayOfBasicTypes(): array
     {
         return [
             ['int', 'ArrayOfInt'],
@@ -117,7 +117,7 @@ class ArrayOfTypeSequenceStrategyTest extends WsdlTestHelper
      *     3: array<string, string>
      * }>
      */
-    public function dataProviderForNestedTypesDefinitions(): array
+    public static function dataProviderForNestedTypesDefinitions(): array
     {
         return [
             [

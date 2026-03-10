@@ -765,7 +765,7 @@ class ServerTest extends TestCase
     /**
      * @return array
      */
-    public function dataProviderForRegisterFaultException()
+    public static function dataProviderForRegisterFaultException()
     {
         return [
             ['Exception'],
@@ -860,8 +860,16 @@ class ServerTest extends TestCase
         $server->setClass(errorClass::class);
 
         $client = new Local($server, $wsdlFilename);
-        $client->triggerError();
-        unlink($wsdlFilename);
+
+        // PHP 8.5 converts E_USER_ERROR to SoapFault
+        $this->expectException(SoapFault::class);
+        $this->expectExceptionMessage('TestError');
+
+        try {
+            $client->triggerError();
+        } finally {
+            unlink($wsdlFilename);
+        }
     }
 
     public function testLoadFunctionsIsNotImplemented()

@@ -18,14 +18,14 @@
     "config": {
         "sort-packages": true,
         "platform": {
-            "php": "8.1.99"
+            "php": "8.2.99"
         },
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true
         }
     },
     "require": {
-        "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
+        "php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
         "ext-dom": "*",
         "ext-soap": "*",
         "laminas/laminas-server": "^2.15",
@@ -37,9 +37,11 @@
         "laminas/laminas-config": "^3.9",
         "laminas/laminas-http": "^2.18",
         "phpspec/prophecy-phpunit": "^2.0.2",
-        "phpunit/phpunit": "^9.6.21",
-        "psalm/plugin-phpunit": "^0.18.4",
-        "vimeo/psalm": "^4.30"
+        "phpunit/phpunit": "^11.5",
+        "psalm/plugin-phpunit": "^0.19.0",
+        "vimeo/psalm": "^6.13",
+        "amphp/dns": "^2.4",
+        "amphp/socket": "^2.3.1"
     },
     "suggest": {
         "ext-curl": "Curl is required when .NET compatibility is required",
@@ -72,6 +74,6 @@
     "conflict": {
         "laminas/laminas-code": "<4.4",
         "zendframework/zend-soap": "*",
-        "amphp/amp":"<2.6.4"
+        "amphp/amp": "<2.6.4"
     }
 }
